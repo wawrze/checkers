@@ -2,8 +2,8 @@ package checkers;
 
 class MoveValidator {
 
-	public static boolean validateMove(Move move, Board board) {
-		return validateRange(move) && validateBias(move) && validateField1(move, board) && validateField2(move, board);
+	public static boolean validateMove(Move move, Board board, boolean player) {
+		return validateRange(move) && validateBias(move) && validateField1(move, board) && validateField2(move, board) && validatePlayer(move, board, player);
 	}
 
 	private static boolean validateField1(Move move, Board board) {
@@ -30,4 +30,12 @@ class MoveValidator {
 		return (Math.abs(x1 - x2) == 1) && (Math.abs(y1 - y2) == 1);
 	}
 
+	private static boolean validatePlayer(Move move, Board board, boolean player) {
+		int x1 = move.getRow1int();
+		int y1 = move.getCol1();
+		if(board.getFigure(move.getRow1(), move.getCol1()).getColor() == player)
+			return true;
+		else
+			return false;
+	}
 }

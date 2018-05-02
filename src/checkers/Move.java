@@ -25,13 +25,14 @@ class Move {
 		if (col2 <= 8 && col2 >= 1)
 			this.col2 = col2;
 		else
-			return;
+			System.out.println("Incorrect move format!");
+		return; // MIEJSCE NA WYJATEK
 	}
 
 	public char getRow1() {
 		return this.row1;
 	}
-	
+
 	public int getRow1int() {
 		switch (this.row1) {
 		case 'A':
@@ -62,7 +63,7 @@ class Move {
 	public char getRow2() {
 		return this.row2;
 	}
-	
+
 	public int getRow2int() {
 		switch (this.row2) {
 		case 'A':
@@ -88,6 +89,16 @@ class Move {
 
 	public int getCol2() {
 		return this.col2;
+	}
+
+	public void makeMove(Board board) {
+		board.setFigure(this.row2, this.col2, board.getFigure(this.row1, this.col1));
+		board.setFigure(this.row1, this.col1, new None());
+	}
+
+	@Override
+	public String toString() {
+		return "" + row1 + col1 + "-" + row2 + col2;
 	}
 
 }

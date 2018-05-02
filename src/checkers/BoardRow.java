@@ -8,7 +8,7 @@ class BoardRow {
 
 	public BoardRow() {
 		this.figures = new ArrayList<Figure>();
-		//columns numeration 1-8, setting column 0 to null
+		// columns numeration 1-8, setting column 0 to null
 		this.figures.add(0, null);
 		for (int i = 1; i < 9; i++)
 			this.figures.add(i, new None());
@@ -19,7 +19,7 @@ class BoardRow {
 	}
 
 	public void setFigure(int col, Figure figure) {
-		figures.add(col, figure);
+		figures.set(col, figure);
 	}
 
 	public String printRow(char c) {
