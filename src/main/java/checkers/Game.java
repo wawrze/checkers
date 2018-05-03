@@ -1,5 +1,7 @@
 package checkers;
 
+import exceptions.*;
+
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -11,7 +13,7 @@ public class Game {
 
 	public Game() {
 		board = new Board();
-		moves = new LinkedList<Move>();
+		moves = new LinkedList<>();
 		player = false;
 
 		board.setFigure('A', 2, new Pawn(true));
@@ -61,7 +63,7 @@ public class Game {
 		switch (s) {
 		case "h":
 			this.printMoveHistory();
-			Menu.waitForX();
+			Menu.waitForEnter();
 			return true;
 		case "x":
 			return false;
@@ -72,7 +74,7 @@ public class Game {
 			this.makeMove(s);
 		} else
 			System.out.println("Incorrect option!");
-		Menu.waitForX();
+		Menu.waitForEnter();
 		return true;
 	}
 
@@ -99,17 +101,20 @@ public class Game {
 		int y2 = Character.getNumericValue(sArray[1].charAt(1));
 		System.out.println("Trying to make move: " + x1 + y1 + " to " + x2 + y2 + ".");
 		Move move = new Move(x1, y1, x2, y2);
-		if (MoveValidator.validateMove(move, this.board, this.player)) {
-			moves.add(move);
-			move.makeMove(board);
-			if (player = true)
-				player = false;
-			else
-				player = true;
-		} else {
-			System.out.println("Incorrect move!");
-			Menu.waitForX();
-		}
+		try {
+            if (MoveValidator.validateMove(move, this.board, this.player)) {
+                moves.add(move);
+                move.makeMove(board);
+                this.player = !this.player;
+            } else {
+                System.out.println("Incorrect move!");
+                Menu.waitForEnter();
+            }
+        }catch (CaptureException e){
+		    moves.add(move);
+		    move.makeCapture(board);
+		    this.player = !this.player;
+        }
 	}
 
 }

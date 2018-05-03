@@ -19,7 +19,7 @@ class BoardRow {
 	}
 
 	public void setFigure(int col, Figure figure) {
-		figures.add(col, figure);
+		figures.set(col, figure);
 	}
 
 	public String printRow(char c) {

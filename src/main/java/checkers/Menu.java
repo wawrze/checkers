@@ -42,12 +42,9 @@ public class Menu {
 		new Game();
 	}
 
-	public static void waitForX() {
+	public static void waitForEnter() {
 		Scanner sc = new Scanner(System.in);
-		String o;
-		do {
-			System.out.println("Enter \"x\" to continue.");
-			o = sc.nextLine();
-		} while (!o.equals("x"));
+		System.out.println("Press \"Enter\" to continue.");
+		sc.nextLine();
 	}
 }
