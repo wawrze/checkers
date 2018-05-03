@@ -11,7 +11,7 @@ public class Game {
 
 	public Game() {
 		board = new Board();
-		moves = new LinkedList<Move>();
+		moves = new LinkedList<>();
 		player = false;
 
 		board.setFigure('A', 2, new Pawn(true));
@@ -61,7 +61,7 @@ public class Game {
 		switch (s) {
 		case "h":
 			this.printMoveHistory();
-			Menu.waitForX();
+			Menu.waitForEnter();
 			return true;
 		case "x":
 			return false;
@@ -72,7 +72,7 @@ public class Game {
 			this.makeMove(s);
 		} else
 			System.out.println("Incorrect option!");
-		Menu.waitForX();
+		Menu.waitForEnter();
 		return true;
 	}
 
@@ -102,13 +102,11 @@ public class Game {
 		if (MoveValidator.validateMove(move, this.board, this.player)) {
 			moves.add(move);
 			move.makeMove(board);
-			if (player = true)
-				player = false;
-			else
-				player = true;
+			System.out.println("Move done.");
+        this.player = !this.player;
 		} else {
 			System.out.println("Incorrect move!");
-			Menu.waitForX();
+			Menu.waitForEnter();
 		}
 	}
 

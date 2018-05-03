@@ -14,9 +14,9 @@ class Pawn extends Figure {
 	@Override
 	public String toString() {
 		if(this.color == true)
-			return "PP";
+			return "PPPPP";
 		else
-			return "pp";
+			return "ppppp";
 	}
 
 }

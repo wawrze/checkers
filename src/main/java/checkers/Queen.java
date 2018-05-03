@@ -14,9 +14,9 @@ class Queen extends Figure {
 	@Override
 	public String toString() {
 		if(this.color == true)
-			return "QQ";
+			return "QQQQQ";
 		else
-			return "qq";
+			return "qqqqq";
 	}
 
 }

@@ -16,6 +16,9 @@ public class Menu {
 
 	private void printMenu() {
 		this.cls();
+		char c = '▓';
+		System.out.println("" + c + " = " + (int) c);
+
 		System.out.println("Choose option:");
 		System.out.println("(1) Start new game");
 		System.out.println("(x) Exit");
@@ -42,12 +45,10 @@ public class Menu {
 		new Game();
 	}
 
-	public static void waitForX() {
+	public static void waitForEnter() {
 		Scanner sc = new Scanner(System.in);
-		String o;
-		do {
-			System.out.println("Enter \"x\" to continue.");
-			o = sc.nextLine();
-		} while (!o.equals("x"));
+		System.out.println("\"Enter\" to continue.");
+		sc.nextLine();
 	}
+
 }
