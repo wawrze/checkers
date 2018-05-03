@@ -77,7 +77,7 @@ class Move {
 
 	public void makeMove(Board board) {
 		board.setFigure(this.row2, this.col2, board.getFigure(this.row1, this.col1));
-		board.setFigure(this.row1, this.col1, new None(true));
+		board.setFigure(this.row1, this.col1, new None(false));
 	}
 
 	@Override

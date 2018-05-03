@@ -1,7 +1,7 @@
 package checkers;
 
 class Pawn extends Figure {
-	
+
 	public Pawn(boolean color) {
 		this.color = color;
 	}
@@ -12,11 +12,25 @@ class Pawn extends Figure {
 	}
 
 	@Override
-	public String toString() {
-		if(this.color == true)
-			return "PPPPP";
-		else
-			return "ppppp";
+    public String print(int n) {
+        String temp = "";
+        switch(n){
+			case 0:
+			    temp = "┌───┐";
+				break;
+			case 1:
+				if(this.color)
+					temp = "│   │";
+				else
+					temp = "│ █ │";
+				break;
+			case 2:
+			    temp = "└───┘";
+				break;
+			default:
+				break;                  //MIEJSCE NA WYJATEK
+		}
+		return temp;
 	}
 
 }

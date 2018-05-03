@@ -7,7 +7,7 @@ class None extends Figure {
 	}
 
 	@Override
-	public String toString() {
+	public String print(int n) {
 		if(this.color)
 			return "█████";
 		else

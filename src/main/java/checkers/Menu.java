@@ -15,10 +15,7 @@ public class Menu {
 	}
 
 	private void printMenu() {
-		this.cls();
-		char c = '▓';
-		System.out.println("" + c + " = " + (int) c);
-
+		Menu.cls();
 		System.out.println("Choose option:");
 		System.out.println("(1) Start new game");
 		System.out.println("(x) Exit");
@@ -37,7 +34,7 @@ public class Menu {
 	}
 
 	public static void cls() {
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < 100; i++)
 			System.out.println();
 	}
 
