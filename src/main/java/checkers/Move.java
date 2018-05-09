@@ -82,7 +82,7 @@ class Move {
             board.setFigure(this.row2, this.col2, new Queen(false));
 	    else
 		    board.setFigure(this.row2, this.col2, board.getFigure(this.row1, this.col1));
-		board.setFigure(this.row1, this.col1, new None(board.getFigure(this.row1, this.col1).getColor()));
+		board.setFigure(this.row1, this.col1, new None(false));
 	}
 
 	public void makeCapture(Board board){

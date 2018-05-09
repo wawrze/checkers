@@ -111,6 +111,7 @@ public class Game {
                 Menu.waitForEnter();
             }
         }catch (CaptureException e){
+            System.out.println(e.getMessage());
 		    moves.add(move);
 		    move.makeCapture(board);
 		    this.player = !this.player;

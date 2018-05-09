@@ -54,7 +54,7 @@ class MoveValidator {
             char x = (char) (((x1 + x2) / 2) + 64);
             int y = ((y1 + y2) / 2);
             if(board.getFigure(x,y).getColor() != board.getFigure(move.getRow1(),move.getCol1()).getColor())
-                throw new CaptureException();
+                throw new CaptureException("Capture Done.");
             else
                 return false;
         }
