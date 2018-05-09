@@ -33,26 +33,7 @@ class Move {
 	}
 	
 	public int getRow1int() {
-		switch (this.row1) {
-		case 'A':
-			return 1;
-		case 'B':
-			return 2;
-		case 'C':
-			return 3;
-		case 'D':
-			return 4;
-		case 'E':
-			return 5;
-		case 'F':
-			return 6;
-		case 'G':
-			return 7;
-		case 'H':
-			return 8;
-		default:
-			return 0;
-		}
+		return this.rowToInt(this.row1);
 	}
 
 	public int getCol1() {
@@ -64,25 +45,29 @@ class Move {
 	}
 	
 	public int getRow2int() {
-		switch (this.row2) {
-		case 'A':
-			return 1;
-		case 'B':
-			return 2;
-		case 'C':
-			return 3;
-		case 'D':
-			return 4;
-		case 'E':
-			return 5;
-		case 'F':
-			return 6;
-		case 'G':
-			return 7;
-		case 'H':
-			return 8;
-		default:
-			return 0;
+		return this.rowToInt(this.row2);
+	}
+
+	private int rowToInt(char row){
+		switch (row) {
+			case 'A':
+				return 1;
+			case 'B':
+				return 2;
+			case 'C':
+				return 3;
+			case 'D':
+				return 4;
+			case 'E':
+				return 5;
+			case 'F':
+				return 6;
+			case 'G':
+				return 7;
+			case 'H':
+				return 8;
+			default:
+				return 0;
 		}
 	}
 
@@ -97,14 +82,14 @@ class Move {
             board.setFigure(this.row2, this.col2, new Queen(false));
 	    else
 		    board.setFigure(this.row2, this.col2, board.getFigure(this.row1, this.col1));
-		board.setFigure(this.row1, this.col1, new None());
+		board.setFigure(this.row1, this.col1, new None(board.getFigure(this.row1, this.col1).getColor()));
 	}
 
 	public void makeCapture(Board board){
         this.makeMove(board);
         char x = (char) (((this.getRow1int() + this.getRow2int()) / 2) + 64);
         int y = ((this.col1 + this.col2) / 2);
-        board.setFigure(x,y,new None());
+        board.setFigure(x,y,new None(board.getFigure(this.row1, this.col1).getColor()));
     }
 
 	@Override

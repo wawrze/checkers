@@ -8,14 +8,14 @@ class Board {
 
 	public Board() {
 		this.rows = new HashMap<Character, BoardRow>();
-		rows.put('A', new BoardRow());
-		rows.put('B', new BoardRow());
-		rows.put('C', new BoardRow());
-		rows.put('D', new BoardRow());
-		rows.put('E', new BoardRow());
-		rows.put('F', new BoardRow());
-		rows.put('G', new BoardRow());
-		rows.put('H', new BoardRow());
+		rows.put('A', new BoardRow(true));
+		rows.put('B', new BoardRow(false));
+		rows.put('C', new BoardRow(true));
+		rows.put('D', new BoardRow(false));
+		rows.put('E', new BoardRow(true));
+		rows.put('F', new BoardRow(false));
+		rows.put('G', new BoardRow(true));
+		rows.put('H', new BoardRow(false));
 	}
 
 	public Figure getFigure(char row, int col) {
@@ -29,8 +29,8 @@ class Board {
 	@Override
 	public String toString() {
 		String board = "";
-		board += "     1    2    3    4    5    6    7    8";
-		board += "\n  +----+----+----+----+----+----+----+----+";
+		board += "     1      2      3      4      5      6      7      8";
+		board += "\n ╔════════════════════════════════════════════════════════╗";
 		board += rows.get('A').printRow('A');
 		board += rows.get('B').printRow('B');
 		board += rows.get('C').printRow('C');
@@ -39,7 +39,8 @@ class Board {
 		board += rows.get('F').printRow('F');
 		board += rows.get('G').printRow('G');
 		board += rows.get('H').printRow('H');
-		board += "\n    1    2    3    4    5    6    7    8";
+		board += "\n ╚════════════════════════════════════════════════════════╝";
+		board += "\n     1      2      3      4      5      6      7      8";
 		return board;
 	}
 
