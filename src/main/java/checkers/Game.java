@@ -16,7 +16,8 @@ public class Game {
 		moves = new LinkedList<>();
 		player = false;
 
-		board.setFigure('A', 2, new Pawn(true));
+		board.setFigure('A', 2, new Queen(true));
+		/*board.setFigure('A', 2, new Pawn(true));
 		board.setFigure('A', 4, new Pawn(true));
 		board.setFigure('A', 6, new Pawn(true));
 		board.setFigure('A', 8, new Pawn(true));
@@ -24,23 +25,24 @@ public class Game {
 		board.setFigure('B', 3, new Pawn(true));
 		board.setFigure('B', 5, new Pawn(true));
 		board.setFigure('B', 7, new Pawn(true));
-		board.setFigure('C', 2, new Pawn(true));
+		board.setFigure('C', 2, new Pawn(true));*/
 		board.setFigure('C', 4, new Pawn(true));
 		board.setFigure('C', 6, new Pawn(true));
-		board.setFigure('C', 8, new Pawn(true));
+		/*board.setFigure('C', 8, new Pawn(true));
 
 		board.setFigure('F', 1, new Pawn(false));
-		board.setFigure('F', 3, new Pawn(false));
+		board.setFigure('F', 3, new Pawn(false));*/
 		board.setFigure('F', 5, new Pawn(false));
 		board.setFigure('F', 7, new Pawn(false));
 		board.setFigure('G', 2, new Pawn(false));
 		board.setFigure('G', 4, new Pawn(false));
-		board.setFigure('G', 6, new Pawn(false));
+		/*board.setFigure('G', 6, new Pawn(false));
 		board.setFigure('G', 8, new Pawn(false));
 		board.setFigure('H', 1, new Pawn(false));
 		board.setFigure('H', 3, new Pawn(false));
 		board.setFigure('H', 5, new Pawn(false));
-		board.setFigure('H', 7, new Pawn(false));
+		board.setFigure('H', 7, new Pawn(false));*/
+        board.setFigure('H', 7, new Queen(false));
 
 		boolean b;
 		do
@@ -55,9 +57,9 @@ public class Game {
 		System.out.println(board);
 		System.out.print("Player: ");
 		if (player)
-			System.out.print("black");
+			System.out.print("BLACK");
 		else
-			System.out.print("white");
+			System.out.print("WHITE");
 		System.out.println(". Enter your next move, or \"h\" for move history: ");
 		try {
             CapturePossibilityValidator.validateCapturePossibility(board,player);
@@ -76,10 +78,15 @@ public class Game {
 		default:
 			break;
 		}
-		if (this.validate(s)) {
-			this.makeMove(s);
-		} else
-			System.out.println("Incorrect option!");
+		try{
+		    validate(s);
+		    this.makeMove(s);
+        }
+        catch(IncorrectMoveFormat e){
+            System.out.println("Incorrect move format! Proper format example: E4-D5");
+            return true;
+        }
+        System.out.println("Incorrect option!");
 		return true;
 	}
 
@@ -88,17 +95,16 @@ public class Game {
 			System.out.println(m);
 	}
 
-	private boolean validate(String s) {
+	private void validate(String s) throws IncorrectMoveFormat {
 		String[] sArray = s.split("-");
 		if (sArray.length != 2)
-			return false;
+            throw new IncorrectMoveFormat();
 		for (String t : sArray)
 			if (t.length() != 2)
-				return false;
-		return true;
+                throw new IncorrectMoveFormat();
 	}
 
-	private void makeMove(String s) {
+	private void makeMove(String s) throws IncorrectMoveFormat{
 		String[] sArray = s.split("-");
 		char x1 = sArray[0].charAt(0);
 		int y1 = Character.getNumericValue(sArray[0].charAt(1));

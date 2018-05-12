@@ -1,5 +1,8 @@
 package checkers;
 
+import exceptions.IncorrectMoveException;
+import exceptions.IncorrectMoveFormat;
+
 class Move {
 
 	private char row1;
@@ -7,25 +10,25 @@ class Move {
 	private int col1;
 	private int col2;
 
-	public Move(char row1, int col1, char row2, int col2) {
+	public Move(char row1, int col1, char row2, int col2) throws IncorrectMoveFormat {
 		if (row1 == 'A' || row1 == 'B' || row1 == 'C' || row1 == 'D' || row1 == 'E' || row1 == 'F' || row1 == 'G'
 				|| row1 == 'H')
 			this.row1 = row1;
 		else
-			return;
+			throw new IncorrectMoveFormat();
 		if (col1 <= 8 && col1 >= 1)
 			this.col1 = col1;
 		else
-			return;
+            throw new IncorrectMoveFormat();
 		if (row2 == 'A' || row2 == 'B' || row2 == 'C' || row2 == 'D' || row2 == 'E' || row2 == 'F' || row2 == 'G'
 				|| row2 == 'H')
 			this.row2 = row2;
 		else
-			return;
+            throw new IncorrectMoveFormat();
 		if (col2 <= 8 && col2 >= 1)
 			this.col2 = col2;
 		else
-			return;
+            throw new IncorrectMoveFormat();
 	}
 
 	private int rowCharToInt(char row){
