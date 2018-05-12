@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 class BoardRow {
 
-	ArrayList<Figure> figures;
+	private ArrayList<Figure> figures;
 
 	public BoardRow() {
 		this.figures = new ArrayList<Figure>();

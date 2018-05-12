@@ -16,7 +16,7 @@ public class Menu {
 
 	private void printMenu() {
 		this.cls();
-		System.out.println("Choose option:");
+        System.out.println("Choose option:");
 		System.out.println("(1) Start new game");
 		System.out.println("(x) Exit");
 	}

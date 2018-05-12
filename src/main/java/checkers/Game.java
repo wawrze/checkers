@@ -59,6 +59,12 @@ public class Game {
 		else
 			System.out.print("white");
 		System.out.println(". Enter your next move, or \"h\" for move history: ");
+		try {
+            CapturePossibilityValidator.validateCapturePossibility(board,player);
+        }
+        catch(CapturePossibleException e){
+            System.out.println(e.getMessage());
+        }
 		s = sc.nextLine();
 		switch (s) {
 		case "h":
@@ -74,7 +80,6 @@ public class Game {
 			this.makeMove(s);
 		} else
 			System.out.println("Incorrect option!");
-		Menu.waitForEnter();
 		return true;
 	}
 
@@ -102,18 +107,20 @@ public class Game {
 		System.out.println("Trying to make move: " + x1 + y1 + " to " + x2 + y2 + ".");
 		Move move = new Move(x1, y1, x2, y2);
 		try {
-            if (MoveValidator.validateMove(move, this.board, this.player)) {
+            MoveValidator.validateMove(move, this.board, this.player);
                 moves.add(move);
                 move.makeMove(board);
                 this.player = !this.player;
-            } else {
-                System.out.println("Incorrect move!");
-                Menu.waitForEnter();
-            }
+            System.out.println("Move done.");
         }catch (CaptureException e){
 		    moves.add(move);
 		    move.makeCapture(board);
 		    this.player = !this.player;
+            System.out.println(e.getMessage());
+        }catch (IncorrectMoveException e){
+            System.out.println("Incorrect move: " + e.getMessage());
+        }finally{
+            Menu.waitForEnter();
         }
 	}
 
