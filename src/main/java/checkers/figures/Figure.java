@@ -1,6 +1,6 @@
-package checkers;
+package checkers.figures;
 
-abstract class Figure {
+public abstract class Figure {
 
 	//true - black, false - white
 	protected boolean color;

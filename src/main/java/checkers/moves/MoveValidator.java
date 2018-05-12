@@ -1,8 +1,10 @@
-package checkers;
+package checkers.moves;
 
+import checkers.board.*;
+import checkers.figures.*;
 import exceptions.*;
 
-class MoveValidator {
+public class MoveValidator {
 
 	public static void validateMove(Move move, Board board, boolean player) throws CaptureException, IncorrectMoveException{
 	    validateBias(move);

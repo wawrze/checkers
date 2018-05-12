@@ -1,8 +1,8 @@
-package checkers;
+package checkers.figures;
 
-class Pawn extends Figure {
-	
-	public Pawn(boolean color) {
+public class Queen extends Figure {
+
+	public Queen(boolean color) {
 		this.color = color;
 	}
 
@@ -14,9 +14,9 @@ class Pawn extends Figure {
 	@Override
 	public String toString() {
 		if(this.color == true)
-			return "PP";
+			return "QQ";
 		else
-			return "pp";
+			return "qq";
 	}
 
 }

@@ -1,9 +1,10 @@
-package checkers;
+package checkers.moves;
 
-import exceptions.IncorrectMoveException;
-import exceptions.IncorrectMoveFormat;
+import checkers.board.*;
+import checkers.figures.*;
+import exceptions.*;
 
-class Move {
+public class Move {
 
 	private char row1;
 	private char row2;

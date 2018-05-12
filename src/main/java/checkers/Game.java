@@ -1,5 +1,8 @@
 package checkers;
 
+import checkers.board.*;
+import checkers.figures.*;
+import checkers.moves.*;
 import exceptions.*;
 
 import java.util.LinkedList;

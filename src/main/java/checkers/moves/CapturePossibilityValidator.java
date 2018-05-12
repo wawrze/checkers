@@ -1,6 +1,8 @@
-package checkers;
+package checkers.moves;
 
-import exceptions.CapturePossibleException;
+import checkers.board.*;
+import checkers.figures.*;
+import exceptions.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,7 +11,7 @@ public class CapturePossibilityValidator {
 
     private static List<String> listOfCaptures;
 
-    public static void validateCapturePossibility(Board board,boolean player) throws CapturePossibleException {
+    public static void validateCapturePossibility(Board board, boolean player) throws CapturePossibleException {
         listOfCaptures = new LinkedList<>();
         for(int i = 65;i<73;i++)
             for (int j = 1; j < 9; j++)

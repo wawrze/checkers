@@ -1,8 +1,10 @@
-package checkers;
+package checkers.board;
+
+import checkers.figures.Figure;
 
 import java.util.HashMap;
 
-class Board {
+public class Board {
 
 	private HashMap<Character, BoardRow> rows;
 

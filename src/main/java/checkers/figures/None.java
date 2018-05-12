@@ -1,6 +1,6 @@
-package checkers;
+package checkers.figures;
 
-class None extends Figure {
+public class None extends Figure {
 
 	@Override
 	public String toString() {
