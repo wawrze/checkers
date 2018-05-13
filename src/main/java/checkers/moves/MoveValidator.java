@@ -56,7 +56,7 @@ public class MoveValidator {
         if((Math.abs(x1 - x2) == 2) && (Math.abs(y1 - y2) == 2)) {
             char x = (char) (((x1 + x2) / 2) + 64);
             int y = ((y1 + y2) / 2);
-            if(board.getFigure(x,y).getColor() != board.getFigure(move.getRow1(),move.getCol1()).getColor())
+            if(!(board.getFigure(x,y) instanceof None) && board.getFigure(x,y).getColor() != board.getFigure(move.getRow1(),move.getCol1()).getColor())
                 throw new CaptureException("Capture done.");
             else
                 throw new IncorrectMoveException("Invalid range!");

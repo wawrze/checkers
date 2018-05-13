@@ -22,7 +22,7 @@ public class CapturePossibilityValidator {
         if(!listOfCaptures.isEmpty()) {
             String m = "";
             for (String s : listOfCaptures)
-                m += s;
+                m += s + " ";
             throw new CapturePossibleException(m);
         }
     }
@@ -43,7 +43,7 @@ public class CapturePossibilityValidator {
         colCaptured = col - 1;
         if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
             if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
-                listOfCaptures.add(", " + row + col + "-" + rowCaptureTo  + colCaptureTo);
+                listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
         //right-up
         rowCaptureTo = (char) (((int) row) - 2);
         colCaptureTo = col + 2;
@@ -51,7 +51,7 @@ public class CapturePossibilityValidator {
         colCaptured = col + 1;
         if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
             if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
-                listOfCaptures.add(", " + row + col + "-" + rowCaptureTo  + colCaptureTo);
+                listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
         //left-down
         rowCaptureTo = (char) (((int) row) + 2);
         colCaptureTo = col - 2;
@@ -59,7 +59,7 @@ public class CapturePossibilityValidator {
         colCaptured = col - 1;
         if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
             if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
-                listOfCaptures.add(", " + row + col + "-" + rowCaptureTo  + colCaptureTo);
+                listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
         //right-down
         rowCaptureTo = (char) (((int) row) + 2);
         colCaptureTo = col + 2;
@@ -67,7 +67,7 @@ public class CapturePossibilityValidator {
         colCaptured = col + 1;
         if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
             if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
-                listOfCaptures.add(", " + row + col + "-" + rowCaptureTo  + colCaptureTo);
+                listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
     }
 
     private static boolean isOnBoard(int row,int col){
