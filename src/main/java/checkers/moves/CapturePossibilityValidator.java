@@ -17,7 +17,7 @@ public class CapturePossibilityValidator {
             for (int j = 1; j < 9; j++)
                 if (board.getFigure((char) i, j) instanceof Pawn && board.getFigure((char) i, j).getColor() == player)
                     validatePawnCapture((char) i, j, board);
-                else if (board.getFigure((char) i, j) instanceof Pawn && board.getFigure((char) i, j).getColor() == player)
+                else if (board.getFigure((char) i, j) instanceof Queen && board.getFigure((char) i, j).getColor() == player)
                     validateQueenCapture((char) i, j, board);
         if(!listOfCaptures.isEmpty()) {
             String m = "";
@@ -28,7 +28,45 @@ public class CapturePossibilityValidator {
     }
 
     private static void validateQueenCapture(char row, int col, Board board){
-
+        char rowCaptureTo;
+        int colCaptureTo;
+        char rowCaptured;
+        int colCaptured;
+        for(int i = 2;i<9;i++) {
+            //left-up
+            rowCaptureTo = (char) (((int) row) - i);
+            colCaptureTo = col - i;
+            rowCaptured = (char) (((int) row) - i + 1);
+            colCaptured = col - i + 1;
+            System.out.println("SPRAWDZANIE: RUCH DO: " + rowCaptureTo + colCaptureTo + ", BICIE: " + rowCaptured + colCaptured);
+            if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
+                if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
+                    listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
+            //right-up
+            rowCaptureTo = (char) (((int) row) - i);
+            colCaptureTo = col + i;
+            rowCaptured = (char) (((int) row) - i + 1);
+            colCaptured = col + i - 1;
+            if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
+                if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
+                    listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
+            //right-down
+            rowCaptureTo = (char) (((int) row) + i);
+            colCaptureTo = col + i;
+            rowCaptured = (char) (((int) row) + i - 1);
+            colCaptured = col + i - 1;
+            if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
+                if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
+                    listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
+            //left-down
+            rowCaptureTo = (char) (((int) row) + i);
+            colCaptureTo = col - i;
+            rowCaptured = (char) (((int) row) + i - 1);
+            colCaptured = col - i + 1;
+            if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
+                if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
+                    listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
+        }
     }
 
     private static void validatePawnCapture(char row,int col, Board board){

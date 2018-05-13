@@ -68,7 +68,7 @@ public class Game {
             CapturePossibilityValidator.validateCapturePossibility(board,player);
         }
         catch(CapturePossibleException e){
-            System.out.println(e.getMessage());
+            System.out.println("You have to capture: " + e.getMessage());
         }
 		s = sc.nextLine();
 		switch (s) {
@@ -89,7 +89,8 @@ public class Game {
             System.out.println("Incorrect move format! Proper format example: E4-D5");
             return true;
         }
-        System.out.println("Incorrect option!");
+        //System.out.println("Incorrect option!");
+        //Menu.waitForEnter();
 		return true;
 	}
 

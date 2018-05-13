@@ -77,35 +77,67 @@ public class MoveValidator {
     }
 
     private static void validateQueenMove(Move move, Board board, boolean player) throws IncorrectMoveException, CaptureException {
-        validateOnWay(move,board);
+        validateOnWay(move,board,player);
         //to validate: is it capture
     }
 
-    private static void validateOnWay(Move move, Board board)throws IncorrectMoveException{
+    private static void validateOnWay(Move move, Board board, boolean player)throws IncorrectMoveException, CaptureException{
         int x1 = move.getRow1int();
         int y1 = move.getCol1();
         int x2 = move.getRow2int();
         int y2 = move.getCol2();
         //left-up
-        if(x1 > x2 && y1 > y2)
-            for(int i = 1;i < (x1 - x2);i++)
+        if(x1 > x2 && y1 > y2) {
+            for (int i = 1; i < (x1 - x2 - 1); i++)
                 if (!(board.getFigure((char) (64 + x1 - i), y1 - i) instanceof None))
                     throw new IncorrectMoveException("Some figure on the way!");
+            if (!(board.getFigure((char) (65 + x2), y1 - x1 + x2 + 1) instanceof None)
+                    && !(board.getFigure((char) (65 + x2), y1 - x1 + x2 + 1).equals(board.getFigure((char) (64 + x1), y1)))){
+                if(board.getFigure((char) (65 + x2), y1 - x1 + x2 + 1).getColor() != player)
+                    throw new CaptureException("Capture done.");
+                else
+                    throw new IncorrectMoveException("Some figure on the way!");
+            }
+        }
         //right-up
-        if(x1 > x2 && y1 < y2)
-            for(int i = 1;i < (x1 - x2);i++)
+        else if(x1 > x2 && y1 < y2) {
+            for (int i = 1; i < (x1 - x2 - 1); i++)
                 if (!(board.getFigure((char) (64 + x1 - i), y1 + i) instanceof None))
                     throw new IncorrectMoveException("Some figure on the way!");
+            if (!(board.getFigure((char) (65 + x2), y1 + x1 - x2 - 1) instanceof None)
+                    && !(board.getFigure((char) (65 + x2), y1 + x1 - x2 - 1).equals(board.getFigure((char) (64 + x1), y1)))) {
+                if (board.getFigure((char) (65 + x2), y1 + x1 - x2 - 1).getColor() != player)
+                    throw new CaptureException("Capture done.");
+                else
+                    throw new IncorrectMoveException("Some figure on the way!");
+            }
+        }
         //left-down
-        if(x1 < x2 && y1 > y2)
-            for(int i = 1;i < (x2 - x1);i++)
+        else if(x1 < x2 && y1 > y2) {
+            for (int i = 1; i < (x2 - x1 - 1); i++)
                 if (!(board.getFigure((char) (64 + x1 + i), y1 - i) instanceof None))
                     throw new IncorrectMoveException("Some figure on the way!");
+            if (!(board.getFigure((char) (63 + x2), y1 - x2 + x1 + 1) instanceof None)
+                    && !(board.getFigure((char) (63 + x2), y1 - x2 + x1 + 1).equals(board.getFigure((char) (64 + x1), y1)))) {
+                if(board.getFigure((char) (63 + x2), y1 - x2 + x1 + 1).getColor() != player)
+                    throw new CaptureException("Capture done.");
+                else
+                    throw new IncorrectMoveException("Some figure on the way!");
+            }
+        }
         //right-down
-        if(x1 < x2 && y1 < y2)
-            for(int i = 1;i < (x2 - x1);i++)
+        else if(x1 < x2 && y1 < y2) {
+            for (int i = 1; i < (x2 - x1 - 1); i++)
                 if (!(board.getFigure((char) (64 + x1 + i), y1 + i) instanceof None))
                     throw new IncorrectMoveException("Some figure on the way!");
+            if (!(board.getFigure((char) (63 + x2), y1 + x2 - x1 - 1) instanceof None)
+                    && !(board.getFigure((char) (63 + x2), y1 + x2 - x1 - 1).equals(board.getFigure((char) (64 + x1), y1)))) {
+                if(board.getFigure((char) (63 + x2), y1 + x2 - x1 - 1).getColor() != player)
+                    throw new CaptureException("Capture done.");
+                else
+                    throw new IncorrectMoveException("Some figure on the way!");
+            }
+        }
     }
 
 }

@@ -180,7 +180,7 @@ public class MoveTestSuite {
     }
 
     @Test
-    public void testMakeCapture() throws IncorrectMoveFormat{
+    public void testMakeCaptureRightDown() throws IncorrectMoveFormat{
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'C',4);
@@ -192,6 +192,54 @@ public class MoveTestSuite {
         move.makeCapture(board);
         //Then
         Assert.assertEquals(pawn1,board.getFigure('C',4));
+        Assert.assertTrue(board.getFigure('B',3) instanceof None);
+    }
+
+    @Test
+    public void testMakeCaptureRightUp() throws IncorrectMoveFormat{
+        //Given
+        Board board = new Board();
+        Move move = new Move('C',2,'A',4);
+        Pawn pawn1 = new Pawn(true);
+        Pawn pawn2 = new Pawn(false);
+        //When
+        board.setFigure('C',2,pawn1);
+        board.setFigure('B',3,pawn2);
+        move.makeCapture(board);
+        //Then
+        Assert.assertEquals(pawn1,board.getFigure('A',4));
+        Assert.assertTrue(board.getFigure('B',3) instanceof None);
+    }
+
+    @Test
+    public void testMakeCaptureLeftUp() throws IncorrectMoveFormat{
+        //Given
+        Board board = new Board();
+        Move move = new Move('C',4,'A',2);
+        Pawn pawn1 = new Pawn(true);
+        Pawn pawn2 = new Pawn(false);
+        //When
+        board.setFigure('C',4,pawn1);
+        board.setFigure('B',3,pawn2);
+        move.makeCapture(board);
+        //Then
+        Assert.assertEquals(pawn1,board.getFigure('A',2));
+        Assert.assertTrue(board.getFigure('B',3) instanceof None);
+    }
+
+    @Test
+    public void testMakeCaptureLeftDown() throws IncorrectMoveFormat{
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',4,'C',2);
+        Pawn pawn1 = new Pawn(true);
+        Pawn pawn2 = new Pawn(false);
+        //When
+        board.setFigure('A',4,pawn1);
+        board.setFigure('B',3,pawn2);
+        move.makeCapture(board);
+        //Then
+        Assert.assertEquals(pawn1,board.getFigure('C',2));
         Assert.assertTrue(board.getFigure('B',3) instanceof None);
     }
 

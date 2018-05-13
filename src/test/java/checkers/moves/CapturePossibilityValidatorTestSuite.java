@@ -40,7 +40,7 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn4 = new Pawn(true);
         Pawn pawn5 = new Pawn(false);
         Pawn pawn6 = new Pawn(false);
-        Pawn pawn7 = new Pawn(false);
+        Queen queen = new Queen(false);
         Pawn pawn8 = new Pawn(false);
         boolean result;
         //When
@@ -48,10 +48,10 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('A',6,pawn2);
         board.setFigure('C',2,pawn3);
         board.setFigure('C',6,pawn4);
-        board.setFigure('F',2,pawn5);
-        board.setFigure('F',6,pawn6);
-        board.setFigure('H',2,pawn7);
-        board.setFigure('H',6,pawn8);
+        board.setFigure('F',3,pawn5);
+        board.setFigure('F',7,pawn6);
+        board.setFigure('H',3,queen);
+        board.setFigure('H',7,pawn8);
         try{
             CapturePossibilityValidator.validateCapturePossibility(board,false);
             result = true;
@@ -68,7 +68,7 @@ public class CapturePossibilityValidatorTestSuite {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
-        Pawn pawn2 = new Pawn(true);
+        Queen queen = new Queen(true);
         Pawn pawn3 = new Pawn(true);
         Pawn pawn4 = new Pawn(true);
         Pawn pawn5 = new Pawn(false);
@@ -78,7 +78,7 @@ public class CapturePossibilityValidatorTestSuite {
         boolean result;
         //When
         board.setFigure('A',2,pawn1);
-        board.setFigure('A',6,pawn2);
+        board.setFigure('A',6,queen);
         board.setFigure('C',2,pawn3);
         board.setFigure('C',6,pawn4);
         board.setFigure('F',3,pawn5);
@@ -368,6 +368,208 @@ public class CapturePossibilityValidatorTestSuite {
         Assert.assertEquals(3,result);
     }
 
+    @Test
+    public void testOneCaptureForWhiteQueen(){
+        //Given
+        Board board = new Board();
+        Pawn pawn1 = new Pawn(true);
+        Pawn pawn2 = new Pawn(true);
+        Pawn pawn3 = new Pawn(true);
+        Pawn pawn4 = new Pawn(true);
+        Pawn pawn5 = new Pawn(false);
+        Queen queen = new Queen(false);
+        Pawn pawn7 = new Pawn(false);
+        Pawn pawn8 = new Pawn(false);
+        int result;
+        //When
+        board.setFigure('A',2,pawn1);
+        board.setFigure('A',6,pawn2);
+        board.setFigure('C',2,pawn3);
+        board.setFigure('C',6,pawn4);
+        board.setFigure('F',3,pawn5);
+        board.setFigure('F',5,queen);
+        board.setFigure('H',3,pawn7);
+        board.setFigure('H',7,pawn8);
+        try{
+            CapturePossibilityValidator.validateCapturePossibility(board,false);
+            result = 0;
+        }
+        catch(CapturePossibleException e){
+            String[] sArray = e.getMessage().split(" ");
+            result = sArray.length;
+        }
+        //Then
+        Assert.assertEquals(1,result);
+    }
 
+    @Test
+    public void testTwoCapturesForWhiteQueen(){
+        //Given
+        Board board = new Board();
+        Pawn pawn1 = new Pawn(true);
+        Pawn pawn2 = new Pawn(true);
+        Pawn pawn3 = new Pawn(true);
+        Pawn pawn4 = new Pawn(true);
+        Queen queen1 = new Queen(false);
+        Queen queen2 = new Queen(false);
+        Pawn pawn7 = new Pawn(false);
+        Pawn pawn8 = new Pawn(false);
+        int result;
+        //When
+        board.setFigure('A',2,pawn1);
+        board.setFigure('A',6,pawn2);
+        board.setFigure('C',2,pawn3);
+        board.setFigure('C',6,pawn4);
+        board.setFigure('F',3,queen1);
+        board.setFigure('F',5,queen2);
+        board.setFigure('H',3,pawn7);
+        board.setFigure('H',7,pawn8);
+        try{
+            CapturePossibilityValidator.validateCapturePossibility(board,false);
+            result = 0;
+        }
+        catch(CapturePossibleException e){
+            String[] sArray = e.getMessage().split(" ");
+            result = sArray.length;
+        }
+        //Then
+        Assert.assertEquals(2,result);
+    }
+
+    @Test
+    public void testCaptureForWhiteQueenAndWhitePawn(){
+        //Given
+        Board board = new Board();
+        Pawn pawn1 = new Pawn(true);
+        Pawn pawn2 = new Pawn(true);
+        Pawn pawn3 = new Pawn(true);
+        Pawn pawn4 = new Pawn(true);
+        Pawn pawn5 = new Pawn(false);
+        Queen queen = new Queen(false);
+        Pawn pawn7 = new Pawn(false);
+        Pawn pawn8 = new Pawn(false);
+        int result;
+        //When
+        board.setFigure('E',2,pawn1);
+        board.setFigure('A',6,pawn2);
+        board.setFigure('C',2,pawn3);
+        board.setFigure('C',6,pawn4);
+        board.setFigure('F',3,pawn5);
+        board.setFigure('F',5,queen);
+        board.setFigure('H',3,pawn7);
+        board.setFigure('H',7,pawn8);
+        try{
+            CapturePossibilityValidator.validateCapturePossibility(board,false);
+            result = 0;
+        }
+        catch(CapturePossibleException e){
+            String[] sArray = e.getMessage().split(" ");
+            result = sArray.length;
+        }
+        //Then
+        Assert.assertEquals(2,result);
+    }
+
+    @Test
+    public void testOneCaptureForBlackQueen(){
+        //Given
+        Board board = new Board();
+        Pawn pawn1 = new Pawn(true);
+        Pawn pawn2 = new Pawn(true);
+        Pawn pawn3 = new Pawn(true);
+        Queen queen = new Queen(true);
+        Pawn pawn5 = new Pawn(false);
+        Pawn pawn6 = new Pawn(false);
+        Pawn pawn7 = new Pawn(false);
+        Pawn pawn8 = new Pawn(false);
+        int result;
+        //When
+        board.setFigure('A',2,pawn1);
+        board.setFigure('A',6,pawn2);
+        board.setFigure('C',2,pawn3);
+        board.setFigure('C',6,queen);
+        board.setFigure('F',3,pawn5);
+        board.setFigure('F',7,pawn6);
+        board.setFigure('H',3,pawn7);
+        board.setFigure('H',7,pawn8);
+        try{
+            CapturePossibilityValidator.validateCapturePossibility(board,true);
+            result = 0;
+        }
+        catch(CapturePossibleException e){
+            String[] sArray = e.getMessage().split(" ");
+            result = sArray.length;
+        }
+        //Then
+        Assert.assertEquals(1,result);
+    }
+
+    @Test
+    public void testTwoCapturesForBlackQueen(){
+        //Given
+        Board board = new Board();
+        Pawn pawn1 = new Pawn(true);
+        Pawn pawn2 = new Pawn(true);
+        Queen queen1 = new Queen(true);
+        Queen queen2 = new Queen(true);
+        Pawn pawn5 = new Pawn(false);
+        Pawn pawn6 = new Pawn(false);
+        Pawn pawn7 = new Pawn(false);
+        Pawn pawn8 = new Pawn(false);
+        int result;
+        //When
+        board.setFigure('A',2,pawn1);
+        board.setFigure('A',6,pawn2);
+        board.setFigure('C',2,queen1);
+        board.setFigure('C',6,queen2);
+        board.setFigure('F',3,pawn5);
+        board.setFigure('F',7,pawn6);
+        board.setFigure('H',3,pawn7);
+        board.setFigure('D',3,pawn8);
+        try{
+            CapturePossibilityValidator.validateCapturePossibility(board,true);
+            result = 0;
+        }
+        catch(CapturePossibleException e){
+            String[] sArray = e.getMessage().split(" ");
+            result = sArray.length;
+        }
+        //Then
+        Assert.assertEquals(2,result);
+    }
+
+    @Test
+    public void testCaptureForBlackQueenAndBlackPawn(){
+        //Given
+        Board board = new Board();
+        Pawn pawn1 = new Pawn(true);
+        Pawn pawn2 = new Pawn(true);
+        Pawn pawn3 = new Pawn(true);
+        Queen queen = new Queen(true);
+        Pawn pawn5 = new Pawn(false);
+        Pawn pawn6 = new Pawn(false);
+        Pawn pawn7 = new Pawn(false);
+        Pawn pawn8 = new Pawn(false);
+        int result;
+        //When
+        board.setFigure('A',2,pawn1);
+        board.setFigure('A',6,pawn2);
+        board.setFigure('C',2,pawn3);
+        board.setFigure('C',6,queen);
+        board.setFigure('F',3,pawn5);
+        board.setFigure('F',7,pawn6);
+        board.setFigure('H',3,pawn7);
+        board.setFigure('D',3,pawn8);
+        try{
+            CapturePossibilityValidator.validateCapturePossibility(board,true);
+            result = 0;
+        }
+        catch(CapturePossibleException e){
+            String[] sArray = e.getMessage().split(" ");
+            result = sArray.length;
+        }
+        //Then
+        Assert.assertEquals(2,result);
+    }
 
 }

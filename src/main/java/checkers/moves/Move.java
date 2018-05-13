@@ -91,8 +91,28 @@ public class Move {
 
 	public void makeCapture(Board board){
         this.makeMove(board);
-        char x = (char) (((this.getRow1int() + this.getRow2int()) / 2) + 64);
-        int y = ((this.col1 + this.col2) / 2);
+        char x = 'a';
+        int y = 0;
+        //right-up
+        if((getRow1int() - getRow2int()) > 0 && (this.col1 - this.col2) < 0){
+            x = (char) (65 + getRow2int());
+            y = this.col2 - 1;
+        }
+        //right-down
+        else if((getRow1int() - getRow2int()) < 0 && (this.col1 - this.col2) < 0){
+            x = (char) (63 + getRow2int());
+            y = this.col2 - 1;
+        }
+        //left-down
+        else if((getRow1int() - getRow2int()) < 0 && (this.col1 - this.col2) > 0){
+            x = (char) (63 + getRow2int());
+            y = this.col2 + 1;
+        }
+        //left-up
+        else if((getRow1int() - getRow2int()) > 0 && (this.col1 - this.col2) > 0){
+            x = (char) (65 + getRow2int());
+            y = this.col2 + 1;
+        }
         board.setFigure(x,y,new None());
     }
 

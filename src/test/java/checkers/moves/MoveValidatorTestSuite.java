@@ -260,7 +260,7 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testCorrectQueenMove() throws IncorrectMoveFormat{
+    public void testCorrectQueenMoveRightDown() throws IncorrectMoveFormat{
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'G',8);
@@ -280,7 +280,7 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWay() throws IncorrectMoveFormat {
+    public void testFigureOnWayNoCaptureRightDown() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'G',8);
@@ -294,7 +294,245 @@ public class MoveValidatorTestSuite {
             MoveValidator.validateMove(move,board,true);
             result = false;
         }
+        catch(CaptureException e){
+            result = false;
+        }
+        catch(IncorrectMoveException e){
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testFigureOnWayAndCaptureRightDown() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',2,'G',8);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        //When
+        board.setFigure('A',2,queen);
+        board.setFigure('F',7,pawn);
+        try{
+            MoveValidator.validateMove(move,board,true);
+            result = false;
+        }
+        catch(IncorrectMoveException e){
+            result = false;
+        }
+        catch(CaptureException e){
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testCorrectQueenMoveRightUp() throws IncorrectMoveFormat{
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',1,'A',8);
+        boolean result;
+        Queen queen = new Queen(true);
+        //When
+        board.setFigure('H',1,queen);
+        try{
+            MoveValidator.validateMove(move,board,true);
+            result = true;
+        }
         catch(IncorrectMoveException | CaptureException e){
+            result = false;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testFigureOnWayNoCaptureRightUp() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',1,'A',8);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(true);
+        //When
+        board.setFigure('H',1,queen);
+        board.setFigure('G',2,pawn);
+        try{
+            MoveValidator.validateMove(move,board,true);
+            result = false;
+        }
+        catch(CaptureException e){
+            result = false;
+        }
+        catch(IncorrectMoveException e){
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testFigureOnWayAndCaptureRightUp() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',1,'A',8);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        //When
+        board.setFigure('H',1,queen);
+        board.setFigure('B',7,pawn);
+        try{
+            MoveValidator.validateMove(move,board,true);
+            result = false;
+        }
+        catch(IncorrectMoveException e){
+            result = false;
+        }
+        catch(CaptureException e){
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testCorrectQueenMoveLeftUp() throws IncorrectMoveFormat{
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',7,'B',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        //When
+        board.setFigure('H',7,queen);
+        try{
+            MoveValidator.validateMove(move,board,true);
+            result = true;
+        }
+        catch(IncorrectMoveException | CaptureException e){
+            result = false;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testFigureOnWayNoCaptureLeftUp() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',7,'B',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(true);
+        //When
+        board.setFigure('H',7,queen);
+        board.setFigure('G',6,pawn);
+        try{
+            MoveValidator.validateMove(move,board,true);
+            result = false;
+        }
+        catch(CaptureException e){
+            result = false;
+        }
+        catch(IncorrectMoveException e){
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testFigureOnWayAndCaptureLeftUp() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',7,'B',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        //When
+        board.setFigure('H',7,queen);
+        board.setFigure('C',2,pawn);
+        try{
+            MoveValidator.validateMove(move,board,true);
+            result = false;
+        }
+        catch(IncorrectMoveException e){
+            result = false;
+        }
+        catch(CaptureException e){
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testCorrectQueenMoveLeftDown() throws IncorrectMoveFormat{
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',8,'H',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        //When
+        board.setFigure('A',8,queen);
+        try{
+            MoveValidator.validateMove(move,board,true);
+            result = true;
+        }
+        catch(IncorrectMoveException | CaptureException e){
+            result = false;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testFigureOnWayNoCaptureLeftDown() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',8,'H',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(true);
+        //When
+        board.setFigure('A',8,queen);
+        board.setFigure('B',7,pawn);
+        try{
+            MoveValidator.validateMove(move,board,true);
+            result = false;
+        }
+        catch(CaptureException e){
+            result = false;
+        }
+        catch(IncorrectMoveException e){
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testFigureOnWayAndCaptureLeftDown() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',8,'H',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        //When
+        board.setFigure('A',8,queen);
+        board.setFigure('G',2,pawn);
+        try{
+            MoveValidator.validateMove(move,board,true);
+            result = false;
+        }
+        catch(IncorrectMoveException e){
+            result = false;
+        }
+        catch(CaptureException e){
             result = true;
         }
         //Then
