@@ -47,7 +47,7 @@ public class BoardTestSuite {
         Pawn pawn1 = new Pawn(true);
         Pawn pawn2 = new Pawn(false);
         Queen queen = new Queen(false);
-        None none = new None();
+        None none = new None(true);
         //When
         board.setFigure('A',1, pawn1);
         board.setFigure('B',2, pawn2);

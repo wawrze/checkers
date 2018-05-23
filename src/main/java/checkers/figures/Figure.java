@@ -9,4 +9,6 @@ public abstract class Figure {
 		return this.color;
 	}
 
+    public String print(int n){return "";}
+
 }

@@ -31,7 +31,7 @@ public class BoardRowTestSuite {
     @Test
     public void testConstructor(){
         //Given
-        BoardRow boardRow = new BoardRow();
+        BoardRow boardRow = new BoardRow(true);
         boolean result = true;
         //When
         for(int i = 1;i < 9;i++)
@@ -43,11 +43,11 @@ public class BoardRowTestSuite {
     @Test
     public void testSetGetFigure(){
         //Given
-        BoardRow boardRow = new BoardRow();
+        BoardRow boardRow = new BoardRow(true);
         Pawn pawn1 = new Pawn(true);
         Pawn pawn2 = new Pawn(false);
         Queen queen = new Queen(false);
-        None none = new None();
+        None none = new None(true);
         //When
         boardRow.setFigure(1, pawn1);
         boardRow.setFigure(2, pawn2);

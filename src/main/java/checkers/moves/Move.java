@@ -80,40 +80,18 @@ public class Move {
 	}
 
 	public void makeMove(Board board) {
-	    if(board.getFigure(this.row1, this.col1).getColor() && (this.row2) == 'H')
+        if(board.getFigure(this.row1, this.col1).getColor() && (this.row2) == 'H')
             board.setFigure(this.row2, this.col2, new Queen(true));
-	    else if(!board.getFigure(this.row1, this.col1).getColor() && (this.row2) == 'A')
+        else if(!board.getFigure(this.row1, this.col1).getColor() && (this.row2) == 'A')
             board.setFigure(this.row2, this.col2, new Queen(false));
-	    else
-		    board.setFigure(this.row2, this.col2, board.getFigure(this.row1, this.col1));
-		board.setFigure(this.row1, this.col1, new None());
+        else
+            board.setFigure(this.row2, this.col2, board.getFigure(this.row1, this.col1));
+        board.setFigure(this.row1, this.col1, new None(false));
 	}
 
 	public void makeCapture(Board board,char row,int col){
         this.makeMove(board);
-/*        char x = 'a';
-        int y = 0;
-        //right-up
-        if((getRow1int() - getRow2int()) > 0 && (this.col1 - this.col2) < 0){
-            x = (char) (65 + getRow2int());
-            y = this.col2 - 1;
-        }
-        //right-down
-        else if((getRow1int() - getRow2int()) < 0 && (this.col1 - this.col2) < 0){
-            x = (char) (63 + getRow2int());
-            y = this.col2 - 1;
-        }
-        //left-down
-        else if((getRow1int() - getRow2int()) < 0 && (this.col1 - this.col2) > 0){
-            x = (char) (63 + getRow2int());
-            y = this.col2 + 1;
-        }
-        //left-up
-        else if((getRow1int() - getRow2int()) > 0 && (this.col1 - this.col2) > 0){
-            x = (char) (65 + getRow2int());
-            y = this.col2 + 1;
-        }*/
-        board.setFigure(row,col,new None());
+        board.setFigure(row,col,new None(board.getFigure(this.row1,this.col1).getColor()));
     }
 
 	@Override

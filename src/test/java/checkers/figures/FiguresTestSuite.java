@@ -30,7 +30,7 @@ public class FiguresTestSuite {
     @Test
     public void testNoneToString(){
         //Given
-        Figure none = new None();
+        Figure none = new None(true);
         String s;
         //When
         s = "" + none;
