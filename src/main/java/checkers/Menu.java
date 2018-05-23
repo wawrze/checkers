@@ -34,7 +34,7 @@ public class Menu {
     }
 
 	public static void cls() {
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < 100; i++)
 			System.out.println();
 	}
 
@@ -47,4 +47,6 @@ public class Menu {
 		System.out.println("Press \"Enter\" to continue.");
 		sc.nextLine();
 	}
+
 }
+
