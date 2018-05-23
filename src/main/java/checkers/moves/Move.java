@@ -12,6 +12,8 @@ public class Move {
 	private int col2;
 
 	public Move(char row1, int col1, char row2, int col2) throws IncorrectMoveFormat {
+	    row1 = Character.toUpperCase(row1);
+	    row2 = Character.toUpperCase(row2);
 		if (row1 == 'A' || row1 == 'B' || row1 == 'C' || row1 == 'D' || row1 == 'E' || row1 == 'F' || row1 == 'G'
 				|| row1 == 'H')
 			this.row1 = row1;
@@ -48,10 +50,8 @@ public class Move {
                 return 6;
             case 'G':
                 return 7;
-            case 'H':
-                return 8;
             default:
-                return 0;
+                return 8;
         }
     }
 

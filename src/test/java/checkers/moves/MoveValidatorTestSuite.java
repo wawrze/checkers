@@ -57,16 +57,7 @@ public class MoveValidatorTestSuite {
         Move move = new Move('A',2,'B',3);
         boolean result;
         //When
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch (CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move,true, false);
         //Then
         Assert.assertTrue(result);
     }
@@ -82,16 +73,7 @@ public class MoveValidatorTestSuite {
         //When
         board.setFigure('A',2,pawn1);
         board.setFigure('B',3,pawn2);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch (CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, false);
         //Then
         Assert.assertTrue(result);
     }
@@ -105,16 +87,7 @@ public class MoveValidatorTestSuite {
         boolean result;
         //When
         board.setFigure('A',2,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch (CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, false);
         //Then
         Assert.assertTrue(result);
     }
@@ -128,16 +101,7 @@ public class MoveValidatorTestSuite {
         boolean result;
         //When
         board.setFigure('A',2,pawn);
-        try{
-            MoveValidator.validateMove(move,board,false);
-            result = false;
-        }
-        catch (CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, false, false);
         //Then
         Assert.assertTrue(result);
     }
@@ -151,16 +115,7 @@ public class MoveValidatorTestSuite {
         boolean result;
         //When
         board.setFigure('A',2,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch (CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, false);
         //Then
         Assert.assertTrue(result);
     }
@@ -174,16 +129,7 @@ public class MoveValidatorTestSuite {
         boolean result;
         //When
         board.setFigure('A',2,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch (CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, false);
         //Then
         Assert.assertTrue(result);
     }
@@ -199,16 +145,7 @@ public class MoveValidatorTestSuite {
         //When
         board.setFigure('A',2,pawn1);
         board.setFigure('B',3,pawn2);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = false;
-        }
-        catch(CaptureException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, true);
         //Then
         Assert.assertTrue(result);
     }
@@ -217,21 +154,12 @@ public class MoveValidatorTestSuite {
     public void testWhitePawnDirection() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
-        Move move = new Move('B',3,'A',2);
-        Pawn pawn = new Pawn(true);
+        Move move = new Move('A',2,'B',3);
+        Pawn pawn = new Pawn(false);
         boolean result;
         //When
         board.setFigure('A',2,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch (CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, false, false);
         //Then
         Assert.assertTrue(result);
     }
@@ -240,21 +168,12 @@ public class MoveValidatorTestSuite {
     public void testBlackPawnDirection() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
-        Move move = new Move('A',2,'B',3);
-        Pawn pawn = new Pawn(false);
+        Move move = new Move('B',3,'A',2);
+        Pawn pawn = new Pawn(true);
         boolean result;
         //When
-        board.setFigure('A',2,pawn);
-        try{
-            MoveValidator.validateMove(move,board,false);
-            result = false;
-        }
-        catch (CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        board.setFigure('B',3,pawn);
+        result = isIncorrectMove(board, move, true, false);
         //Then
         Assert.assertTrue(result);
     }
@@ -290,16 +209,23 @@ public class MoveValidatorTestSuite {
         //When
         board.setFigure('A',2,queen);
         board.setFigure('B',3,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch(CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, false);
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testFigureOnWayNoCapture2RightDown() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',2,'G',8);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(true);
+        //When
+        board.setFigure('A',2,queen);
+        board.setFigure('F',7,pawn);
+        result = isIncorrectMove(board, move, true, false);
         //Then
         Assert.assertTrue(result);
     }
@@ -315,16 +241,7 @@ public class MoveValidatorTestSuite {
         //When
         board.setFigure('A',2,queen);
         board.setFigure('F',7,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = false;
-        }
-        catch(CaptureException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, true);
         //Then
         Assert.assertTrue(result);
     }
@@ -360,16 +277,23 @@ public class MoveValidatorTestSuite {
         //When
         board.setFigure('H',1,queen);
         board.setFigure('G',2,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch(CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, false);
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testFigureOnWayNoCapture2RightUp() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',1,'A',8);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(true);
+        //When
+        board.setFigure('H',1,queen);
+        board.setFigure('B',7,pawn);
+        result = isIncorrectMove(board, move, true, false);
         //Then
         Assert.assertTrue(result);
     }
@@ -385,16 +309,7 @@ public class MoveValidatorTestSuite {
         //When
         board.setFigure('H',1,queen);
         board.setFigure('B',7,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = false;
-        }
-        catch(CaptureException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, true);
         //Then
         Assert.assertTrue(result);
     }
@@ -430,19 +345,27 @@ public class MoveValidatorTestSuite {
         //When
         board.setFigure('H',7,queen);
         board.setFigure('G',6,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch(CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, false);
         //Then
         Assert.assertTrue(result);
     }
+
+    @Test
+    public void testFigureOnWayNoCapture2LeftUp() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',7,'B',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(true);
+        //When
+        board.setFigure('H',7,queen);
+        board.setFigure('C',2,pawn);
+        result = isIncorrectMove(board, move, true, false);
+        //Then
+        Assert.assertTrue(result);
+    }
+
 
     @Test
     public void testFigureOnWayAndCaptureLeftUp() throws IncorrectMoveFormat {
@@ -455,16 +378,7 @@ public class MoveValidatorTestSuite {
         //When
         board.setFigure('H',7,queen);
         board.setFigure('C',2,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = false;
-        }
-        catch(CaptureException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, true);
         //Then
         Assert.assertTrue(result);
     }
@@ -500,16 +414,23 @@ public class MoveValidatorTestSuite {
         //When
         board.setFigure('A',8,queen);
         board.setFigure('B',7,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch(CaptureException e){
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, false);
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testFigureOnWayNoCapture2LeftDown() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',8,'H',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(true);
+        //When
+        board.setFigure('A',8,queen);
+        board.setFigure('G',2,pawn);
+        result = isIncorrectMove(board, move, true, false);
         //Then
         Assert.assertTrue(result);
     }
@@ -525,18 +446,26 @@ public class MoveValidatorTestSuite {
         //When
         board.setFigure('A',8,queen);
         board.setFigure('G',2,pawn);
-        try{
-            MoveValidator.validateMove(move,board,true);
-            result = false;
-        }
-        catch(IncorrectMoveException e){
-            result = false;
-        }
-        catch(CaptureException e){
-            result = true;
-        }
+        result = isIncorrectMove(board, move, true, true);
         //Then
         Assert.assertTrue(result);
     }
+
+    private boolean isIncorrectMove(Board board, Move move, boolean player, boolean capture) {
+        boolean result;
+        try{
+            MoveValidator.validateMove(move,board,player);
+            result = false;
+        }
+        catch(IncorrectMoveException e){
+            result = !capture ? true : false;
+        }
+        catch(CaptureException e){
+            result = capture ? true : false;
+        }
+        return result;
+    }
+
+
 
 }

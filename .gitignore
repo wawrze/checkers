@@ -5,3 +5,5 @@
 .project
 *.iml
 **/*.class
+build/*
+.gradle/*

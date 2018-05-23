@@ -19,6 +19,19 @@ public class CapturePossibilityValidator {
                     validatePawnCapture((char) i, j, board);
                 else if (board.getFigure((char) i, j) instanceof Queen && board.getFigure((char) i, j).getColor() == player)
                     validateQueenCapture((char) i, j, board);
+        listCheck();
+    }
+
+    public static void validateCapturePossibilityForOneFigure(Board board,char row,int col) throws CapturePossibleException{
+        listOfCaptures = new LinkedList<>();
+        if(board.getFigure(row,col) instanceof Pawn)
+            validatePawnCapture(row,col,board);
+        else
+            validateQueenCapture(row,col,board);
+        listCheck();
+    }
+
+    private static void listCheck() throws CapturePossibleException{
         if(!listOfCaptures.isEmpty()) {
             String m = "";
             for (String s : listOfCaptures)
@@ -38,7 +51,6 @@ public class CapturePossibilityValidator {
             colCaptureTo = col - i;
             rowCaptured = (char) (((int) row) - i + 1);
             colCaptured = col - i + 1;
-            System.out.println("SPRAWDZANIE: RUCH DO: " + rowCaptureTo + colCaptureTo + ", BICIE: " + rowCaptured + colCaptured);
             if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
                 if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
                     listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);

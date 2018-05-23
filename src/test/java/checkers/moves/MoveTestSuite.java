@@ -4,6 +4,10 @@ import checkers.board.Board;
 import checkers.figures.*;
 import exceptions.IncorrectMoveFormat;
 import org.junit.*;
+import org.mockito.Mock;
+import org.mockito.MockSettings;
+
+import static org.mockito.Mockito.*;
 
 public class MoveTestSuite {
 
@@ -33,7 +37,6 @@ public class MoveTestSuite {
     @Test
     public void testConstructorCorrect(){
         //Given
-        Board board = new Board();
         Move move;
         boolean result;
         //When
@@ -51,30 +54,79 @@ public class MoveTestSuite {
     @Test
     public void testConstructorRowOutOfBound(){
         //Given
-        Board board = new Board();
         Move move;
-        boolean result;
+        boolean result1, result2;
         //When
         try{
-            move = new Move('R',1,'H',8);
-            result = true;
+            move = new Move('R',1,'A',8);
+            result1 = true;
         }
         catch (IncorrectMoveFormat e){
-            result = false;
+            result1 = false;
+        }
+        try{
+            move = new Move('A',1,'R',8);
+            result2 = true;
+        }
+        catch (IncorrectMoveFormat e){
+            result2 = false;
         }
         //Then
-        Assert.assertFalse(result);
+        Assert.assertFalse(result1);
+        Assert.assertFalse(result2);
+    }
+
+    @Test
+    public void testGetRowInt() throws IncorrectMoveFormat{
+        //Given
+        Move move1 = new Move('A',1,'B',1);
+        Move move2 = new Move('C',1,'D',1);
+        Move move3 = new Move('E',1,'F',1);
+        Move move4 = new Move('G',1,'H',1);
+        Move moveMock = mock(Move.class);
+        when(moveMock.getRow1()).thenReturn('I');
+        int result1, result2, result3, result4, result5, result6, result7,result8, result9;
+        //When
+        result1 = move1.getRow1int();
+        result2 = move1.getRow2int();
+        result3 = move2.getRow1int();
+        result4 = move2.getRow2int();
+        result5 = move3.getRow1int();
+        result6 = move3.getRow2int();
+        result7 = move4.getRow1int();
+        result8 = move4.getRow2int();
+        result9 = moveMock.getRow1int();
+        //Then
+        Assert.assertEquals(1,result1);
+        Assert.assertEquals(2,result2);
+        Assert.assertEquals(3,result3);
+        Assert.assertEquals(4,result4);
+        Assert.assertEquals(5,result5);
+        Assert.assertEquals(6,result6);
+        Assert.assertEquals(7,result7);
+        Assert.assertEquals(8,result8);
+        Assert.assertEquals(0,result9);
+    }
+
+    @Test
+    public void testToString() throws IncorrectMoveFormat{
+        //Given
+        Move move = new Move('A', 1, 'B', 2);
+        String s;
+        //When
+        s = "" + move;
+        //Then
+        Assert.assertTrue(s.equals("A1-B2"));
     }
 
     @Test
     public void testConstructorColToLow(){
         //Given
-        Board board = new Board();
         Move move;
         boolean result;
         //When
         try{
-            move = new Move('A',0,'H',8);
+            move = new Move('A',0,'H',9);
             result = true;
         }
         catch (IncorrectMoveFormat e){

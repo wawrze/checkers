@@ -7,11 +7,6 @@ public class Pawn extends Figure {
 	}
 
 	@Override
-	public boolean getColor() {
-		return this.color;
-	}
-
-	@Override
 	public String toString() {
 		if(this.color == true)
 			return "PP";
