@@ -13,11 +13,13 @@ public class Game {
     private Board board;
     private LinkedList<Move> moves;
     private boolean player;
+    private boolean simplePrint;
 
     public Game() {
         board = new Board();
         moves = new LinkedList<>();
         player = false;
+        simplePrint = false;
 
         board.setFigure('A', 2, new Queen(true));
 		/*board.setFigure('A', 2, new Pawn(true));
@@ -57,7 +59,10 @@ public class Game {
         Scanner sc = new Scanner(System.in);
         String s;
         Menu.cls();
-        System.out.println(board);
+        if(this.simplePrint)
+            board.printSimple();
+        else
+            System.out.println(board);
         System.out.print("Player: ");
         if (player)
             System.out.print("BLACK");
@@ -145,7 +150,10 @@ public class Game {
             Scanner sc = new Scanner(System.in);
             String s;
             Menu.cls();
-            System.out.println(board);
+            if(simplePrint)
+                board.printSimple();
+            else
+                System.out.println(board);
             System.out.print("Player: ");
             if (player)
                 System.out.print("BLACK");
@@ -200,6 +208,9 @@ public class Game {
             case "h":
                 this.printMoveHistory();
                 Menu.waitForEnter();
+                return true;
+            case "p":
+                this.simplePrint = !this.simplePrint;
                 return true;
             case "x":
                 return true;

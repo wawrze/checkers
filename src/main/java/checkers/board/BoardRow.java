@@ -24,7 +24,7 @@ class BoardRow {
 		figures.set(col, figure);
 	}
 
-	public String printRow(char c) {
+	public String printRowSimple(char c) {
 		String row = "\n";
 		String tmp = "";
 		switch (c) {
