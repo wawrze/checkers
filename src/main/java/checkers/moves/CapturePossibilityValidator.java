@@ -15,14 +15,19 @@ public class CapturePossibilityValidator {
         listOfCaptures = new LinkedList<>();
         for(int i = 65;i<73;i++)
             for (int j = 1; j < 9; j++)
-                if (board.getFigure((char) i, j) instanceof Pawn && board.getFigure((char) i, j).getColor() == player)
+                if (board.getFigure((char) i, j) instanceof Pawn
+                        && board.getFigure((char) i, j).getColor() == player) {
                     validatePawnCapture((char) i, j, board);
-                else if (board.getFigure((char) i, j) instanceof Queen && board.getFigure((char) i, j).getColor() == player)
+                }
+                else if (board.getFigure((char) i, j) instanceof Queen
+                        && board.getFigure((char) i, j).getColor() == player) {
                     validateQueenCapture((char) i, j, board);
+                }
         listCheck();
     }
 
-    public static void validateCapturePossibilityForOneFigure(Board board,char row,int col) throws CapturePossibleException{
+    public static void validateCapturePossibilityForOneFigure(Board board,char row,int col)
+            throws CapturePossibleException{
         listOfCaptures = new LinkedList<>();
         if(board.getFigure(row,col) instanceof Pawn)
             validatePawnCapture(row,col,board);
@@ -161,10 +166,14 @@ public class CapturePossibilityValidator {
     }
 
     private static boolean validate(char row1,int col1,char row2, int col2, char row3, int col3, Board board){
-        if(!(board.getFigure(row3,col3) instanceof None) && board.getFigure(row1,col1).getColor() != board.getFigure(row3,col3).getColor() && board.getFigure(row2,col2) instanceof None)
+        if(!(board.getFigure(row3,col3) instanceof None)
+                && board.getFigure(row1,col1).getColor() != board.getFigure(row3,col3).getColor()
+                && board.getFigure(row2,col2) instanceof None) {
             return true;
-        else
+        }
+        else {
             return false;
+        }
     }
 
 }

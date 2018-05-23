@@ -1,5 +1,7 @@
 package checkers.figures;
 
+import exceptions.UnknownException;
+
 public class Pawn extends Figure {
 	
 	public Pawn(boolean color) {
@@ -31,7 +33,7 @@ public class Pawn extends Figure {
                 temp = "└───┘";
                 break;
             default:
-                break;                  //MIEJSCE NA WYJATEK
+                throw new UnknownException();
         }
         return temp;
     }

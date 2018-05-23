@@ -6,12 +6,13 @@ import checkers.moves.*;
 import exceptions.*;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
 
     private Board board;
-    private LinkedList<Move> moves;
+    private List<String> moves;
     private boolean player;
     private boolean simplePrint;
 
@@ -58,6 +59,7 @@ public class Game {
     private boolean waitForMove() {
         Scanner sc = new Scanner(System.in);
         String s;
+        String captures = "";
         Menu.cls();
         if(this.simplePrint)
             board.printSimple();
@@ -73,7 +75,8 @@ public class Game {
             CapturePossibilityValidator.validateCapturePossibility(board,player);
         }
         catch(CapturePossibleException e){
-            System.out.println("You have to capture: " + e.getMessage());
+            captures = e.getMessage();
+            System.out.println("You have to capture: " + captures);
         }
         s = sc.nextLine();
         if(inGameMenu(s)) {
@@ -82,9 +85,16 @@ public class Game {
             else
                 return true;
         }
+        s = s.toUpperCase();
         try{
             validate(s);
-            this.makeMove(s);
+            if(captures.isEmpty() || captures.contains(s))
+                this.makeMove(s);
+            else{
+                System.out.println("You have to capture!");
+                Menu.waitForEnter();
+                return true;
+            }
         }
         catch(IncorrectMoveFormat e){
             System.out.println("Incorrect move format! Proper format example: E4-D5");
@@ -98,7 +108,7 @@ public class Game {
         if(moves.isEmpty())
             System.out.println("No moves history.");
         else
-            for (Move m : moves)
+            for (String m : moves)
                 System.out.println(m);
     }
 
@@ -121,12 +131,12 @@ public class Game {
         Move move = new Move(x1, y1, x2, y2);
         try {
             MoveValidator.validateMove(move, this.board, this.player);
-            moves.add(move);
+            moves.add((player ? "black: " : "white: ") + move);
             move.makeMove(board);
             this.player = !this.player;
             System.out.println("Move done.");
         }catch (CaptureException e){
-            moves.add(move);
+            moves.add((player ? "black: " : "white: ") + move);
             move.makeCapture(board,e.getRow(),e.getCol());
             boolean b;
             do
@@ -168,8 +178,8 @@ public class Game {
                 else
                     return true;
             }
+            s = s.toUpperCase();
             try{
-                s = s.toUpperCase();
                 validate(s);
                 if(e.getMessage().contains(s)){
                     String[] sArray = s.split("-");
@@ -178,21 +188,24 @@ public class Game {
                     char x2 = sArray[1].charAt(0);
                     int y2 = Character.getNumericValue(sArray[1].charAt(1));
                     move = new Move(x1, y1, x2, y2);
-                    moves.add(move);
                     try{
                         MoveValidator.validateMove(move,this.board,this.player);
                         System.out.println("Incorrect move!");
+                        Menu.waitForEnter();
                     }
                     catch(CaptureException e1){
-                        moves.add(move);
+                        moves.add((player ? "black: " : "white: ") + move);
                         move.makeCapture(board,e1.getRow(),e1.getCol());
                     }
                     catch(IncorrectMoveException e1){
                         System.out.println("Incorrect move!");
+                        Menu.waitForEnter();
                     }
                 }
-                else
+                else {
                     System.out.println("Incorrect move!");
+                    Menu.waitForEnter();
+                }
             }
             catch(IncorrectMoveFormat e1){
                 System.out.println("Incorrect move format! Proper format example: E4-D5");

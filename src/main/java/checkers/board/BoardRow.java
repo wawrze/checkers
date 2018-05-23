@@ -1,6 +1,7 @@
 package checkers.board;
 
 import checkers.figures.*;
+import exceptions.UnknownException;
 
 import java.util.ArrayList;
 
@@ -156,7 +157,7 @@ class BoardRow {
                     tmp += " " + this.figures.get(i).print(2) + " ";
             row += ("\n ║" + tmp + "║");
         }else
-            ;               // MIEJSCE NA WYJATEK
+            throw new UnknownException();
         return row;
     }
 

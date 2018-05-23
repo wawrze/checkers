@@ -1,5 +1,7 @@
 package checkers.figures;
 
+import exceptions.UnknownException;
+
 public class Queen extends Figure {
 
 	public Queen(boolean color) {
@@ -31,7 +33,7 @@ public class Queen extends Figure {
                 temp = "╚═══╝";
                 break;
             default:
-                break;                  //MIEJSCE NA WYJATEK
+                throw new UnknownException();
         }
         return temp;
     }

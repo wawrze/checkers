@@ -6,7 +6,8 @@ import exceptions.*;
 
 public class MoveValidator {
 
-    public static void validateMove(Move move, Board board, boolean player) throws CaptureException, IncorrectMoveException {
+    public static void validateMove(Move move, Board board, boolean player)
+            throws CaptureException, IncorrectMoveException {
         validateBias(move);
         validateField1(move, board);
         validateField2(move, board);
@@ -43,7 +44,8 @@ public class MoveValidator {
             throw new IncorrectMoveException("Not your figure!");
     }
 
-    private static void validatePawnMove(Move move, Board board, boolean player) throws CaptureException, IncorrectMoveException {
+    private static void validatePawnMove(Move move, Board board, boolean player)
+            throws CaptureException, IncorrectMoveException {
         validateDirection(move, player);
         validateRange(move, board);
     }
@@ -56,10 +58,13 @@ public class MoveValidator {
         if ((Math.abs(x1 - x2) == 2) && (Math.abs(y1 - y2) == 2)) {
             char x = (char) (((x1 + x2) / 2) + 64);
             int y = ((y1 + y2) / 2);
-            if (!(board.getFigure(x, y) instanceof None) && board.getFigure(x, y).getColor() != board.getFigure(move.getRow1(), move.getCol1()).getColor())
+            if (!(board.getFigure(x, y) instanceof None)
+                    && board.getFigure(x, y).getColor() != board.getFigure(move.getRow1(), move.getCol1()).getColor()) {
                 throw new CaptureException(x, y);
-            else
+            }
+            else {
                 throw new IncorrectMoveException("Invalid range!");
+            }
         } else if ((Math.abs(x1 - x2) != 1) || (Math.abs(y1 - y2) != 1))
             throw new IncorrectMoveException("Invalid range!");
     }
@@ -74,12 +79,14 @@ public class MoveValidator {
         }
     }
 
-    private static void validateQueenMove(Move move, Board board, boolean player) throws IncorrectMoveException, CaptureException {
+    private static void validateQueenMove(Move move, Board board, boolean player)
+            throws IncorrectMoveException, CaptureException {
         validateOnWay(move, board, player);
         //to validate: is it capture
     }
 
-    private static void validateOnWay(Move move, Board board, boolean player) throws IncorrectMoveException, CaptureException {
+    private static void validateOnWay(Move move, Board board, boolean player)
+            throws IncorrectMoveException, CaptureException {
         int x1 = move.getRow1int();
         int y1 = move.getCol1();
         int x2 = move.getRow2int();
