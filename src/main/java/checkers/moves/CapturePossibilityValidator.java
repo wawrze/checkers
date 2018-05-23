@@ -40,44 +40,78 @@ public class CapturePossibilityValidator {
         }
     }
 
-    private static void validateQueenCapture(char row, int col, Board board){
-        char rowCaptureTo;
-        int colCaptureTo;
-        char rowCaptured;
-        int colCaptured;
+    private static void validateQueenCapture(char row1, int col1, Board board){
+        char row2;
+        int col2;
+        Move move = null;
         for(int i = 2;i<9;i++) {
             //left-up
-            rowCaptureTo = (char) (((int) row) - i);
-            colCaptureTo = col - i;
-            rowCaptured = (char) (((int) row) - i + 1);
-            colCaptured = col - i + 1;
-            if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
-                if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
-                    listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
+            row2 = (char) (((int) row1) - i);
+            col2 = col1 - i;
+            try {
+                move = new Move(row1, col1, row2, col2);
+            }
+            catch (IncorrectMoveFormat e) {
+                break;
+            }
+            try {
+                MoveValidator.validateMove(move, board, board.getFigure(row1, col1).getColor());
+            } catch (IncorrectMoveException e) {}
+            catch (CaptureException e) {
+                listOfCaptures.add("" + row1 + col1 + "-" + row2 + col2);
+            }
+        }
+        for(int i = 2;i<9;i++) {
             //right-up
-            rowCaptureTo = (char) (((int) row) - i);
-            colCaptureTo = col + i;
-            rowCaptured = (char) (((int) row) - i + 1);
-            colCaptured = col + i - 1;
-            if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
-                if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
-                    listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
+            row2 = (char) (((int) row1) - i);
+            col2 = col1 + i;
+            try {
+                move = new Move(row1, col1, row2, col2);
+            } catch (IncorrectMoveFormat e) {
+                break;
+            }
+            try {
+                MoveValidator.validateMove(move, board, board.getFigure(row1, col1).getColor());
+            }
+            catch (IncorrectMoveException e) {}
+            catch (CaptureException e) {
+                listOfCaptures.add("" + row1 + col1 + "-" + row2 + col2);
+            }
+        }
+        for(int i = 2;i<9;i++) {
             //right-down
-            rowCaptureTo = (char) (((int) row) + i);
-            colCaptureTo = col + i;
-            rowCaptured = (char) (((int) row) + i - 1);
-            colCaptured = col + i - 1;
-            if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
-                if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
-                    listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
+            row2 = (char) (((int) row1) + i);
+            col2 = col1 + i;
+            try {
+                move = new Move(row1, col1, row2, col2);
+            } catch (IncorrectMoveFormat e) {
+                break;
+            }
+            try {
+                MoveValidator.validateMove(move, board, board.getFigure(row1, col1).getColor());
+            } catch (IncorrectMoveException e) {
+            } catch (CaptureException e) {
+                listOfCaptures.add("" + row1 + col1 + "-" + row2 + col2);
+            }
+        }
+        for(int i = 2;i<9;i++) {
             //left-down
-            rowCaptureTo = (char) (((int) row) + i);
-            colCaptureTo = col - i;
-            rowCaptured = (char) (((int) row) + i - 1);
-            colCaptured = col - i + 1;
-            if(isOnBoard((int) rowCaptureTo,colCaptureTo) && isOnBoard((int) rowCaptured, colCaptured))
-                if(validate(row,col,rowCaptureTo,colCaptureTo,rowCaptured,colCaptured,board))
-                    listOfCaptures.add("" + row + col + "-" + rowCaptureTo  + colCaptureTo);
+            row2 = (char) (((int) row1) + i);
+            col2 = col1 - i;
+            try {
+                move = new Move(row1, col1, row2, col2);
+            }
+            catch(IncorrectMoveFormat e){
+                break;
+            }
+            try{
+                MoveValidator.validateMove(move,board,board.getFigure(row1,col1).getColor());
+            }
+            catch(IncorrectMoveException e){
+            }
+            catch(CaptureException e){
+                listOfCaptures.add("" + row1 + col1 + "-" + row2  + col2);
+            }
         }
     }
 

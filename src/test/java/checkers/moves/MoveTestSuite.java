@@ -109,6 +109,17 @@ public class MoveTestSuite {
     }
 
     @Test
+    public void testToUpperCase() throws IncorrectMoveFormat{
+        //Given
+        Move move;
+        //When
+        move = new Move('a',1,'b',2);
+        //Then
+        Assert.assertEquals('A',move.getRow1());
+        Assert.assertEquals('B',move.getRow2());
+    }
+
+    @Test
     public void testToString() throws IncorrectMoveFormat{
         //Given
         Move move = new Move('A', 1, 'B', 2);
@@ -241,7 +252,7 @@ public class MoveTestSuite {
         //When
         board.setFigure('A',2,pawn1);
         board.setFigure('B',3,pawn2);
-        move.makeCapture(board);
+        move.makeCapture(board,'B',3);
         //Then
         Assert.assertEquals(pawn1,board.getFigure('C',4));
         Assert.assertTrue(board.getFigure('B',3) instanceof None);
@@ -257,7 +268,7 @@ public class MoveTestSuite {
         //When
         board.setFigure('C',2,pawn1);
         board.setFigure('B',3,pawn2);
-        move.makeCapture(board);
+        move.makeCapture(board,'B',3);
         //Then
         Assert.assertEquals(pawn1,board.getFigure('A',4));
         Assert.assertTrue(board.getFigure('B',3) instanceof None);
@@ -273,7 +284,7 @@ public class MoveTestSuite {
         //When
         board.setFigure('C',4,pawn1);
         board.setFigure('B',3,pawn2);
-        move.makeCapture(board);
+        move.makeCapture(board,'B',3);
         //Then
         Assert.assertEquals(pawn1,board.getFigure('A',2));
         Assert.assertTrue(board.getFigure('B',3) instanceof None);
@@ -289,7 +300,7 @@ public class MoveTestSuite {
         //When
         board.setFigure('A',4,pawn1);
         board.setFigure('B',3,pawn2);
-        move.makeCapture(board);
+        move.makeCapture(board,'B',3);
         //Then
         Assert.assertEquals(pawn1,board.getFigure('C',2));
         Assert.assertTrue(board.getFigure('B',3) instanceof None);

@@ -199,7 +199,7 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWayNoCaptureRightDown() throws IncorrectMoveFormat {
+    public void testQueenMoveFigureOnWayNoCaptureRightDown() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'G',8);
@@ -215,7 +215,7 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWayNoCapture2RightDown() throws IncorrectMoveFormat {
+    public void testQueenMoveFigureOnWayNoCapture2RightDown() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'G',8);
@@ -231,7 +231,25 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWayAndCaptureRightDown() throws IncorrectMoveFormat {
+    public void testQueenMoveTwoFiguresOnWayNoCaptureRightDown() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',2,'G',8);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn1 = new Pawn(false);
+        Pawn pawn2 = new Pawn(false);
+        //When
+        board.setFigure('A',2,queen);
+        board.setFigure('F',7,pawn1);
+        board.setFigure('D',5,pawn2);
+        result = isIncorrectMove(board, move, true, false);
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testQueenMoveFigureOnWayAndCaptureRightDown() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'G',8);
@@ -267,7 +285,7 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWayNoCaptureRightUp() throws IncorrectMoveFormat {
+    public void testQueenMoveFigureOnWayNoCaptureRightUp() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('H',1,'A',8);
@@ -283,7 +301,7 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWayNoCapture2RightUp() throws IncorrectMoveFormat {
+    public void testQueenMoveFigureOnWayNoCapture2RightUp() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('H',1,'A',8);
@@ -299,7 +317,25 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWayAndCaptureRightUp() throws IncorrectMoveFormat {
+    public void testQueenMoveTwoFiguresOnWayNoCaptureRightUp() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',1,'A',8);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn1 = new Pawn(false);
+        Pawn pawn2 = new Pawn(false);
+        //When
+        board.setFigure('H',1,queen);
+        board.setFigure('G',2,pawn1);
+        board.setFigure('E',4,pawn2);
+        result = isIncorrectMove(board, move, true, false);
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testQueenMoveFigureOnWayAndCaptureRightUp() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('H',1,'A',8);
@@ -335,7 +371,7 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWayNoCaptureLeftUp() throws IncorrectMoveFormat {
+    public void testQueenMoveFigureOnWayNoCaptureLeftUp() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('H',7,'B',1);
@@ -351,7 +387,7 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWayNoCapture2LeftUp() throws IncorrectMoveFormat {
+    public void testQueenMoveFigureOnWayNoCapture2LeftUp() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('H',7,'B',1);
@@ -366,9 +402,26 @@ public class MoveValidatorTestSuite {
         Assert.assertTrue(result);
     }
 
+    @Test
+    public void testQueenMoveTwoFiguresOnWayNoCaptureLeftUp() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',7,'B',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn1 = new Pawn(false);
+        Pawn pawn2 = new Pawn(false);
+        //When
+        board.setFigure('H',7,queen);
+        board.setFigure('G',6,pawn1);
+        board.setFigure('E',4,pawn2);
+        result = isIncorrectMove(board, move, true, false);
+        //Then
+        Assert.assertTrue(result);
+    }
 
     @Test
-    public void testFigureOnWayAndCaptureLeftUp() throws IncorrectMoveFormat {
+    public void testQueenMoveFigureOnWayAndCaptureLeftUp() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('H',7,'B',1);
@@ -404,7 +457,7 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWayNoCaptureLeftDown() throws IncorrectMoveFormat {
+    public void testQueenMoveFigureOnWayNoCaptureLeftDown() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('A',8,'H',1);
@@ -420,7 +473,7 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWayNoCapture2LeftDown() throws IncorrectMoveFormat {
+    public void testQueenMoveFigureOnWayNoCapture2LeftDown() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('A',8,'H',1);
@@ -436,7 +489,25 @@ public class MoveValidatorTestSuite {
     }
 
     @Test
-    public void testFigureOnWayAndCaptureLeftDown() throws IncorrectMoveFormat {
+    public void testQueenMoveTwoFiguresOnWayNoCaptureLeftDown() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',8,'H',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn1 = new Pawn(false);
+        Pawn pawn2 = new Pawn(false);
+        //When
+        board.setFigure('A',8,queen);
+        board.setFigure('B',7,pawn1);
+        board.setFigure('D',5,pawn2);
+        result = isIncorrectMove(board, move, true, false);
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testQueenMoveFigureOnWayAndCaptureLeftDown() throws IncorrectMoveFormat {
         //Given
         Board board = new Board();
         Move move = new Move('A',8,'H',1);
@@ -462,6 +533,8 @@ public class MoveValidatorTestSuite {
         }
         catch(CaptureException e){
             result = capture ? true : false;
+            e.getCol();
+            e.getRow();
         }
         return result;
     }

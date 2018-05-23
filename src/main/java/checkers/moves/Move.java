@@ -89,9 +89,9 @@ public class Move {
 		board.setFigure(this.row1, this.col1, new None());
 	}
 
-	public void makeCapture(Board board){
+	public void makeCapture(Board board,char row,int col){
         this.makeMove(board);
-        char x = 'a';
+/*        char x = 'a';
         int y = 0;
         //right-up
         if((getRow1int() - getRow2int()) > 0 && (this.col1 - this.col2) < 0){
@@ -112,8 +112,8 @@ public class Move {
         else if((getRow1int() - getRow2int()) > 0 && (this.col1 - this.col2) > 0){
             x = (char) (65 + getRow2int());
             y = this.col2 + 1;
-        }
-        board.setFigure(x,y,new None());
+        }*/
+        board.setFigure(row,col,new None());
     }
 
 	@Override

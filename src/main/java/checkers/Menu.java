@@ -5,14 +5,13 @@ import java.util.Scanner;
 public class Menu {
 
 	public void start() {
-/*		Scanner sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 		String o;
 		do {
 			this.printMenu();
 			o = sc.nextLine();
 			this.option(o);
-		} while (!o.equals("x"));*/
-this.newGame();
+		} while (!o.equals("x"));
 	}
 
 	private void printMenu() {

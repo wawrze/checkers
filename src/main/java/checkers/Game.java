@@ -122,13 +122,13 @@ public class Game {
             System.out.println("Move done.");
         }catch (CaptureException e){
             moves.add(move);
-            move.makeCapture(board);
+            move.makeCapture(board,e.getRow(),e.getCol());
             boolean b;
             do
                 b = waitForMoveMultiCapture(move);
             while (b);
             this.player = !this.player;
-            System.out.println(e.getMessage());
+            System.out.println("Capture done.");
         }catch (IncorrectMoveException e){
             System.out.println("Incorrect move: " + e.getMessage());
         }finally{
@@ -161,6 +161,7 @@ public class Game {
                     return true;
             }
             try{
+                s = s.toUpperCase();
                 validate(s);
                 if(e.getMessage().contains(s)){
                     String[] sArray = s.split("-");
@@ -170,8 +171,20 @@ public class Game {
                     int y2 = Character.getNumericValue(sArray[1].charAt(1));
                     move = new Move(x1, y1, x2, y2);
                     moves.add(move);
-                    move.makeMove(board);
+                    try{
+                        MoveValidator.validateMove(move,this.board,this.player);
+                        System.out.println("Incorrect move!");
+                    }
+                    catch(CaptureException e1){
+                        moves.add(move);
+                        move.makeCapture(board,e1.getRow(),e1.getCol());
+                    }
+                    catch(IncorrectMoveException e1){
+                        System.out.println("Incorrect move!");
+                    }
                 }
+                else
+                    System.out.println("Incorrect move!");
             }
             catch(IncorrectMoveFormat e1){
                 System.out.println("Incorrect move format! Proper format example: E4-D5");
