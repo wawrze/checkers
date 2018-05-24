@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class Menu {
 
 	public void start() {
-		Scanner sc = new Scanner(System.in);
+//        newGame();
+        Scanner sc = new Scanner(System.in);
 		String o;
 		do {
 			this.printMenu();

@@ -20,7 +20,35 @@ public class Board {
         rows.put('H', new BoardRow(false));
 	}
 
-	public Figure getFigure(char row, int col) {
+	public Board(Board board){
+        this.rows = new HashMap<Character, BoardRow>();
+        rows.put('A', new BoardRow(true));
+        for(int i = 1;i<9;i++)
+            rows.get('A').setFigure(i,board.getFigure('A',i));
+        rows.put('B', new BoardRow(false));
+        for(int i = 1;i<9;i++)
+            rows.get('B').setFigure(i,board.getFigure('B',i));
+        rows.put('C', new BoardRow(true));
+        for(int i = 1;i<9;i++)
+            rows.get('C').setFigure(i,board.getFigure('C',i));
+        rows.put('D', new BoardRow(false));
+        for(int i = 1;i<9;i++)
+            rows.get('D').setFigure(i,board.getFigure('D',i));
+        rows.put('E', new BoardRow(true));
+        for(int i = 1;i<9;i++)
+            rows.get('E').setFigure(i,board.getFigure('E',i));
+        rows.put('F', new BoardRow(false));
+        for(int i = 1;i<9;i++)
+            rows.get('F').setFigure(i,board.getFigure('F',i));
+        rows.put('G', new BoardRow(true));
+        for(int i = 1;i<9;i++)
+            rows.get('G').setFigure(i,board.getFigure('G',i));
+        rows.put('H', new BoardRow(false));
+        for(int i = 1;i<9;i++)
+            rows.get('H').setFigure(i,board.getFigure('H',i));
+    }
+
+    public Figure getFigure(char row, int col) {
 		return this.rows.get(row).getFigure(col);
 	}
 

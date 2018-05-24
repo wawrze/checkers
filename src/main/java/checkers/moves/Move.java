@@ -80,12 +80,7 @@ public class Move {
 	}
 
 	public void makeMove(Board board) {
-        if(board.getFigure(this.row1, this.col1).getColor() && (this.row2) == 'H')
-            board.setFigure(this.row2, this.col2, new Queen(true));
-        else if(!board.getFigure(this.row1, this.col1).getColor() && (this.row2) == 'A')
-            board.setFigure(this.row2, this.col2, new Queen(false));
-        else
-            board.setFigure(this.row2, this.col2, board.getFigure(this.row1, this.col1));
+        board.setFigure(this.row2, this.col2, board.getFigure(this.row1, this.col1));
         board.setFigure(this.row1, this.col1, new None(false));
 	}
 

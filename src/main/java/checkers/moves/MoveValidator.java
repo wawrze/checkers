@@ -46,8 +46,8 @@ public class MoveValidator {
 
     private static void validatePawnMove(Move move, Board board, boolean player)
             throws CaptureException, IncorrectMoveException {
-        validateDirection(move, player);
         validateRange(move, board);
+        validateDirection(move, player);
     }
 
     private static void validateRange(Move move, Board board) throws CaptureException, IncorrectMoveException {

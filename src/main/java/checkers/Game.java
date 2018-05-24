@@ -22,8 +22,7 @@ public class Game {
         player = false;
         simplePrint = false;
 
-        board.setFigure('A', 2, new Queen(true));
-		/*board.setFigure('A', 2, new Pawn(true));
+		board.setFigure('A', 2, new Pawn(true));
 		board.setFigure('A', 4, new Pawn(true));
 		board.setFigure('A', 6, new Pawn(true));
 		board.setFigure('A', 8, new Pawn(true));
@@ -31,25 +30,23 @@ public class Game {
 		board.setFigure('B', 3, new Pawn(true));
 		board.setFigure('B', 5, new Pawn(true));
 		board.setFigure('B', 7, new Pawn(true));
-		board.setFigure('C', 2, new Pawn(true));*/
+		board.setFigure('C', 2, new Pawn(true));
         board.setFigure('C', 4, new Pawn(true));
         board.setFigure('C', 6, new Pawn(true));
-		/*board.setFigure('C', 8, new Pawn(true));
+		board.setFigure('C', 8, new Pawn(true));
 
 		board.setFigure('F', 1, new Pawn(false));
-		board.setFigure('F', 3, new Pawn(false));*/
+		board.setFigure('F', 3, new Pawn(false));
         board.setFigure('F', 5, new Pawn(false));
         board.setFigure('F', 7, new Pawn(false));
         board.setFigure('G', 2, new Pawn(false));
         board.setFigure('G', 4, new Pawn(false));
-		/*board.setFigure('G', 6, new Pawn(false));
+		board.setFigure('G', 6, new Pawn(false));
 		board.setFigure('G', 8, new Pawn(false));
 		board.setFigure('H', 1, new Pawn(false));
 		board.setFigure('H', 3, new Pawn(false));
 		board.setFigure('H', 5, new Pawn(false));
-		board.setFigure('H', 7, new Pawn(false));*/
-        board.setFigure('H', 7, new Queen(false));
-
+		board.setFigure('H', 7, new Pawn(false));
         boolean b;
         do
             b = this.waitForMove();
@@ -65,14 +62,10 @@ public class Game {
             board.printSimple();
         else
             System.out.println(board);
-        System.out.print("Player: ");
-        if (player)
-            System.out.print("BLACK");
-        else
-            System.out.print("WHITE");
+        System.out.print("Player: " + (player ? "BLACK" : "WHITE"));
         System.out.println(". Enter your next move, or \"h\" for move history: ");
         try {
-            CapturePossibilityValidator.validateCapturePossibility(board,player);
+            (new CapturePossibilityValidator(board,player)).validateCapturePossibility();
         }
         catch(CapturePossibleException e){
             captures = e.getMessage();
@@ -138,82 +131,75 @@ public class Game {
         }catch (CaptureException e){
             moves.add((player ? "black: " : "white: ") + move);
             move.makeCapture(board,e.getRow(),e.getCol());
-            boolean b;
-            do
-                b = waitForMoveMultiCapture(move);
-            while (b);
-            this.player = !this.player;
+            multiCapture(move);
             System.out.println("Capture done.");
+            this.player = !this.player;
         }catch (IncorrectMoveException e){
             System.out.println("Incorrect move: " + e.getMessage());
         }finally{
+            if(board.getFigure(move.getRow2(), move.getCol2()).getColor() && (move.getRow2()) == 'H')
+                board.setFigure('H', move.getCol2(), new Queen(true));
+            if(!board.getFigure(move.getRow2(), move.getCol2()).getColor() && (move.getRow2()) == 'A')
+                board.setFigure('A', move.getCol2(), new Queen(false));
             Menu.waitForEnter();
         }
     }
 
-    private boolean waitForMoveMultiCapture(Move move) {
-        try{
-            CapturePossibilityValidator.validateCapturePossibilityForOneFigure(board,move.getRow2(),move.getCol2());
-            return false;
-        }
-        catch(CapturePossibleException e){
-            Scanner sc = new Scanner(System.in);
-            String s;
-            Menu.cls();
-            if(simplePrint)
-                board.printSimple();
-            else
-                System.out.println(board);
-            System.out.print("Player: ");
-            if (player)
-                System.out.print("BLACK");
-            else
-                System.out.print("WHITE");
-            System.out.println(". You have to continue capturing, enter your move or \"h\" for move history: ");
-            System.out.println("Possible captures: " + e.getMessage());
-            s = sc.nextLine();
-            if(inGameMenu(s)) {
-                if (s.equals("x"))
-                    return false;
-                else
-                    return true;
-            }
-            s = s.toUpperCase();
+    private void multiCapture(Move move) {
+        do {
             try{
-                validate(s);
-                if(e.getMessage().contains(s)){
-                    String[] sArray = s.split("-");
-                    char x1 = sArray[0].charAt(0);
-                    int y1 = Character.getNumericValue(sArray[0].charAt(1));
-                    char x2 = sArray[1].charAt(0);
-                    int y2 = Character.getNumericValue(sArray[1].charAt(1));
-                    move = new Move(x1, y1, x2, y2);
-                    try{
-                        MoveValidator.validateMove(move,this.board,this.player);
-                        System.out.println("Incorrect move!");
-                        Menu.waitForEnter();
+                (new CapturePossibilityValidator(board,player)).validateCapturePossibilityForOneFigure(move.getRow2(),move.getCol2());
+                break;
+            }
+            catch(CapturePossibleException e){
+                Scanner sc = new Scanner(System.in);
+                String s;
+                Menu.cls();
+                if(simplePrint)
+                    board.printSimple();
+                else
+                    System.out.println(board);
+                System.out.print("Player: " + (player ? "BLACK" : "WHITE"));
+                System.out.println(". You have to continue capturing, enter your move or \"h\" for move history: ");
+                System.out.println("Possible captures: " + e.getMessage());
+                s = sc.nextLine();
+                s = s.toUpperCase();
+                try{
+                    validate(s);
+                    if(e.getMessage().contains(s)){
+                        String[] sArray = s.split("-");
+                        char x1 = sArray[0].charAt(0);
+                        int y1 = Character.getNumericValue(sArray[0].charAt(1));
+                        char x2 = sArray[1].charAt(0);
+                        int y2 = Character.getNumericValue(sArray[1].charAt(1));
+                        move = new Move(x1, y1, x2, y2);
+                        try{
+                            MoveValidator.validateMove(move,this.board,this.player);
+                            System.out.println("Incorrect move!");
+                            Menu.waitForEnter();
+                        }
+                        catch(CaptureException e1){
+                            moves.add((player ? "black: " : "white: ") + move);
+                            move.makeCapture(board,e1.getRow(),e1.getCol());
+                        }
+                        catch(IncorrectMoveException e1){
+                            System.out.println("Incorrect move!");
+                            Menu.waitForEnter();
+                        }
                     }
-                    catch(CaptureException e1){
-                        moves.add((player ? "black: " : "white: ") + move);
-                        move.makeCapture(board,e1.getRow(),e1.getCol());
-                    }
-                    catch(IncorrectMoveException e1){
+                    else {
                         System.out.println("Incorrect move!");
                         Menu.waitForEnter();
                     }
                 }
-                else {
-                    System.out.println("Incorrect move!");
+                catch(IncorrectMoveFormat e1){
+                    System.out.println("Incorrect move format! Proper format example: E4-D5");
                     Menu.waitForEnter();
+                    continue;
                 }
+                continue;
             }
-            catch(IncorrectMoveFormat e1){
-                System.out.println("Incorrect move format! Proper format example: E4-D5");
-                Menu.waitForEnter();
-                return true;
-            }
-            return true;
-        }
+        }while (true);
     }
 
     private boolean inGameMenu(String s){
