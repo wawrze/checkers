@@ -1,6 +1,6 @@
 package checkers;
 
-import checkers.Game.Game;
+import checkers.gameplay.Game;
 
 import java.util.Scanner;
 

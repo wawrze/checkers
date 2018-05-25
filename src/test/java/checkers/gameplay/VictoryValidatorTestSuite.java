@@ -1,4 +1,4 @@
-package checkers.Game;
+package checkers.gameplay;
 
 import checkers.board.Board;
 import checkers.figures.Pawn;
@@ -7,7 +7,7 @@ import org.junit.*;
 
 public class VictoryValidatorTestSuite {
 
-    private static int counter = 1;
+private static int counter = 1;
 
     @BeforeClass
     public static void beforeTests(){
@@ -387,5 +387,8 @@ public class VictoryValidatorTestSuite {
         Assert.assertTrue(result);
         Assert.assertFalse(VictoryValidator.getWinner());
     }
+
+
+
 
 }

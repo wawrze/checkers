@@ -1,4 +1,4 @@
-package checkers.Game;
+package checkers.gameplay;
 
 import checkers.board.Board;
 import checkers.figures.None;
