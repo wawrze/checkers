@@ -1,11 +1,12 @@
 package checkers;
 
+import checkers.Game.Game;
+
 import java.util.Scanner;
 
 public class Menu {
 
 	public void start() {
-//        newGame();
         Scanner sc = new Scanner(System.in);
 		String o;
 		do {
@@ -40,7 +41,8 @@ public class Menu {
 	}
 
 	public void newGame() {
-		new Game();
+	    Game game = new Game();
+	    game.play();
 	}
 
 	public static void waitForEnter() {
