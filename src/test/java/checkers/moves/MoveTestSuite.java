@@ -217,32 +217,6 @@ public class MoveTestSuite {
     }
 
     @Test
-    public void testMakeMovePawnToQueenBlack() throws IncorrectMoveFormat{
-        //Given
-        Board board = new Board();
-        Move move = new Move('G',2,'H',3);
-        Pawn pawn = new Pawn(true);
-        //When
-        board.setFigure('G',2,pawn);
-        move.makeMove(board);
-        //Then
-        Assert.assertTrue(board.getFigure('H',3) instanceof Queen);
-    }
-
-    @Test
-    public void testMakeMovePawnToQueenWhite() throws IncorrectMoveFormat{
-        //Given
-        Board board = new Board();
-        Move move = new Move('B',1,'A',2);
-        Pawn pawn = new Pawn(false);
-        //When
-        board.setFigure('B',1,pawn);
-        move.makeMove(board);
-        //Then
-        Assert.assertTrue(board.getFigure('A',2) instanceof Queen);
-    }
-
-    @Test
     public void testMakeCaptureRightDown() throws IncorrectMoveFormat{
         //Given
         Board board = new Board();

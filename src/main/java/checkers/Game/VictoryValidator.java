@@ -12,7 +12,7 @@ import exceptions.IncorrectMoveFormat;
 public class VictoryValidator {
 
     private static boolean winner;
-    private static boolean draw = false;
+    private static boolean draw;
 
     public static boolean getWinner() {
         return winner;
@@ -23,6 +23,7 @@ public class VictoryValidator {
     }
 
     public static boolean validateEndOfGame(Board board, int whiteQueenMoves, int blackQueenMoves,boolean player){
+        draw = false;
         return validateFigures(board)
                 || validateMovePossibility(board,player)
                 || validateQueenMoves(whiteQueenMoves,blackQueenMoves);
@@ -76,11 +77,12 @@ public class VictoryValidator {
             winner = !player;
             return true;
         }
-        return false;
+        else
+            return false;
     }
 
     private static boolean validateFigureMovePossibility(Board board,char row1, int col1){
-        int range = 9;
+        int range = 8;
         if(board.getFigure(row1,col1) instanceof Pawn)
             range = 3;
         char row2;
@@ -104,7 +106,7 @@ public class VictoryValidator {
                 return true;
             }
         }
-        for(int i = 2;i<range;i++) {
+        for(int i = 1;i<range;i++) {
             //right-up
             row2 = (char) (((int) row1) - i);
             col2 = col1 + i;
@@ -122,7 +124,7 @@ public class VictoryValidator {
                 return true;
             }
         }
-        for(int i = 2;i<range;i++) {
+        for(int i = 1;i<range;i++) {
             //right-down
             row2 = (char) (((int) row1) + i);
             col2 = col1 + i;
@@ -139,7 +141,7 @@ public class VictoryValidator {
                 return true;
             }
         }
-        for(int i = 2;i<range;i++) {
+        for(int i = 1;i<range;i++) {
             //left-down
             row2 = (char) (((int) row1) + i);
             col2 = col1 - i;

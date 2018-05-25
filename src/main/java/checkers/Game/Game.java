@@ -27,7 +27,7 @@ public class Game {
         whiteQueenMoves = 0;
         blackQueenMoves = 0;
 
-		board.setFigure('A', 2, new Pawn(true));
+/*		board.setFigure('A', 2, new Pawn(true));
 		board.setFigure('A', 4, new Pawn(true));
 		board.setFigure('A', 6, new Pawn(true));
 		board.setFigure('A', 8, new Pawn(true));
@@ -51,7 +51,31 @@ public class Game {
 		board.setFigure('H', 1, new Pawn(false));
 		board.setFigure('H', 3, new Pawn(false));
 		board.setFigure('H', 5, new Pawn(false));
-		board.setFigure('H', 7, new Pawn(false));
+		board.setFigure('H', 7, new Pawn(false));*/
+        Pawn pawn1 = new Pawn(true);
+        Queen queen5 = new Queen(true);
+        Pawn pawn2 = new Pawn(false);
+        Pawn pawn3 = new Pawn(false);
+        Pawn pawn4 = new Pawn(false);
+        Pawn pawn5 = new Pawn(false);
+        Pawn pawn6 = new Pawn(false);
+        Queen queen1 = new Queen(true);
+        Queen queen2 = new Queen(false);
+        Queen queen3 = new Queen(false);
+        Queen queen4 = new Queen(true);
+        boolean result;
+        //When
+        board.setFigure('A',8,pawn1);
+        board.setFigure('H',1,queen5);
+        board.setFigure('H',5,queen4);
+        board.setFigure('G',2,queen1);
+        board.setFigure('A',4,queen3);
+        board.setFigure('B',7,pawn2);
+        board.setFigure('C',6,pawn3);
+        board.setFigure('D',7,pawn4);
+        board.setFigure('F',3,pawn5);
+        board.setFigure('H',3,pawn6);
+        board.setFigure('G',2,queen2);
     }
 
     public void play(){

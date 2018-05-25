@@ -29,6 +29,7 @@ public class CapturePossibilityValidator {
             }catch (CaptureException e){
                 move.makeCapture(tmpBoard,e.getRow(),e.getCol());
             }
+            finally{}
             CapturePossibilityValidator validator = new CapturePossibilityValidator(tmpBoard, this.player);
             try {
                 validator.validateCapturePossibilityForOneFigure(x2, y2);
@@ -44,8 +45,8 @@ public class CapturePossibilityValidator {
     }
 
     public int getMaxDepth() {
-        if(listOfCaptures.isEmpty())
-            return 1;
+/*        if(listOfCaptures.isEmpty())
+            return 1;*/
         maxDepth = 0;
         for(int i : counter)
             if(i > maxDepth)
