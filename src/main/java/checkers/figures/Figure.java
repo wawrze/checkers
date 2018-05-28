@@ -1,6 +1,8 @@
 package checkers.figures;
 
-public abstract class Figure {
+import java.io.Serializable;
+
+public abstract class Figure implements Serializable {
 
 	//true - black, false - white
 	protected boolean color;

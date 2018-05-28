@@ -4,7 +4,9 @@ import checkers.board.*;
 import checkers.figures.*;
 import exceptions.*;
 
-public class Move {
+import java.io.Serializable;
+
+public class Move implements Serializable {
 
 	private char row1;
 	private char row2;

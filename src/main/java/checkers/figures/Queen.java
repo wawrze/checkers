@@ -2,7 +2,9 @@ package checkers.figures;
 
 import exceptions.UnknownException;
 
-public class Queen extends Figure {
+import java.io.Serializable;
+
+public class Queen extends Figure implements Serializable {
 
 	public Queen(boolean color) {
 		this.color = color;

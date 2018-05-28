@@ -2,9 +2,10 @@ package checkers.board;
 
 import checkers.figures.Figure;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Board {
+public class Board implements Serializable {
 
 	private HashMap<Character, BoardRow> rows;
 

@@ -1,6 +1,8 @@
 package checkers.figures;
 
-public class None extends Figure {
+import java.io.Serializable;
+
+public class None extends Figure implements Serializable {
 
     public None(boolean color){
         this.color = color;

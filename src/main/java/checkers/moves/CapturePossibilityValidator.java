@@ -4,10 +4,11 @@ import checkers.board.*;
 import checkers.figures.*;
 import exceptions.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CapturePossibilityValidator {
+public class CapturePossibilityValidator implements Serializable {
 
     private List<String> listOfCaptures;
     private Board board;

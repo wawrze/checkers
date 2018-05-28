@@ -21,6 +21,16 @@ public class InGameUI {
                 System.out.println(m);
     }
 
+    public static String getGameName(){
+        System.out.println("Name your game:");
+        Scanner sc = new Scanner(System.in);
+        String name;
+        do {
+            name = sc.nextLine();
+        }while(name.isEmpty());
+        return name;
+    }
+
     public static String sideMenu(int line,List<String> moves){
         String s = "            ";
         switch(line){

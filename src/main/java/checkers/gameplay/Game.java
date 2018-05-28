@@ -6,10 +6,11 @@ import checkers.figures.*;
 import checkers.moves.*;
 import exceptions.*;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Game {
+public class Game implements Serializable {
 
     private Board board;
     private List<String> moves;
@@ -17,6 +18,11 @@ public class Game {
     private boolean simplePrint;
     private int whiteQueenMoves;
     private int blackQueenMoves;
+    private boolean isFinished;
+    private boolean isDraw;
+    private boolean winner;
+    private String name;
+    private boolean save;
 
     public Game() {
         board = new Board();
@@ -25,6 +31,10 @@ public class Game {
         simplePrint = false;
         whiteQueenMoves = 0;
         blackQueenMoves = 0;
+        isFinished = false;
+        isDraw = false;
+        name = "";
+        save = false;
 
         board.setFigure('A', 2, new Pawn(true));
         board.setFigure('A', 4, new Pawn(true));
@@ -53,15 +63,21 @@ public class Game {
         board.setFigure('H', 7, new Pawn(false));
     }
 
-    public void play(){
+    public boolean play(){
         boolean b;
         do {
-            if (VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, player)) {
+            isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, player);
+            if (isFinished) {
                 InGameUI.endOfGame(board,simplePrint);
+                isDraw = VictoryValidator.isDraw();
+                winner = VictoryValidator.getWinner();
                 break;
             }
             b = this.waitForMove();
         } while (b);
+        if(save && name.isEmpty())
+            name = InGameUI.getGameName();
+        return save;
     }
 
     private boolean waitForMove() {
@@ -78,7 +94,7 @@ public class Game {
         if(s == null)
             return true;
         else if(s.length == 1 && inGameMenu(s[0])){
-            if (s[0].equals("x"))
+            if (s[0].equals("x") || s[0].equals("s"))
                 return false;
             else
                 return true;
@@ -204,12 +220,26 @@ public class Game {
             case "p":
                 this.simplePrint = !this.simplePrint;
                 return true;
+            case "s":
+                save = true;
+                return true;
             case "x":
+                save = false;
                 return true;
             default:
                 break;
         }
         return false;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString(){
+        return name + " (" + moves.size() + " moves done, " + (isFinished ? ("finished, " +
+                (isDraw ? "draw)" : ("winner: " + (winner ? "black)" : "white)")))) : ("not finished)"));
     }
 
 }

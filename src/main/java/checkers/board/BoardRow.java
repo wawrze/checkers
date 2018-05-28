@@ -3,9 +3,10 @@ package checkers.board;
 import checkers.figures.*;
 import exceptions.UnknownException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-class BoardRow {
+class BoardRow implements Serializable {
 
 	private ArrayList<Figure> figures;
 
