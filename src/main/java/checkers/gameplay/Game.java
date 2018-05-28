@@ -7,6 +7,8 @@ import checkers.moves.*;
 import exceptions.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class Game implements Serializable {
     private boolean winner;
     private String name;
     private boolean save;
+    private LocalDate date;
+    private LocalTime time;
 
     public Game() {
         board = new Board();
@@ -75,8 +79,11 @@ public class Game implements Serializable {
             }
             b = this.waitForMove();
         } while (b);
-        if(save && name.isEmpty())
+        if(save && name.isEmpty()) {
             name = InGameUI.getGameName();
+            date = LocalDate.now();
+            time = LocalTime.now();
+        }
         return save;
     }
 
@@ -238,8 +245,15 @@ public class Game implements Serializable {
 
     @Override
     public String toString(){
+        String s = "";
+        s += (date.getDayOfMonth() < 10 ? ("0" + date.getDayOfMonth()) : date.getDayOfMonth());
+        s += ("." + (date.getMonthValue() < 10 ? ("0" + date.getMonthValue()) : date.getMonthValue()));
+        s += ("." + date.getYear());
+        s += (" " + (time.getHour() < 10 ? ("0" + time.getHour()) : time.getHour()));
+        s += (":" + (time.getMinute() < 10 ? ("0" + time.getMinute()) : time.getMinute()));
         return name + " (" + moves.size() + " moves done, " + (isFinished ? ("finished, " +
-                (isDraw ? "draw)" : ("winner: " + (winner ? "black)" : "white)")))) : ("not finished)"));
+                (isDraw ? "draw)" : ("winner: " + (winner ? "black" : "white")))) : ("not finished")) +
+                ", date and time of save: " + s + ")";
     }
 
 }
