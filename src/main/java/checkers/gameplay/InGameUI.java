@@ -11,8 +11,8 @@ import java.util.Scanner;
 public class InGameUI {
 
     private static String[] options = {"h", "p", "s", "x"};
+    private static Scanner sc = new Scanner(System.in);
 
-    //TEMPORARY!!!
     public static void printMoveHistory(List<String> moves) {
         if(moves.isEmpty())
             System.out.println("No moves history.");
@@ -23,7 +23,6 @@ public class InGameUI {
 
     public static String getGameName(){
         System.out.println("Name your game:");
-        Scanner sc = new Scanner(System.in);
         String name;
         do {
             name = sc.nextLine();
@@ -146,7 +145,6 @@ public class InGameUI {
     }
 
     public static String[] getMoveOrOption(String captures){
-        Scanner sc = new Scanner(System.in);
         String s;
         s = sc.nextLine();
         String[] result;
@@ -209,7 +207,7 @@ public class InGameUI {
         System.out.println("Incorrect move: " + s);
     }
 
-    public static void endOfGame(Board board, boolean simplePrint){
+    public static boolean endOfGame(Board board, boolean simplePrint, List<String> moves){
         Menu.cls();
         if(simplePrint)
             board.printSimple();
@@ -224,8 +222,21 @@ public class InGameUI {
                 System.out.println("\tBLACK WINS!");
             else
                 System.out.println("\tWHITE WINS!");
+
         }
-        Menu.waitForEnter();
+        String o;
+        do{
+            System.out.println("\nEnter (h) for moves history, (s) to save and exit or (x) for exit without saving:");
+            o = sc.nextLine();
+            if(o.equals("h")){
+                System.out.println("Moves history:");
+                printMoveHistory(moves);
+            }
+            else if(o.equals("s"))
+                return true;
+            else if(o.equals("x"))
+                return false;
+        }while(true);
     }
 
 }

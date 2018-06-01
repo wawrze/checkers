@@ -27,18 +27,37 @@ public class Game implements Serializable {
     private boolean save;
     private LocalDate date;
     private LocalTime time;
+    private RulesSet rulesSet;
 
-    public Game() {
+    public Game(Game game) {
+        this.board = new Board(game.getBoard());
+        this.moves = new LinkedList<>(game.getMoves());
+        this.player = game.isPlayer();
+        this.simplePrint = game.isSimplePrint();
+        this.whiteQueenMoves = game.getWhiteQueenMoves();
+        this.blackQueenMoves = game.getBlackQueenMoves();
+        this.isFinished = game.isFinished();
+        this.isDraw = game.isDraw();
+        this.winner = game.isWinner();
+        this.name = game.getName();
+        this.save = game.isSave();
+        this.date = game.getDate();
+        this.time = game.getTime();
+        this.rulesSet = game.getRulesSet();
+    }
+
+    public Game(String name, RulesSet rulesSet, boolean simplePrint) {
         board = new Board();
         moves = new LinkedList<>();
         player = false;
-        simplePrint = false;
+        this.simplePrint = simplePrint;
         whiteQueenMoves = 0;
         blackQueenMoves = 0;
         isFinished = false;
         isDraw = false;
-        name = "";
+        this.name = name;
         save = false;
+        this.rulesSet = rulesSet;
 
         board.setFigure('A', 2, new Pawn(true));
         board.setFigure('A', 4, new Pawn(true));
@@ -72,7 +91,7 @@ public class Game implements Serializable {
         do {
             isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, player);
             if (isFinished) {
-                InGameUI.endOfGame(board,simplePrint);
+                save = InGameUI.endOfGame(board,simplePrint,moves);
                 isDraw = VictoryValidator.isDraw();
                 winner = VictoryValidator.getWinner();
                 break;
@@ -81,9 +100,9 @@ public class Game implements Serializable {
         } while (b);
         if(save && name.isEmpty()) {
             name = InGameUI.getGameName();
-            date = LocalDate.now();
-            time = LocalTime.now();
         }
+        date = LocalDate.now();
+        time = LocalTime.now();
         return save;
     }
 
@@ -151,7 +170,6 @@ public class Game implements Serializable {
             move.makeCapture(board,e.getRow(),e.getCol());
             multiCapture(move);
             InGameUI.printCaptureDone();
-
             if(player)
                 blackQueenMoves = 0;
             else
@@ -175,7 +193,8 @@ public class Game implements Serializable {
     private void multiCapture(Move move) {
         do {
             try{
-                (new CapturePossibilityValidator(board,player)).validateCapturePossibilityForOneFigure(move.getRow2(),move.getCol2());
+                (new CapturePossibilityValidator(board,player))
+                        .validateCapturePossibilityForOneFigure(move.getRow2(),move.getCol2());
                 break;
             }
             catch(CapturePossibleException e){
@@ -216,6 +235,14 @@ public class Game implements Serializable {
                 continue;
             }
         }while (true);
+        if((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
+                && board.getFigure(move.getRow2(), move.getCol2()).getColor()
+                && (move.getRow2()) == 'H')
+            board.setFigure('H', move.getCol2(), new Queen(true));
+        if((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
+                && !board.getFigure(move.getRow2(), move.getCol2()).getColor()
+                && (move.getRow2()) == 'A')
+            board.setFigure('A', move.getCol2(), new Queen(false));
     }
 
     private boolean inGameMenu(String s){
@@ -251,9 +278,61 @@ public class Game implements Serializable {
         s += ("." + date.getYear());
         s += (" " + (time.getHour() < 10 ? ("0" + time.getHour()) : time.getHour()));
         s += (":" + (time.getMinute() < 10 ? ("0" + time.getMinute()) : time.getMinute()));
-        return name + " (" + moves.size() + " moves done, " + (isFinished ? ("finished, " +
-                (isDraw ? "draw)" : ("winner: " + (winner ? "black" : "white")))) : ("not finished")) +
-                ", date and time of save: " + s + ")";
+        return name + " (\"" + rulesSet.getName() + "\" rules, " + moves.size() + " moves done, "
+                + (isFinished ? ("finished, " + (isDraw ? "draw)" : ("winner: "
+                + (winner ? "black" : "white")))) : ("not finished")) + ", date and time of save: " + s + ")";
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public List<String> getMoves() {
+        return moves;
+    }
+
+    public boolean isPlayer() {
+        return player;
+    }
+
+    public boolean isSimplePrint() {
+        return simplePrint;
+    }
+
+    public int getWhiteQueenMoves() {
+        return whiteQueenMoves;
+    }
+
+    public int getBlackQueenMoves() {
+        return blackQueenMoves;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public boolean isDraw() {
+        return isDraw;
+    }
+
+    public boolean isWinner() {
+        return winner;
+    }
+
+    public boolean isSave() {
+        return save;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public RulesSet getRulesSet() {
+        return rulesSet;
     }
 
 }
