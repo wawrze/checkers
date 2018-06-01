@@ -89,7 +89,7 @@ public class Game implements Serializable {
     public boolean play(){
         boolean b;
         do {
-            isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, player);
+            isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, player, rulesSet);
             if (isFinished) {
                 save = InGameUI.endOfGame(board,simplePrint,moves);
                 isDraw = VictoryValidator.isDraw();
@@ -110,7 +110,7 @@ public class Game implements Serializable {
         String captures = "";
         InGameUI.printBoard(board, simplePrint, player);
         try {
-            (new CapturePossibilityValidator(board,player)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,player, rulesSet)).validateCapturePossibility();
         }
         catch(CapturePossibleException e){
             captures = e.getMessage();
@@ -147,7 +147,7 @@ public class Game implements Serializable {
         InGameUI.printMakingMove(x1,y1,x2,y2);
         Move move = new Move(x1, y1, x2, y2);
         try {
-            MoveValidator.validateMove(move, this.board, this.player);
+            MoveValidator.validateMove(move, this.board, this.player, rulesSet);
             moves.add((player ? "black: " : "white: ") + move);
             move.makeMove(board);
             if(board.getFigure(move.getRow2(),move.getCol2()) instanceof Queen){
@@ -193,12 +193,12 @@ public class Game implements Serializable {
     private void multiCapture(Move move) {
         do {
             try{
-                (new CapturePossibilityValidator(board,player))
+                (new CapturePossibilityValidator(board, player, rulesSet))
                         .validateCapturePossibilityForOneFigure(move.getRow2(),move.getCol2());
                 break;
             }
             catch(CapturePossibleException e){
-                InGameUI.printBoard(board,simplePrint,player);
+                InGameUI.printBoard(board, simplePrint, player);
                 InGameUI.printMultiCapture(e.getMessage());
                 String[] s = InGameUI.getMoveOrOption(e.getMessage());
                 if(s == null)
@@ -214,7 +214,7 @@ public class Game implements Serializable {
                     try {
                         move = new Move(x1, y1, x2, y2);
                         try{
-                            MoveValidator.validateMove(move,this.board,this.player);
+                            MoveValidator.validateMove(move, this.board, this.player, rulesSet);
                             InGameUI.printIncorrectMove("continue capturing is obligatory!");
                         }
                         catch(CaptureException e1){

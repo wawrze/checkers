@@ -2,6 +2,7 @@ package checkers.moves;
 
 import checkers.board.*;
 import checkers.figures.*;
+import checkers.gameplay.RulesSet;
 import exceptions.*;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ public class CapturePossibilityValidator implements Serializable {
     private boolean player;
     private int[] counter;
     private int maxDepth;
+    private RulesSet rulesSet;
 
     private void findMaxCaptures() throws IncorrectMoveFormat,IncorrectMoveException{
         counter = new int[listOfCaptures.size()];
@@ -26,12 +28,11 @@ public class CapturePossibilityValidator implements Serializable {
             int y2 = Character.getNumericValue(sArray[1].charAt(1));
             Move move = new Move(x1, y1, x2, y2);
             try {
-                MoveValidator.validateMove(move, tmpBoard, player);
+                MoveValidator.validateMove(move, tmpBoard, player, rulesSet);
             }catch (CaptureException e){
                 move.makeCapture(tmpBoard,e.getRow(),e.getCol());
             }
-            finally{}
-            CapturePossibilityValidator validator = new CapturePossibilityValidator(tmpBoard, this.player);
+            CapturePossibilityValidator validator = new CapturePossibilityValidator(tmpBoard, this.player, rulesSet);
             try {
                 validator.validateCapturePossibilityForOneFigure(x2, y2);
                 counter[listOfCaptures.indexOf(s)] = 1;
@@ -46,8 +47,6 @@ public class CapturePossibilityValidator implements Serializable {
     }
 
     public int getMaxDepth() {
-/*        if(listOfCaptures.isEmpty())
-            return 1;*/
         maxDepth = 0;
         for(int i : counter)
             if(i > maxDepth)
@@ -55,10 +54,11 @@ public class CapturePossibilityValidator implements Serializable {
         return maxDepth;
     }
 
-    public CapturePossibilityValidator(Board board, boolean player){
+    public CapturePossibilityValidator(Board board, boolean player, RulesSet rulesSet){
         this.listOfCaptures = new ArrayList<>();
         this.board = board;
         this.player = player;
+        this.rulesSet = rulesSet;
     }
 
     public void validateCapturePossibility() throws CapturePossibleException {
@@ -74,10 +74,12 @@ public class CapturePossibilityValidator implements Serializable {
                 }
             }
         }
-        try {
-            findMaxCaptures();
+        if(!rulesSet.isCaptureAny()) {
+            try {
+                findMaxCaptures();
+            } catch (IncorrectMoveException | IncorrectMoveFormat e) {
+            }
         }
-        catch(IncorrectMoveException | IncorrectMoveFormat e){}
         listCheck();
     }
 
@@ -87,10 +89,12 @@ public class CapturePossibilityValidator implements Serializable {
             validatePawnCapture(row,col,board);
         else
             validateQueenCapture(row,col,board);
-        try {
-            findMaxCaptures();
+        if(!rulesSet.isCaptureAny()) {
+            try {
+                findMaxCaptures();
+            } catch (IncorrectMoveException | IncorrectMoveFormat e) {
+            }
         }
-        catch(IncorrectMoveException | IncorrectMoveFormat e){}
         listCheck();
     }
 
@@ -118,7 +122,7 @@ public class CapturePossibilityValidator implements Serializable {
                 break;
             }
             try {
-                MoveValidator.validateMove(move, board, board.getFigure(row1, col1).getColor());
+                MoveValidator.validateMove(move, board, board.getFigure(row1, col1).getColor(), rulesSet);
             } catch (IncorrectMoveException e) {}
             catch (CaptureException e) {
                 listOfCaptures.add("" + row1 + col1 + "-" + row2 + col2);
@@ -134,7 +138,7 @@ public class CapturePossibilityValidator implements Serializable {
                 break;
             }
             try {
-                MoveValidator.validateMove(move, board, board.getFigure(row1, col1).getColor());
+                MoveValidator.validateMove(move, board, board.getFigure(row1, col1).getColor(), rulesSet);
             }
             catch (IncorrectMoveException e) {}
             catch (CaptureException e) {
@@ -151,7 +155,7 @@ public class CapturePossibilityValidator implements Serializable {
                 break;
             }
             try {
-                MoveValidator.validateMove(move, board, board.getFigure(row1, col1).getColor());
+                MoveValidator.validateMove(move, board, board.getFigure(row1, col1).getColor(), rulesSet);
             } catch (IncorrectMoveException e) {
             } catch (CaptureException e) {
                 listOfCaptures.add("" + row1 + col1 + "-" + row2 + col2);
@@ -168,7 +172,7 @@ public class CapturePossibilityValidator implements Serializable {
                 break;
             }
             try{
-                MoveValidator.validateMove(move,board,board.getFigure(row1,col1).getColor());
+                MoveValidator.validateMove(move,board,board.getFigure(row1,col1).getColor(), rulesSet);
             }
             catch(IncorrectMoveException e){
             }

@@ -2,6 +2,7 @@ package checkers.moves;
 
 import checkers.board.*;
 import checkers.figures.*;
+import checkers.gameplay.RulesSet;
 import exceptions.*;
 import org.junit.*;
 
@@ -42,6 +43,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Queen queen = new Queen(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         //When
         board.setFigure('A',2,pawn1);
@@ -53,7 +57,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,queen);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,false)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,false, ruleSet)).validateCapturePossibility();
             result = true;
         }
         catch(CapturePossibleException e){
@@ -75,6 +79,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         //When
         board.setFigure('A',2,pawn1);
@@ -86,7 +93,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,true)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,true, ruleSet)).validateCapturePossibility();
             result = true;
         }
         catch(CapturePossibleException e){
@@ -108,6 +115,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -119,7 +129,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,true)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,true, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -142,6 +152,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -153,7 +166,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,true)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,true, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -176,6 +189,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -187,7 +203,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('D',5,pawn8);
         try{
-            (new CapturePossibilityValidator(board,true)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,true, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -210,6 +226,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -221,7 +240,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,false)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,false, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -244,6 +263,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -255,7 +277,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,false)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,false, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -278,6 +300,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -289,7 +314,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,false)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,false, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -312,6 +337,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -323,7 +351,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('D',5,pawn8);
         try{
-            (new CapturePossibilityValidator(board,false)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,false, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -346,6 +374,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -357,7 +388,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,false)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,false, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -380,6 +411,9 @@ public class CapturePossibilityValidatorTestSuite {
         Queen queen = new Queen(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -391,7 +425,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,false)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,false, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -414,6 +448,9 @@ public class CapturePossibilityValidatorTestSuite {
         Queen queen2 = new Queen(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -425,7 +462,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,false)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,false, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -448,6 +485,9 @@ public class CapturePossibilityValidatorTestSuite {
         Queen queen = new Queen(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('E',2,pawn1);
@@ -459,7 +499,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,false)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,false, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -482,6 +522,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -493,7 +536,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('H',7,pawn8);
         try{
-            (new CapturePossibilityValidator(board,true)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,true, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -516,6 +559,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -527,7 +573,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('D',3,pawn8);
         try{
-            (new CapturePossibilityValidator(board,true)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,true, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -550,6 +596,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result;
         //When
         board.setFigure('A',2,pawn1);
@@ -561,7 +610,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('D',3,pawn8);
         try{
-            (new CapturePossibilityValidator(board,true)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board,true, ruleSet)).validateCapturePossibility();
             result = 0;
         }
         catch(CapturePossibleException e){
@@ -584,6 +633,9 @@ public class CapturePossibilityValidatorTestSuite {
         Pawn pawn6 = new Pawn(false);
         Pawn pawn7 = new Pawn(false);
         Pawn pawn8 = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         int result1, result2,result3;
         //When
         board.setFigure('A',2,pawn1);
@@ -595,7 +647,7 @@ public class CapturePossibilityValidatorTestSuite {
         board.setFigure('H',3,pawn7);
         board.setFigure('D',3,pawn8);
         try{
-            (new CapturePossibilityValidator(board, true)).validateCapturePossibilityForOneFigure('C',6);
+            (new CapturePossibilityValidator(board, true, ruleSet)).validateCapturePossibilityForOneFigure('C',6);
             result1 = 0;
         }
         catch(CapturePossibleException e){
@@ -603,7 +655,7 @@ public class CapturePossibilityValidatorTestSuite {
             result1 = sArray.length;
         }
         try{
-            (new CapturePossibilityValidator(board, true)).validateCapturePossibilityForOneFigure('C',2);
+            (new CapturePossibilityValidator(board, true, ruleSet)).validateCapturePossibilityForOneFigure('C',2);
             result2 = 0;
         }
         catch(CapturePossibleException e){
@@ -611,7 +663,7 @@ public class CapturePossibilityValidatorTestSuite {
             result2 = sArray.length;
         }
         try{
-            (new CapturePossibilityValidator(board, true)).validateCapturePossibilityForOneFigure('A',2);
+            (new CapturePossibilityValidator(board, true, ruleSet)).validateCapturePossibilityForOneFigure('A',2);
             result3 = 0;
         }
         catch(CapturePossibleException e){

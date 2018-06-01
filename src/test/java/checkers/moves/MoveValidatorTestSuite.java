@@ -2,6 +2,7 @@ package checkers.moves;
 
 import checkers.board.*;
 import checkers.figures.*;
+import checkers.gameplay.RulesSet;
 import exceptions.*;
 import org.junit.*;
 
@@ -35,12 +36,15 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'B',3);
-        boolean result;
         Pawn pawn = new Pawn(true);
-        board.setFigure('A',2,pawn);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
+        boolean result;
         //When
+        board.setFigure('A',2,pawn);
         try{
-            MoveValidator.validateMove(move,board,true);
+            MoveValidator.validateMove(move,board,true, ruleSet);
             result = true;
         }
         catch(IncorrectMoveException | CaptureException e){
@@ -55,9 +59,12 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'B',3);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         //When
-        result = isIncorrectMove(board, move,true, false);
+        result = isIncorrectMove(board, move,true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -67,13 +74,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'B',3);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         Pawn pawn1 = new Pawn(true);
         Pawn pawn2 = new Pawn(true);
         boolean result;
         //When
         board.setFigure('A',2,pawn1);
         board.setFigure('B',3,pawn2);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -83,11 +93,14 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'B',2);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         Pawn pawn = new Pawn(true);
         boolean result;
         //When
         board.setFigure('A',2,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -97,11 +110,14 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'B',3);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         Pawn pawn = new Pawn(true);
         boolean result;
         //When
         board.setFigure('A',2,pawn);
-        result = isIncorrectMove(board, move, false, false);
+        result = isIncorrectMove(board, move, false, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -111,11 +127,14 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'D',5);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         Pawn pawn = new Pawn(true);
         boolean result;
         //When
         board.setFigure('A',2,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -125,11 +144,14 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'C',4);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         Pawn pawn = new Pawn(true);
         boolean result;
         //When
         board.setFigure('A',2,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -139,13 +161,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'C',4);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         Pawn pawn1 = new Pawn(true);
         Pawn pawn2 = new Pawn(false);
         boolean result;
         //When
         board.setFigure('A',2,pawn1);
         board.setFigure('B',3,pawn2);
-        result = isIncorrectMove(board, move, true, true);
+        result = isIncorrectMove(board, move, true, true, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -155,11 +180,14 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'B',3);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         Pawn pawn = new Pawn(false);
         boolean result;
         //When
         board.setFigure('A',2,pawn);
-        result = isIncorrectMove(board, move, false, false);
+        result = isIncorrectMove(board, move, false, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -169,11 +197,14 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('B',3,'A',2);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         Pawn pawn = new Pawn(true);
         boolean result;
         //When
         board.setFigure('B',3,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -184,11 +215,14 @@ public class MoveValidatorTestSuite {
         Board board = new Board();
         Move move = new Move('A',2,'G',8);
         boolean result;
-        Queen queen = new Queen(true);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         //When
+        Queen queen = new Queen(true);
         board.setFigure('A',2,queen);
         try{
-            MoveValidator.validateMove(move,board,true);
+            MoveValidator.validateMove(move,board,true, ruleSet);
             result = true;
         }
         catch(IncorrectMoveException | CaptureException e){
@@ -203,13 +237,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'G',8);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(true);
         //When
         board.setFigure('A',2,queen);
         board.setFigure('B',3,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -219,13 +256,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'G',8);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(true);
         //When
         board.setFigure('A',2,queen);
         board.setFigure('F',7,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -235,6 +275,9 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'G',8);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn1 = new Pawn(false);
@@ -243,7 +286,7 @@ public class MoveValidatorTestSuite {
         board.setFigure('A',2,queen);
         board.setFigure('F',7,pawn1);
         board.setFigure('D',5,pawn2);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -253,13 +296,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',2,'G',8);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(false);
         //When
         board.setFigure('A',2,queen);
         board.setFigure('F',7,pawn);
-        result = isIncorrectMove(board, move, true, true);
+        result = isIncorrectMove(board, move, true, true, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -269,12 +315,15 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('H',1,'A',8);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         //When
         board.setFigure('H',1,queen);
         try{
-            MoveValidator.validateMove(move,board,true);
+            MoveValidator.validateMove(move,board,true, ruleSet);
             result = true;
         }
         catch(IncorrectMoveException | CaptureException e){
@@ -289,13 +338,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('H',1,'A',8);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(true);
         //When
         board.setFigure('H',1,queen);
         board.setFigure('G',2,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -305,13 +357,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('H',1,'A',8);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(true);
         //When
         board.setFigure('H',1,queen);
         board.setFigure('B',7,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -321,6 +376,9 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('H',1,'A',8);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn1 = new Pawn(false);
@@ -329,7 +387,7 @@ public class MoveValidatorTestSuite {
         board.setFigure('H',1,queen);
         board.setFigure('G',2,pawn1);
         board.setFigure('E',4,pawn2);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -339,13 +397,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('H',1,'A',8);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(false);
         //When
         board.setFigure('H',1,queen);
         board.setFigure('B',7,pawn);
-        result = isIncorrectMove(board, move, true, true);
+        result = isIncorrectMove(board, move, true, true, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -355,12 +416,15 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('H',7,'B',1);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         //When
         board.setFigure('H',7,queen);
         try{
-            MoveValidator.validateMove(move,board,true);
+            MoveValidator.validateMove(move,board,true, ruleSet);
             result = true;
         }
         catch(IncorrectMoveException | CaptureException e){
@@ -375,13 +439,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('H',7,'B',1);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(true);
         //When
         board.setFigure('H',7,queen);
         board.setFigure('G',6,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -391,13 +458,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('H',7,'B',1);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(true);
         //When
         board.setFigure('H',7,queen);
         board.setFigure('C',2,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -407,6 +477,9 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('H',7,'B',1);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn1 = new Pawn(false);
@@ -415,7 +488,7 @@ public class MoveValidatorTestSuite {
         board.setFigure('H',7,queen);
         board.setFigure('G',6,pawn1);
         board.setFigure('E',4,pawn2);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -425,13 +498,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('H',7,'B',1);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(false);
         //When
         board.setFigure('H',7,queen);
         board.setFigure('C',2,pawn);
-        result = isIncorrectMove(board, move, true, true);
+        result = isIncorrectMove(board, move, true, true, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -441,12 +517,15 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',8,'H',1);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         //When
         board.setFigure('A',8,queen);
         try{
-            MoveValidator.validateMove(move,board,true);
+            MoveValidator.validateMove(move,board,true, ruleSet);
             result = true;
         }
         catch(IncorrectMoveException | CaptureException e){
@@ -461,13 +540,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',8,'H',1);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(true);
         //When
         board.setFigure('A',8,queen);
         board.setFigure('B',7,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -477,13 +559,16 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',8,'H',1);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(true);
         //When
         board.setFigure('A',8,queen);
         board.setFigure('G',2,pawn);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -493,6 +578,9 @@ public class MoveValidatorTestSuite {
         //Given
         Board board = new Board();
         Move move = new Move('A',8,'H',1);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn1 = new Pawn(false);
@@ -501,7 +589,7 @@ public class MoveValidatorTestSuite {
         board.setFigure('A',8,queen);
         board.setFigure('B',7,pawn1);
         board.setFigure('D',5,pawn2);
-        result = isIncorrectMove(board, move, true, false);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
@@ -514,18 +602,21 @@ public class MoveValidatorTestSuite {
         boolean result;
         Queen queen = new Queen(true);
         Pawn pawn = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
         //When
         board.setFigure('A',8,queen);
         board.setFigure('G',2,pawn);
-        result = isIncorrectMove(board, move, true, true);
+        result = isIncorrectMove(board, move, true, true, ruleSet);
         //Then
         Assert.assertTrue(result);
     }
 
-    private boolean isIncorrectMove(Board board, Move move, boolean player, boolean capture) {
+    private boolean isIncorrectMove(Board board, Move move, boolean player, boolean capture, RulesSet rulesSet) {
         boolean result;
         try{
-            MoveValidator.validateMove(move,board,player);
+            MoveValidator.validateMove(move,board,player, rulesSet);
             result = false;
         }
         catch(IncorrectMoveException e){
