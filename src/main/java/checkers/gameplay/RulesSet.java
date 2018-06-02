@@ -60,7 +60,7 @@ public class RulesSet implements Serializable {
 
     @Override
     public String toString(){
-        String s = "\"" + name + "\"\n\n";
+        String s = "\"" + name + "\" rules\n\n";
         s += "Description: " + description + "\n\n";
         s += "Victory conditions: " + (isVictoryConditionsReversed ? "reversed" : "standard") + "\t";
         s += "Capture: " + (isCaptureAny ? "any" : "longest") + "\n";

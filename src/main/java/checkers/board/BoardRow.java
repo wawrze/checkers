@@ -1,10 +1,12 @@
 package checkers.board;
 
 import checkers.figures.*;
+import checkers.gameplay.InGameUI;
 import exceptions.UnknownException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 class BoardRow implements Serializable {
 
@@ -28,7 +30,7 @@ class BoardRow implements Serializable {
 		figures.set(col, figure);
 	}
 
-	public String printRowSimple(char c) {
+	public String printRowSimple(char c, int line, List<String> moves) {
 		String row = "\n";
 		String tmp = "";
 		switch (c) {
@@ -38,8 +40,8 @@ class BoardRow implements Serializable {
 					tmp += " " + this.figures.get(i) + " |";
 				else
 					tmp += "#" + this.figures.get(i) + "#|";
-			row += ("A |" + tmp);
-			row += ("\n  |" + tmp + " A");
+			row += ("A |" + tmp + InGameUI.sideMenuSimple(line, moves));
+			row += ("\n  |" + tmp + " A" + InGameUI.sideMenuSimple(line + 1, moves));
 			break;
 		case 'B':
 			for (int i = 1; i < 9; i++)
@@ -47,8 +49,8 @@ class BoardRow implements Serializable {
 					tmp += " " + this.figures.get(i) + " |";
 				else
 					tmp += "#" + this.figures.get(i) + "#|";
-			row += ("B |" + tmp);
-			row += ("\n  |" + tmp + " B");
+			row += ("B |" + tmp  + InGameUI.sideMenuSimple(line, moves));
+			row += ("\n  |" + tmp + " B"  + InGameUI.sideMenuSimple(line + 1, moves));
 			break;
 		case 'C':
 			for (int i = 1; i < 9; i++)
@@ -56,8 +58,8 @@ class BoardRow implements Serializable {
 					tmp += " " + this.figures.get(i) + " |";
 				else
 					tmp += "#" + this.figures.get(i) + "#|";
-			row += ("C |" + tmp);
-			row += ("\n  |" + tmp + " C");
+			row += ("C |" + tmp + InGameUI.sideMenuSimple(line, moves));
+			row += ("\n  |" + tmp + " C" + InGameUI.sideMenuSimple(line + 1, moves));
 			break;
 		case 'D':
 			for (int i = 1; i < 9; i++)
@@ -65,8 +67,8 @@ class BoardRow implements Serializable {
 					tmp += " " + this.figures.get(i) + " |";
 				else
 					tmp += "#" + this.figures.get(i) + "#|";
-			row += ("D |" + tmp);
-			row += ("\n  |" + tmp + " D");
+			row += ("D |" + tmp + InGameUI.sideMenuSimple(line, moves));
+			row += ("\n  |" + tmp + " D" + InGameUI.sideMenuSimple(line + 1, moves));
 			break;
 		case 'E':
 			for (int i = 1; i < 9; i++)
@@ -74,8 +76,8 @@ class BoardRow implements Serializable {
 					tmp += " " + this.figures.get(i) + " |";
 				else
 					tmp += "#" + this.figures.get(i) + "#|";
-			row += ("E |" + tmp);
-			row += ("\n  |" + tmp + " E");
+			row += ("E |" + tmp + InGameUI.sideMenuSimple(line, moves));
+			row += ("\n  |" + tmp + " E" + InGameUI.sideMenuSimple(line + 1, moves));
 			break;
 		case 'F':
 			for (int i = 1; i < 9; i++)
@@ -83,8 +85,8 @@ class BoardRow implements Serializable {
 					tmp += " " + this.figures.get(i) + " |";
 				else
 					tmp += "#" + this.figures.get(i) + "#|";
-			row += ("F |" + tmp);
-			row += ("\n  |" + tmp + " F");
+			row += ("F |" + tmp + InGameUI.sideMenuSimple(line, moves));
+			row += ("\n  |" + tmp + " F" + InGameUI.sideMenuSimple(line + 1, moves));
 			break;
 		case 'G':
 			for (int i = 1; i < 9; i++)
@@ -92,8 +94,8 @@ class BoardRow implements Serializable {
 					tmp += " " + this.figures.get(i) + " |";
 				else
 					tmp += "#" + this.figures.get(i) + "#|";
-			row += ("G |" + tmp);
-			row += ("\n  |" + tmp + " G");
+			row += ("G |" + tmp + InGameUI.sideMenuSimple(line, moves));
+			row += ("\n  |" + tmp + " G" + InGameUI.sideMenuSimple(line + 1, moves));
 			break;
 		case 'H':
 			for (int i = 1; i < 9; i++)
@@ -101,19 +103,19 @@ class BoardRow implements Serializable {
 					tmp += " " + this.figures.get(i) + " |";
 				else
 					tmp += "#" + this.figures.get(i) + "#|";
-			row += ("H |" + tmp);
-			row += ("\n  |" + tmp + " H");
+			row += ("H |" + tmp + InGameUI.sideMenuSimple(line, moves));
+			row += ("\n  |" + tmp + " H" + InGameUI.sideMenuSimple(line + 1, moves));
 			break;
 		default:
 			System.out.println("Some error!");
 			break;
 		}
-		row += "\n  +----+----+----+----+----+----+----+----+";
+		row += ("\n  +----+----+----+----+----+----+----+----+"  + InGameUI.sideMenuSimple(line + 2, moves));
 		return row;
 	}
 
-    public String printRow(char c) {
-        String row = ""; //String row = "\n ║";
+    public String printRow(char c, int line, List<String> moves, boolean player) {
+        String row = "";
         String tmp = "";
         if((c == 'A') || (c == 'C') || (c == 'E') || (c == 'G')){
             for (int i = 1; i < 9; i++)
@@ -121,42 +123,42 @@ class BoardRow implements Serializable {
                     tmp += "█" + this.figures.get(i).print(0) + "█";
                 else
                     tmp += " " + this.figures.get(i).print(0) + " ";
-            row += ("\n ║" + tmp + "║");
+            row += ("\n ║" + tmp + "║" + InGameUI.sideMenu(line, moves, player));
             tmp = "";
             for (int i = 1; i < 9; i++)
                 if ((i % 2) == 1)
                     tmp += "█" + this.figures.get(i).print(1) + "█";
                 else
                     tmp += " " + this.figures.get(i).print(1) + " ";
-            row += ("\n" + c + "║" + tmp + "║" + c);
+            row += ("\n" + c + "║" + tmp + "║" + c + InGameUI.sideMenu(line + 1, moves, player));
             tmp = "";
             for (int i = 1; i < 9; i++)
                 if ((i % 2) == 1)
                     tmp += "█" + this.figures.get(i).print(2) + "█";
                 else
                     tmp += " " + this.figures.get(i).print(2) + " ";
-            row += ("\n ║" + tmp + "║");
+            row += ("\n ║" + tmp + "║" + InGameUI.sideMenu(line + 2, moves, player));
         }else if((c == 'B') || (c == 'D') || (c == 'F') || (c == 'H')) {
             for (int i = 1; i < 9; i++)
                 if ((i % 2) == 0)
                     tmp += "█" + this.figures.get(i).print(0) + "█";
                 else
                     tmp += " " + this.figures.get(i).print(0) + " ";
-            row += ("\n ║" + tmp + "║");
+            row += ("\n ║" + tmp + "║" + InGameUI.sideMenu(line, moves, player));
             tmp = "";
             for (int i = 1; i < 9; i++)
                 if ((i % 2) == 0)
                     tmp += "█" + this.figures.get(i).print(1) + "█";
                 else
                     tmp += " " + this.figures.get(i).print(1) + " ";
-            row += ("\n" + c + "║" + tmp + "║" + c);
+            row += ("\n" + c + "║" + tmp + "║" + c + InGameUI.sideMenu(line + 1, moves, player));
             tmp = "";
             for (int i = 1; i < 9; i++)
                 if ((i % 2) == 0)
                     tmp += "█" + this.figures.get(i).print(2) + "█";
                 else
                     tmp += " " + this.figures.get(i).print(2) + " ";
-            row += ("\n ║" + tmp + "║");
+            row += ("\n ║" + tmp + "║" + InGameUI.sideMenu(line + 2, moves, player));
         }else
             throw new UnknownException();
         return row;

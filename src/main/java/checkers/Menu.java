@@ -118,8 +118,7 @@ public class Menu {
     }
 
     private void printRules(){
-        rules.stream()
-                .forEach(r -> System.out.println("" + (1 + rules.indexOf(r)) + ". " + r));
+        rules.stream().forEach(Menu::printRulesSet);
     }
 
 
@@ -191,8 +190,10 @@ public class Menu {
                 name = "";
             }
         }while(name.isEmpty());
-        System.out.println("\nChoose rules for your game. Possible rules sets:");
         printRules();
+        System.out.println("\nChoose rules for your game. Possible rules sets:");
+        rules.stream()
+                .forEach(r -> System.out.println("" + (1 + rules.indexOf(r)) + ". " + r.getName()));
         int number = -1;
         do {
             System.out.print("Choose rules number: ");
@@ -208,11 +209,11 @@ public class Menu {
         boolean simplePrint;
         String s;
         do {
-            System.out.print("Enter yes or no: ");
+            System.out.print("Enter (y) for yes or (n) for no: ");
             s = sc.nextLine();
             s = s.toLowerCase();
-        }while(!s.equals("yes") && !s.equals("no"));
-        if(s.equals("yes"))
+        }while(!s.equals("y") && !s.equals("n"));
+        if(s.equals("y"))
             simplePrint = true;
         else
             simplePrint = false;
@@ -243,6 +244,88 @@ public class Menu {
             System.out.println(e);
             throw new UnknownException();
         }
+    }
+
+    public static void printRulesSet(RulesSet rulesSet){
+        System.out.println(" ╔════════════════════════════════════════════════════════╗");
+        String s = new String(rulesSet.getName());
+        if(s.length() > 46) {
+            s = s.substring(0, 45);
+            s = "\"" + s + "\" rules";
+        }
+        else {
+            int i = s.length();
+            s = "\"" + s + "\" rules";
+            if (i < 45)
+                s += "\t";
+            if (i < 37)
+                s += "\t";
+            if (i < 29)
+                s += "\t";
+            if (i < 21)
+                s += "\t";
+            if (i < 13)
+                s += "\t";
+            if (i < 5)
+                s += "\t";
+            s += " ";
+        }
+        System.out.println(" ║ " + s + " ║");
+        System.out.println(" ╠════════════════════════════════════════════════════════╣");
+        s = new String(rulesSet.getDescription());
+        String[] description = new String[3];
+        description[1] = "";
+        description[2] = "";
+        if(s.length() > 41) {
+            description[0] = s.substring(0, 40);
+            if(s.length() > 95) {
+                description[1] = s.substring(41, 94);
+                if(s.length() > 149)
+                    description[2] = s.substring(95, 148);
+                else
+                    description[2] = s.substring(95);
+            }
+            else
+                description[1] = s.substring(41);
+        }
+        else
+            description[0] = s;
+        description[0] = "Description: " + description[0];
+        for(String d : description) {
+            int i = d.length();
+            if(i < 54){
+                if(i < 53)
+                    d += "\t";
+                if(i < 45)
+                    d += "\t";
+                if(i < 37)
+                    d += "\t";
+                if(i < 29)
+                    d += "\t";
+                if(i < 21)
+                    d += "\t";
+                if(i < 13)
+                    d += "\t";
+                if(i < 5)
+                    d += "\t";
+                d += " ";
+            }
+            System.out.println(" ║ " + d + " ║ ");
+        }
+        System.out.println(" ╠════════════════════════════════════════════════════════╣");
+        System.out.println(" ║ Victory conditions:\t\t"
+                + (rulesSet.isVictoryConditionsReversed() ? "reversed" : "standard") + "\t\t  ║");
+        System.out.println(" ║ Capture:\t\t\t"
+                + (rulesSet.isCaptureAny() ? "any" : "longest") + "\t\t\t  ║");
+        System.out.println(" ║ Pawn move backward:\t\t"
+                + (rulesSet.isPawnMoveBackward() ? "yes" : "no") + "\t\t\t  ║");
+        System.out.println(" ║ Pawn capture backward:\t"
+                + (rulesSet.isPawnCaptureBackward() ? "yes" : "no") + "\t\t\t  ║");
+        System.out.println(" ║ Queen range:\t\t\t"
+                + (rulesSet.isQueenRangeOne() ? "one field" : "any\t") + "\t\t  ║");
+        System.out.println(" ║ Queen move after capture:\t"
+                + (rulesSet.isQueenRangeOneAfterCapture() ? "next field" : "any\t") + "\t\t  ║");
+        System.out.println(" ╚════════════════════════════════════════════════════════╝");
     }
 
 }

@@ -91,7 +91,7 @@ public class Game implements Serializable {
         do {
             isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, player, rulesSet);
             if (isFinished) {
-                save = InGameUI.endOfGame(board,simplePrint,moves);
+                save = InGameUI.endOfGame(board, simplePrint, moves, player);
                 isDraw = VictoryValidator.isDraw();
                 winner = VictoryValidator.getWinner();
                 break;
@@ -108,15 +108,15 @@ public class Game implements Serializable {
 
     private boolean waitForMove() {
         String captures = "";
-        InGameUI.printBoard(board, simplePrint, player);
+        InGameUI.printBoard(board, simplePrint, player, moves, rulesSet);
         try {
             (new CapturePossibilityValidator(board,player, rulesSet)).validateCapturePossibility();
         }
         catch(CapturePossibleException e){
             captures = e.getMessage();
-            InGameUI.printCapture(captures);
+            InGameUI.printCapture(captures, simplePrint);
         }
-        String[] s = InGameUI.getMoveOrOption(captures);
+        String[] s = InGameUI.getMoveOrOption(captures, simplePrint);
         if(s == null)
             return true;
         else if(s.length == 1 && inGameMenu(s[0])){
@@ -131,7 +131,7 @@ public class Game implements Serializable {
                 return true;
             }
             catch(IncorrectMoveFormat e){
-                InGameUI.printIncorrectMoveFormat();
+                InGameUI.printIncorrectMoveFormat(simplePrint);
                 return true;
             }
         }
@@ -144,7 +144,7 @@ public class Game implements Serializable {
         int y1 = Character.getNumericValue(s[1].charAt(0));
         char x2 = s[2].charAt(0);
         int y2 = Character.getNumericValue(s[3].charAt(0));
-        InGameUI.printMakingMove(x1,y1,x2,y2);
+        InGameUI.printMakingMove(simplePrint, x1, y1, x2, y2);
         Move move = new Move(x1, y1, x2, y2);
         try {
             MoveValidator.validateMove(move, this.board, this.player, rulesSet);
@@ -163,20 +163,20 @@ public class Game implements Serializable {
                     whiteQueenMoves = 0;
             }
             this.player = !this.player;
-            InGameUI.printMoveDone();
+            InGameUI.printMoveDone(simplePrint);
 
         }catch (CaptureException e){
             moves.add((player ? "black: " : "white: ") + move);
             move.makeCapture(board,e.getRow(),e.getCol());
             multiCapture(move);
-            InGameUI.printCaptureDone();
+            InGameUI.printCaptureDone(simplePrint);
             if(player)
                 blackQueenMoves = 0;
             else
                 whiteQueenMoves = 0;
             this.player = !this.player;
         }catch (IncorrectMoveException e){
-            InGameUI.printIncorrectMove(e.getMessage());
+            InGameUI.printIncorrectMove(e.getMessage(), simplePrint);
         }finally{
             if((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
                     && board.getFigure(move.getRow2(), move.getCol2()).getColor()
@@ -198,9 +198,9 @@ public class Game implements Serializable {
                 break;
             }
             catch(CapturePossibleException e){
-                InGameUI.printBoard(board, simplePrint, player);
-                InGameUI.printMultiCapture(e.getMessage());
-                String[] s = InGameUI.getMoveOrOption(e.getMessage());
+                InGameUI.printBoard(board, simplePrint, player, moves, rulesSet);
+                InGameUI.printMultiCapture(e.getMessage(), simplePrint);
+                String[] s = InGameUI.getMoveOrOption(e.getMessage(), simplePrint);
                 if(s == null)
                     continue;
                 else if(s.length == 1 && inGameMenu(s[0])){
@@ -215,18 +215,18 @@ public class Game implements Serializable {
                         move = new Move(x1, y1, x2, y2);
                         try{
                             MoveValidator.validateMove(move, this.board, this.player, rulesSet);
-                            InGameUI.printIncorrectMove("continue capturing is obligatory!");
+                            InGameUI.printIncorrectMove("continue capturing is obligatory!", simplePrint);
                         }
                         catch(CaptureException e1){
                             moves.add((player ? "black: " : "white: ") + move);
                             move.makeCapture(board,e1.getRow(),e1.getCol());
                         }
                         catch(IncorrectMoveException e1){
-                            InGameUI.printIncorrectMove("continue capturing is obligatory!");
+                            InGameUI.printIncorrectMove("continue capturing is obligatory!", simplePrint);
                         }
                     }
                     catch(IncorrectMoveFormat e1){
-                        InGameUI.printIncorrectMoveFormat();
+                        InGameUI.printIncorrectMoveFormat(simplePrint);
                         continue;
                     }
                 }

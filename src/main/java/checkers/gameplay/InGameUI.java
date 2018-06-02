@@ -30,7 +30,87 @@ public class InGameUI {
         return name;
     }
 
-    public static String sideMenu(int line,List<String> moves){
+    public static String sideMenuSimple(int line,List<String> moves){
+        String s = "            ";
+        switch(line){
+            case 1:
+                return "\t\t+------+------+-------+";
+            case 2:
+                return "\t\t| PAWN |QUEEN |       |";
+            case 3:
+                return "\t\t+------+------+-------+";
+            case 4:
+                return "\t|  PP  |  QQ  |       |";
+            case 5:
+                return "\t\t|  PP  |  QQ  | BLACK |";
+            case 6:
+                return "\t\t+------+------+-------+";
+            case 7:
+                return "\t|  pp  |  qq  |       |";
+            case 8:
+                return "\t\t|  pp  |  qq  | WHITE |";
+            case 9:
+                return "\t\t+------+------+-------+";
+            case 10:
+                return "\t|   MENU              |";
+            case 11:
+                return "\t\t|(h) moves history    |";
+            case 12:
+                return "\t\t|(s) save and exit    |";
+            case 13:
+                return "\t|(x) exit, no saving  |";
+            case 14:
+                return "\t\t+---------------------+";
+            case 15:
+                return "\t\t|   LAST 10 MOVES     |";
+            case 16:
+                if(moves.size() >= 1)
+                    s = moves.get(moves.size() - 1);
+                return "\t|    " + s + "     |";
+            case 17:
+                if(moves.size() >= 2)
+                    s = moves.get(moves.size() - 2);
+                return "\t\t|    " + s + "     |";
+            case 18:
+                if(moves.size() >= 3)
+                    s = moves.get(moves.size() - 3);
+                return "\t\t|    " + s + "     |";
+            case 19:
+                if(moves.size() >= 4)
+                    s = moves.get(moves.size() - 4);
+                return "\t|    " + s + "     |";
+            case 20:
+                if(moves.size() >= 5)
+                    s = moves.get(moves.size() - 5);
+                return "\t\t|    " + s + "     |";
+            case 21:
+                if(moves.size() >= 6)
+                    s = moves.get(moves.size() - 6);
+                return "\t\t|    " + s + "     |";
+            case 22:
+                if(moves.size() >= 7)
+                    s = moves.get(moves.size() - 7);
+                return "\t|    " + s + "     |";
+            case 23:
+                if(moves.size() >= 8)
+                    s = moves.get(moves.size() - 8);
+                return "\t\t|    " + s + "     |";
+            case 24:
+                if(moves.size() >= 9)
+                    s = moves.get(moves.size() - 9);
+                return "\t\t|    " + s + "     |";
+            case 25:
+                if(moves.size() >= 10)
+                    s = moves.get(moves.size() - 10);
+                return "\t|    " + s + "     |";
+            case 26:
+                return "\t\t+---------------------+";
+            default:
+                throw new UnknownException();
+        }
+    }
+
+    public static String sideMenu(int line,List<String> moves, boolean player){
         String s = "            ";
         switch(line){
             case 1:
@@ -40,19 +120,37 @@ public class InGameUI {
             case 3:
                 return "\t\t╠═══════╬═══════╬════════╣";
             case 4:
-                return "\t\t║ ┌───┐ ║ ╔═══╗ ║        ║";
+                if(player)
+                    return "\t\t║ ┌───┐ ║ ╔═══╗ ║        ║";
+                else
+                    return "\t\t║ ┌───┐ ║ ╔═══╗ ║╔══════╗║";
             case 5:
-                return "\t\t║ │ █ │ ║ ║ █ ║ ║ WHITE  ║";
+                if(player)
+                    return "\t\t║ │ █ │ ║ ║ █ ║ ║ WHITE  ║";
+                else
+                    return "\t\t║ │ █ │ ║ ║ █ ║ ║║WHITE ║║";
             case 6:
-                return "\t\t║ └───┘ ║ ╚═══╝ ║        ║";
+                if(player)
+                    return "\t\t║ └───┘ ║ ╚═══╝ ║        ║";
+                else
+                    return "\t\t║ └───┘ ║ ╚═══╝ ║╚══════╝║";
             case 7:
                 return "\t\t╠═══════╬═══════╬════════╣";
             case 8:
-                return "\t\t║ ┌───┐ ║ ╔═══╗ ║        ║";
+                if(player)
+                    return "\t\t║ ┌───┐ ║ ╔═══╗ ║╔══════╗║";
+                else
+                    return "\t\t║ ┌───┐ ║ ╔═══╗ ║        ║";
             case 9:
-                return "\t\t║ │   │ ║ ║   ║ ║ BLACK  ║";
+                if(player)
+                    return "\t\t║ │   │ ║ ║   ║ ║║BLACK ║║";
+                else
+                    return "\t\t║ │   │ ║ ║   ║ ║ BLACK  ║";
             case 10:
-                return "\t\t║ └───┘ ║ ╚═══╝ ║        ║";
+                if(player)
+                    return "\t\t║ └───┘ ║ ╚═══╝ ║╚══════╝║";
+                else
+                    return "\t\t║ └───┘ ║ ╚═══╝ ║        ║";
             case 11:
                 return "\t\t╠═══════╩═══════╩════════╣";
             case 12:
@@ -116,35 +214,109 @@ public class InGameUI {
         }
     }
 
-    public static void printBoard(Board board, boolean simplePrint, boolean player){
+    public static void printBoard(Board board, boolean simplePrint, boolean player, List<String> moves,
+                                  RulesSet rulesSet){
         Menu.cls();
+        if(simplePrint) {
+            System.out.println(rulesSet);
+            board.printBoardSimple(moves);
+        }
+        else {
+            Menu.printRulesSet(rulesSet);
+            board.printBoard(moves, player);
+        }
         if(simplePrint)
-            board.printSimple();
-        else
-            System.out.println(board);
-        System.out.print("Player: " + (player ? "BLACK" : "WHITE"));
-        System.out.println(". Enter your next move, or \"h\" for move history: ");
+            System.out.println(" Enter your next move.\tActive player: " + (player ? "BLACK" : "WHITE"));
+        else {
+            System.out.println(" ╔═════════════════════════════════╦══════════════════════╗");
+            System.out.println(" ║ Enter your next move.\t   ║ Active player: " + (player ? "BLACK" : "WHITE") + " ║");
+            System.out.println(" ╚═════════════════════════════════╩══════════════════════╝");
+        }
     }
 
-    public static void printCapture(String captures){
-        System.out.println("You have to capture: " + captures);
+    public static void printMakingMove(boolean simplePrint, char x1, int y1, char x2, int y2){
+        if(simplePrint)
+            System.out.println(" Making move: " + x1 + y1 + "-" + x2 + y2);
+        else {
+            System.out.println(" ╔════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ Making move: " + x1 + y1 + "-" + x2 + y2 + "\t\t\t\t\t  ║");
+            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+        }
     }
 
-    public static void printMultiCapture(String captures){
-        System.out.println("Possible captures: " + captures);
+    public static void printMoveDone(boolean simplePrint){
+        if(simplePrint)
+            System.out.println(" Move done.");
+        else {
+            System.out.println(" ╔════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ Move done.\t\t\t\t\t\t  ║");
+            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+        }
     }
 
-    public static void printCaptureObligatory(){
-        System.out.println("Capture is obligatory!");
+    public static void printCaptureDone(boolean simplePrint){
+        if(simplePrint)
+            System.out.println(" Capture done.");
+        else {
+            System.out.println(" ╔════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ Capture done.\t\t\t\t\t  ║");
+            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+        }
+    }
+
+    public static void printIncorrectMove(String s, boolean simplePrint){
+        if(simplePrint)
+            System.out.println(" Incorrect move: " + s);
+        else {
+            System.out.println(" ╔════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ Incorrect move: " + s + " ║");
+            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+        }
+    }
+
+    public static void printCapture(String captures, boolean simplePrint){
+        if(simplePrint)
+            System.out.println(" You have to capture: " + captures);
+        else {
+            System.out.println(" ╔════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ You have to capture: " + captures + "\t\t\t\t  ║");
+            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+        }
+    }
+
+    public static void printMultiCapture(String captures, boolean simplePrint){
+        if(simplePrint)
+            System.out.println(" Possible captures: " + captures);
+        else {
+            System.out.println(" ╔════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ Possible captures: " + captures + "\t\t\t\t  ║");
+            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+        }
+    }
+
+    public static void printCaptureObligatory(boolean simplePrint) {
+        if (simplePrint)
+            System.out.println(" Capture is obligatory!");
+        else {
+            System.out.println(" ╔════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ Capture is obligatory!\t\t\t\t  ║");
+            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+        }
         Menu.waitForEnter();
     }
 
-    public static void printIncorrectMoveFormat(){
-        System.out.println("Incorrect move format! Proper format example: E4-D5");
+    public static void printIncorrectMoveFormat(boolean simplePrint){
+        if(simplePrint)
+            System.out.println(" Incorrect move format! Proper format example: E4-D5");
+        else {
+            System.out.println(" ╔════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ Incorrect move format! Proper format example: E4-D5 ║");
+            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+        }
         Menu.waitForEnter();
     }
 
-    public static String[] getMoveOrOption(String captures){
+    public static String[] getMoveOrOption(String captures, boolean simplePrint){
         String s;
         s = sc.nextLine();
         String[] result;
@@ -171,12 +343,12 @@ public class InGameUI {
                 result[3] = "" + y2;
             }
             else{
-                InGameUI.printCaptureObligatory();
+                InGameUI.printCaptureObligatory(simplePrint);
                 return null;
             }
         }
         catch(IncorrectMoveFormat e){
-            InGameUI.printIncorrectMoveFormat();
+            InGameUI.printIncorrectMoveFormat(simplePrint);
             return null;
         }
         return result;
@@ -191,42 +363,70 @@ public class InGameUI {
                 throw new IncorrectMoveFormat();
     }
 
-    public static void printMakingMove(char x1, int y1, char x2, int y2){
-        System.out.println("Trying to make move: " + x1 + y1 + " to " + x2 + y2 + ".");
-    }
-
-    public static void printMoveDone(){
-        System.out.println("Move done.");
-    }
-
-    public static void printCaptureDone(){
-        System.out.println("Capture done.");
-    }
-
-    public static void printIncorrectMove(String s){
-        System.out.println("Incorrect move: " + s);
-    }
-
-    public static boolean endOfGame(Board board, boolean simplePrint, List<String> moves){
+    public static boolean endOfGame(Board board, boolean simplePrint, List<String> moves, boolean player){
         Menu.cls();
         if(simplePrint)
-            board.printSimple();
+            board.printBoardSimple(moves);
         else
-            System.out.println(board);
-        System.out.println("game over!");
+            board.printBoard(moves, player);
         if(VictoryValidator.isDraw()) {
-            System.out.println("\tDRAW!");
+            if(simplePrint)
+                System.out.println("GAME OVER!\n\tDRAW!");
+            else {
+                System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
+                System.out.println(" ║ ███    █   █     █ ████				 					 ║");
+                System.out.println(" ║█   █  █ █  ██   ██ █					 					 ║");
+                System.out.println(" ║█     █   █ █ █ █ █ █					 	███   ████    █	  █	█	 ║");
+                System.out.println(" ║█  ██ █   █ █  █  █ ███				 	█  █  █	  █  █ █  █	█	 ║");
+                System.out.println(" ║█   █ █████ █     █ █      ███  █     █ ████ ████   ██	█   █ █   █ █   █ █	█	 ║");
+                System.out.println(" ║ ███  █   █ █     █ ████  █   █  █   █  █    █   █  ██	█   █ ████  █   █ █  █	█	 ║");
+                System.out.println(" ║			    █   █  █   █  █    █   █  ██	█  █  █	 █  █████ █ █ █	█	 ║");
+                System.out.println(" ║			    █   █   █ █   ███  ████   ██        ███   █	  █ █   █ ██   ██	 ║");
+                System.out.println(" ║			    █   █   █ █   █    █  █						 ║");
+                System.out.println(" ║			     ███     █    ████ █   █  ██					 ║");
+                System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
+            }
         }
         else {
-            if (VictoryValidator.getWinner())
-                System.out.println("\tBLACK WINS!");
-            else
-                System.out.println("\tWHITE WINS!");
-
+            if (VictoryValidator.getWinner()) {
+                if(simplePrint)
+                    System.out.println("GAME OVER!\n\tBLACK WINS!");
+                else {
+                    System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
+                    System.out.println(" ║ ███    █   █     █ ████				 	█   █    ██   ██ █		 ║");
+                    System.out.println(" ║█   █  █ █  ██   ██ █					 	██  █   █  █ █   █ █		 ║");
+                    System.out.println(" ║█     █   █ █ █ █ █ █					 	█ █ █   ████ █   ██		 ║");
+                    System.out.println(" ║█  ██ █   █ █  █  █ ███				 	██  ███ █  █  ██ █ █		 ║");
+                    System.out.println(" ║█   █ █████ █     █ █      ███  █     █ ████ ████   ██					 ║");
+                    System.out.println(" ║ ███  █   █ █     █ ████  █   █  █   █  █    █   █  ██		█   █ █ █   █  ███	 ║");
+                    System.out.println(" ║			    █   █  █   █  █    █   █  ██		█   █ █ ██  █ █	 	 ║");
+                    System.out.println(" ║			    █   █   █ █   ███  ████   ██  		█ █ █ █ █ █ █  ██	 ║");
+                    System.out.println(" ║			    █   █   █ █   █    █  █			██ ██ █ █  ██    █	 ║");
+                    System.out.println(" ║			     ███     █    ████ █   █  ██		█   █ █	█   █ ███ 	 ║");
+                    System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
+                }
+            }
+            else {
+                if(simplePrint)
+                    System.out.println("GAME OVER!\n\tWHITE WINS!");
+                else {
+                    System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
+                    System.out.println(" ║ ███    █   █     █ ████				 	█   █ █ █ █ ███ ███		 ║");
+                    System.out.println(" ║█   █  █ █  ██   ██ █					 	█   █ █ █ █  █  █		 ║");
+                    System.out.println(" ║█     █   █ █ █ █ █ █					 	█ █ █ ███ █  █  ██		 ║");
+                    System.out.println(" ║█  ██ █   █ █  █  █ ███				 	██ ██ █ █ █  █  ███		 ║");
+                    System.out.println(" ║█   █ █████ █     █ █      ███  █     █ ████ ████   ██					 ║");
+                    System.out.println(" ║ ███  █   █ █     █ ████  █   █  █   █  █    █   █  ██		█   █ █ █   █  ███	 ║");
+                    System.out.println(" ║			    █   █  █   █  █    █   █  ██		█   █ █ ██  █ █	 	 ║");
+                    System.out.println(" ║			    █   █   █ █   ███  ████   ██  		█ █ █ █ █ █ █  ██	 ║");
+                    System.out.println(" ║			    █   █   █ █   █    █  █			██ ██ █ █  ██    █	 ║");
+                    System.out.println(" ║			     ███     █    ████ █   █  ██		█   █ █	█   █ ███	 ║");
+                    System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
+                }
+            }
         }
         String o;
         do{
-            System.out.println("\nEnter (h) for moves history, (s) to save and exit or (x) for exit without saving:");
             o = sc.nextLine();
             if(o.equals("h")){
                 System.out.println("Moves history:");

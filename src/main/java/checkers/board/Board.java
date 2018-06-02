@@ -1,9 +1,11 @@
 package checkers.board;
 
 import checkers.figures.Figure;
+import checkers.gameplay.InGameUI;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 public class Board implements Serializable {
 
@@ -57,36 +59,36 @@ public class Board implements Serializable {
 		this.rows.get(row).setFigure(col, figure);
 	}
 
-	public void printSimple(){
-        System.out.print("     1    2    3    4    5    6    7    8");
-        System.out.print("\n  +----+----+----+----+----+----+----+----+");
-        System.out.print(rows.get('A').printRowSimple('A'));
-        System.out.print(rows.get('B').printRowSimple('B'));
-        System.out.print(rows.get('C').printRowSimple('C'));
-        System.out.print(rows.get('D').printRowSimple('D'));
-        System.out.print(rows.get('E').printRowSimple('E'));
-        System.out.print(rows.get('F').printRowSimple('F'));
-        System.out.print(rows.get('G').printRowSimple('G'));
-        System.out.print(rows.get('H').printRowSimple('H'));
+	public void printBoardSimple(List<String> moves){
+        System.out.print("     1    2    3    4    5    6    7    8" + InGameUI.sideMenuSimple(1, moves));
+        System.out.print("\n  +----+----+----+----+----+----+----+----+" + InGameUI.sideMenuSimple(2, moves));
+        System.out.print(rows.get('A').printRowSimple('A', 3, moves));
+        System.out.print(rows.get('B').printRowSimple('B', 6, moves));
+        System.out.print(rows.get('C').printRowSimple('C', 9, moves));
+        System.out.print(rows.get('D').printRowSimple('D', 12, moves));
+        System.out.print(rows.get('E').printRowSimple('E', 15, moves));
+        System.out.print(rows.get('F').printRowSimple('F', 18, moves));
+        System.out.print(rows.get('G').printRowSimple('G', 21, moves));
+        System.out.print(rows.get('H').printRowSimple('H', 24, moves));
         System.out.println("\n    1    2    3    4    5    6    7    8\n");
     }
 
-    @Override
-    public String toString() {
+    public void printBoard(List<String> moves, boolean player) {
         String board = "";
-        board += "     1      2      3      4      5      6      7      8";
-        board += "\n ╔════════════════════════════════════════════════════════╗";
-        board += rows.get('A').printRow('A');
-        board += rows.get('B').printRow('B');
-        board += rows.get('C').printRow('C');
-        board += rows.get('D').printRow('D');
-        board += rows.get('E').printRow('E');
-        board += rows.get('F').printRow('F');
-        board += rows.get('G').printRow('G');
-        board += rows.get('H').printRow('H');
-        board += "\n ╚════════════════════════════════════════════════════════╝";
-        board += "\n     1      2      3      4      5      6      7      8";
-        return board;
+        board += InGameUI.sideMenu(1, moves, player);
+        board += "\n     1      2      3      4      5      6      7      8" + InGameUI.sideMenu(2, moves, player);
+        board += "\n ╔════════════════════════════════════════════════════════╗" + InGameUI.sideMenu(3, moves, player);
+        board += rows.get('A').printRow('A', 4, moves, player);
+        board += rows.get('B').printRow('B', 7, moves, player);
+        board += rows.get('C').printRow('C', 10, moves, player);
+        board += rows.get('D').printRow('D', 13, moves, player);
+        board += rows.get('E').printRow('E', 16, moves, player);
+        board += rows.get('F').printRow('F', 19, moves, player);
+        board += rows.get('G').printRow('G', 22, moves, player);
+        board += rows.get('H').printRow('H', 25, moves, player);
+        board += "\n ╚════════════════════════════════════════════════════════╝" + InGameUI.sideMenu(28, moves, player);
+        board += "\n     1      2      3      4      5      6      7      8" + InGameUI.sideMenu(29, moves, player);
+        System.out.println(board);
     }
 
 }
