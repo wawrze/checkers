@@ -108,26 +108,29 @@ public class MoveValidator {
             for (int i = 1; i < (x1 - x2 - 1); i++) {
                 figure = board.getFigure((char) (64 + x1 - i), y1 - i);
                 if (!(figure instanceof None)) {
-                    if(rulesSet.isQueenRangeOneAfterCapture())
-
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
                     if (figure.getColor() == player)
                         throw new IncorrectMoveException("Some figure on the way!\t\t ");
                     else {
                         x = (char) (64 + x1 - i);
                         y = y1 - i;
+                        if (rulesSet.isQueenRangeOneAfterCapture()) {
+                            if((x + 1 == x2 - 64) && (y + 1 == y2))
+                                throw new CaptureException(x, y);
+                        }
                         counter++;
                     }
                 }
             }
-            figure = board.getFigure((char) (64 + x2 + 1), y1 - x1 + x2 + 1);
-            if (!(figure instanceof None)) {
-                if (figure.getColor() == player)
-                    throw new IncorrectMoveException("Some figure on the way!\t\t ");
-                else {
-                    x = (char) (64 + + x2 + 1);
-                    y = y1 - x1 + x2 + 1;
-                    counter++;
+            if (y1 - y2 > 1) {
+                figure = board.getFigure((char) (64 + x2 + 1), y1 - x1 + x2 + 1);
+                if (!(figure instanceof None)) {
+                    if (figure.getColor() == player)
+                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                    else {
+                        x = (char) (64 + +x2 + 1);
+                        y = y1 - x1 + x2 + 1;
+                        counter++;
+                    }
                 }
             }
             if (counter == 1)
@@ -140,25 +143,29 @@ public class MoveValidator {
             for (int i = 1; i < (x1 - x2 - 1); i++) {
                 figure = board.getFigure((char) (64 + x1 - i), y1 + i);
                 if (!(figure instanceof None)) {
-                    if(rulesSet.isQueenRangeOneAfterCapture())
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
                     if (figure.getColor() == player)
                         throw new IncorrectMoveException("Some figure on the way!\t\t ");
                     else {
                         x = (char) (64 + x1 - i);
                         y = y1 + i;
+                        if (rulesSet.isQueenRangeOneAfterCapture()) {
+                            if((x + 1 == x2 - 64) && (y - 1 == y2))
+                                throw new CaptureException(x, y);
+                        }
                         counter++;
                     }
                 }
             }
-            figure = board.getFigure((char) (64 + x2 + 1), y1 + x1 - x2 - 1);
-            if (!(figure instanceof None)) {
-                if (figure.getColor() == player)
-                    throw new IncorrectMoveException("Some figure on the way!\t\t ");
-                else {
-                    x = (char) (64 + + x2 + 1);
-                    y = y1 + x1 - x2 - 1;
-                    counter++;
+            if (y2 - y1 > 1) {
+                figure = board.getFigure((char) (64 + x2 + 1), y1 + x1 - x2 - 1);
+                if (!(figure instanceof None)) {
+                    if (figure.getColor() == player)
+                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                    else {
+                        x = (char) (64 + +x2 + 1);
+                        y = y1 + x1 - x2 - 1;
+                        counter++;
+                    }
                 }
             }
             if (counter == 1)
@@ -171,25 +178,29 @@ public class MoveValidator {
             for (int i = 1; i < (x2 - x1 - 1); i++) {
                 figure = board.getFigure((char) (64 + x1 + i), y1 - i);
                 if (!(figure instanceof None)) {
-                    if(rulesSet.isQueenRangeOneAfterCapture())
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
                     if (figure.getColor() == player)
                         throw new IncorrectMoveException("Some figure on the way!\t\t ");
                     else {
                         x = (char) (64 + x1 + i);
                         y = y1 - i;
+                        if (rulesSet.isQueenRangeOneAfterCapture()) {
+                            if((x - 1 == x2 - 64) && (y + 1 == y2))
+                                throw new CaptureException(x, y);
+                        }
                         counter++;
                     }
                 }
             }
-            figure = board.getFigure((char) (64 + x2 - 1), y1 - x2 + x1 + 1);
-            if (!(figure instanceof None)) {
-                if (figure.getColor() == player)
-                    throw new IncorrectMoveException("Some figure on the way!\t\t ");
-                else {
-                    x = (char) (64 + x2 - 1);
-                    y = y1 - x2 + x1 + 1;
-                    counter++;
+            if (y1 - y2 > 1) {
+                figure = board.getFigure((char) (64 + x2 - 1), y1 - x2 + x1 + 1);
+                if (!(figure instanceof None)) {
+                    if (figure.getColor() == player)
+                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                    else {
+                        x = (char) (64 + x2 - 1);
+                        y = y1 - x2 + x1 + 1;
+                        counter++;
+                    }
                 }
             }
             if (counter == 1)
@@ -202,25 +213,29 @@ public class MoveValidator {
             for (int i = 1; i < (x2 - x1 - 1); i++) {
                 figure = board.getFigure((char) (64 + x1 + i), y1 + i);
                 if (!(figure instanceof None)) {
-                    if(rulesSet.isQueenRangeOneAfterCapture())
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
                     if (figure.getColor() == player)
                         throw new IncorrectMoveException("Some figure on the way!\t\t ");
                     else {
                         x = (char) (64 + x1 + i);
                         y = y1 + i;
+                        if (rulesSet.isQueenRangeOneAfterCapture()) {
+                            if((x - 1 == x2 - 64) && (y - 1 == y2))
+                                throw new CaptureException(x, y);
+                        }
                         counter++;
                     }
                 }
             }
-            figure = board.getFigure((char) (64 + x2 - 1), y1 + x2 - x1 - 1);
-            if (!(figure instanceof None)) {
-                if (figure.getColor() == player)
-                    throw new IncorrectMoveException("Some figure on the way!\t\t ");
-                else {
-                    x = (char) (64 + x2 - 1);
-                    y = y1 + x2 - x1 - 1;
-                    counter++;
+            if (y2 - y1 > 1) {
+                figure = board.getFigure((char) (64 + x2 - 1), y1 + x2 - x1 - 1);
+                if (!(figure instanceof None)) {
+                    if (figure.getColor() == player)
+                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                    else {
+                        x = (char) (64 + x2 - 1);
+                        y = y1 + x2 - x1 - 1;
+                        counter++;
+                    }
                 }
             }
             if (counter == 1)

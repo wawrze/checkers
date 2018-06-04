@@ -17,11 +17,14 @@ public class RulesSet implements Serializable {
                     final boolean isCaptureAny, final boolean isPawnMoveBackward, final boolean isPawnCaptureBackward,
                     final boolean isQueenRangeOneAfterCapture, final String name, final String description) {
         this.isVictoryConditionsReversed = isVictoryConditionsReversed;
-        this.isQueenRangeOne = isQueenRangeOne;
         this.isCaptureAny = isCaptureAny;
         this.isPawnMoveBackward = isPawnMoveBackward;
         this.isPawnCaptureBackward = isPawnCaptureBackward;
-        this.isQueenRangeOneAfterCapture = isQueenRangeOneAfterCapture;
+        this.isQueenRangeOne = isQueenRangeOne;
+        if(isQueenRangeOne)
+            this.isQueenRangeOneAfterCapture = true;
+        else
+            this.isQueenRangeOneAfterCapture = isQueenRangeOneAfterCapture;
         this.name = name;
         this.description = description;
     }

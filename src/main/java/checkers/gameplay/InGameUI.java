@@ -310,7 +310,7 @@ public class InGameUI {
             System.out.println(" Incorrect move format! Proper format example: E4-D5");
         else {
             System.out.println(" ╔════════════════════════════════════════════════════════╗");
-            System.out.println(" ║ Incorrect move format! Proper format example: E4-D5 ║");
+            System.out.println(" ║ Incorrect move format! Proper format example: E4-D5\t ║");
             System.out.println(" ╚════════════════════════════════════════════════════════╝");
         }
         Menu.waitForEnter();

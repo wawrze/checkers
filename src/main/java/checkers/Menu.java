@@ -204,9 +204,8 @@ public class Menu {
             catch(NumberFormatException e){}
         }while(number < 0 || number >= rules.size());
         RulesSet rulesSet = rules.get(number);
-        System.out.println("Choose if you want to print board simple."
-                + "You can change it at any time during game by entering \"p\"");
-        boolean simplePrint;
+        System.out.println("Do you want to play with computer player?");
+        boolean isAIPlayer;
         String s;
         do {
             System.out.print("Enter (y) for yes or (n) for no: ");
@@ -214,10 +213,23 @@ public class Menu {
             s = s.toLowerCase();
         }while(!s.equals("y") && !s.equals("n"));
         if(s.equals("y"))
-            simplePrint = true;
+            isAIPlayer = true;
         else
-            simplePrint = false;
-        Game game = new Game(name, rulesSet, simplePrint);
+            isAIPlayer = false;
+        System.out.println("Which color do you choose?");
+        boolean aiPlayer = false;
+        if(isAIPlayer) {
+            do {
+                System.out.print("Enter (b) for black or (w) for white: ");
+                s = sc.nextLine();
+                s = s.toLowerCase();
+            }while(!s.equals("b") && !s.equals("w"));
+            if(s.equals("b"))
+                aiPlayer = false;
+            else
+                aiPlayer = true;
+        }
+        Game game = new Game(name, rulesSet, isAIPlayer, aiPlayer);
         return game;
     }
 

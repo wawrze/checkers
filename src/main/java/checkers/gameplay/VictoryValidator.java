@@ -87,7 +87,7 @@ public class VictoryValidator {
 
     private static boolean validateFigureMovePossibility(Board board,char row1, int col1, RulesSet rulesSet){
         int range = 8;
-        if(board.getFigure(row1,col1) instanceof Pawn)
+        if(board.getFigure(row1,col1) instanceof Pawn || rulesSet.isQueenRangeOne())
             range = 3;
         char row2;
         int col2;

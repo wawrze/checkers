@@ -16,7 +16,8 @@ public class Game implements Serializable {
 
     private Board board;
     private List<String> moves;
-    private boolean player;
+
+    private boolean activePlayer;
     private boolean simplePrint;
     private int whiteQueenMoves;
     private int blackQueenMoves;
@@ -28,11 +29,13 @@ public class Game implements Serializable {
     private LocalDate date;
     private LocalTime time;
     private RulesSet rulesSet;
+    private boolean isAIPlayer;
+    private boolean aiPlayer;
 
     public Game(Game game) {
         this.board = new Board(game.getBoard());
         this.moves = new LinkedList<>(game.getMoves());
-        this.player = game.isPlayer();
+        this.activePlayer = game.isActivePlayer();
         this.simplePrint = game.isSimplePrint();
         this.whiteQueenMoves = game.getWhiteQueenMoves();
         this.blackQueenMoves = game.getBlackQueenMoves();
@@ -44,17 +47,21 @@ public class Game implements Serializable {
         this.date = game.getDate();
         this.time = game.getTime();
         this.rulesSet = game.getRulesSet();
+        this.isAIPlayer = game.isAIPlayer();
+        this.aiPlayer = game.getAIPlayer();
     }
 
-    public Game(String name, RulesSet rulesSet, boolean simplePrint) {
+    public Game(String name, RulesSet rulesSet, boolean isAIPlayer, boolean aiPlayer) {
         board = new Board();
         moves = new LinkedList<>();
-        player = false;
-        this.simplePrint = simplePrint;
+        activePlayer = false;
+        simplePrint = false;
         whiteQueenMoves = 0;
         blackQueenMoves = 0;
         isFinished = false;
         isDraw = false;
+        this.isAIPlayer = isAIPlayer;
+        this.aiPlayer = aiPlayer;
         this.name = name;
         save = false;
         this.rulesSet = rulesSet;
@@ -89,9 +96,9 @@ public class Game implements Serializable {
     public boolean play(){
         boolean b;
         do {
-            isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, player, rulesSet);
+            isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, activePlayer, rulesSet);
             if (isFinished) {
-                save = InGameUI.endOfGame(board, simplePrint, moves, player);
+                save = InGameUI.endOfGame(board, simplePrint, moves, activePlayer);
                 isDraw = VictoryValidator.isDraw();
                 winner = VictoryValidator.getWinner();
                 break;
@@ -108,15 +115,20 @@ public class Game implements Serializable {
 
     private boolean waitForMove() {
         String captures = "";
-        InGameUI.printBoard(board, simplePrint, player, moves, rulesSet);
+        InGameUI.printBoard(board, simplePrint, activePlayer, moves, rulesSet);
         try {
-            (new CapturePossibilityValidator(board,player, rulesSet)).validateCapturePossibility();
+            (new CapturePossibilityValidator(board, activePlayer, rulesSet)).validateCapturePossibility();
         }
         catch(CapturePossibleException e){
             captures = e.getMessage();
             InGameUI.printCapture(captures, simplePrint);
         }
-        String[] s = InGameUI.getMoveOrOption(captures, simplePrint);
+        String[] s;
+        if(isAIPlayer && activePlayer == aiPlayer)
+            s = (new AIPlayer(board, activePlayer, rulesSet, whiteQueenMoves, blackQueenMoves)).getAIMove();
+        else {
+            s = InGameUI.getMoveOrOption(captures, simplePrint);
+        }
         if(s == null)
             return true;
         else if(s.length == 1 && inGameMenu(s[0])){
@@ -147,34 +159,34 @@ public class Game implements Serializable {
         InGameUI.printMakingMove(simplePrint, x1, y1, x2, y2);
         Move move = new Move(x1, y1, x2, y2);
         try {
-            MoveValidator.validateMove(move, this.board, this.player, rulesSet);
-            moves.add((player ? "black: " : "white: ") + move);
+            MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
+            moves.add((activePlayer ? "black: " : "white: ") + move);
             move.makeMove(board);
             if(board.getFigure(move.getRow2(),move.getCol2()) instanceof Queen){
-                if(player)
+                if(activePlayer)
                     blackQueenMoves++;
                 else
                     whiteQueenMoves++;
             }
             else{
-                if(player)
+                if(activePlayer)
                     blackQueenMoves = 0;
                 else
                     whiteQueenMoves = 0;
             }
-            this.player = !this.player;
+            this.activePlayer = !this.activePlayer;
             InGameUI.printMoveDone(simplePrint);
 
         }catch (CaptureException e){
-            moves.add((player ? "black: " : "white: ") + move);
+            moves.add((activePlayer ? "black: " : "white: ") + move);
             move.makeCapture(board,e.getRow(),e.getCol());
             multiCapture(move);
             InGameUI.printCaptureDone(simplePrint);
-            if(player)
+            if(activePlayer)
                 blackQueenMoves = 0;
             else
                 whiteQueenMoves = 0;
-            this.player = !this.player;
+            this.activePlayer = !this.activePlayer;
         }catch (IncorrectMoveException e){
             InGameUI.printIncorrectMove(e.getMessage(), simplePrint);
         }finally{
@@ -193,14 +205,21 @@ public class Game implements Serializable {
     private void multiCapture(Move move) {
         do {
             try{
-                (new CapturePossibilityValidator(board, player, rulesSet))
+                (new CapturePossibilityValidator(board, activePlayer, rulesSet))
                         .validateCapturePossibilityForOneFigure(move.getRow2(),move.getCol2());
                 break;
             }
             catch(CapturePossibleException e){
-                InGameUI.printBoard(board, simplePrint, player, moves, rulesSet);
+                InGameUI.printBoard(board, simplePrint, activePlayer, moves, rulesSet);
                 InGameUI.printMultiCapture(e.getMessage(), simplePrint);
-                String[] s = InGameUI.getMoveOrOption(e.getMessage(), simplePrint);
+                String[] s;
+                if(isAIPlayer && activePlayer == aiPlayer) {
+                    s = (new AIPlayer(board, activePlayer, rulesSet, whiteQueenMoves, blackQueenMoves,
+                            move.getRow2(), move.getCol2())).getAIMove();
+                }
+                else {
+                    s = InGameUI.getMoveOrOption(e.getMessage(), simplePrint);
+                }
                 if(s == null)
                     continue;
                 else if(s.length == 1 && inGameMenu(s[0])){
@@ -214,11 +233,11 @@ public class Game implements Serializable {
                     try {
                         move = new Move(x1, y1, x2, y2);
                         try{
-                            MoveValidator.validateMove(move, this.board, this.player, rulesSet);
+                            MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
                             InGameUI.printIncorrectMove("continue capturing is obligatory!", simplePrint);
                         }
                         catch(CaptureException e1){
-                            moves.add((player ? "black: " : "white: ") + move);
+                            moves.add((activePlayer ? "black: " : "white: ") + move);
                             move.makeCapture(board,e1.getRow(),e1.getCol());
                         }
                         catch(IncorrectMoveException e1){
@@ -291,8 +310,8 @@ public class Game implements Serializable {
         return moves;
     }
 
-    public boolean isPlayer() {
-        return player;
+    public boolean isActivePlayer() {
+        return activePlayer;
     }
 
     public boolean isSimplePrint() {
@@ -333,6 +352,14 @@ public class Game implements Serializable {
 
     public RulesSet getRulesSet() {
         return rulesSet;
+    }
+
+    public boolean isAIPlayer() {
+        return isAIPlayer;
+    }
+
+    public boolean getAIPlayer() {
+        return aiPlayer;
     }
 
 }
