@@ -13,7 +13,7 @@ import java.util.*;
 
 public class AIPlayer {
 
-    private final int MAX_DEPTH = 8;
+    private final int MAX_DEPTH = 5;
 
     private Board board;
     private boolean AIPlayer;
@@ -82,6 +82,7 @@ public class AIPlayer {
     private void evaluateMoves(){
         Map<Move,Integer> moves = new HashMap<>(possibleMoves);
         boolean capture;
+        int value;
         for(Map.Entry<Move,Integer> entry : moves.entrySet()){
             Board tmpBoard = new Board(board);
             capture = false;
@@ -96,12 +97,10 @@ public class AIPlayer {
                 }
                 if(VictoryValidator.validateEndOfGame(tmpBoard, whiteQueenMoves, blackQueenMoves, activePlayer,
                         rulesSet)) {
-                    possibleMoves.remove(entry.getKey());
-                    possibleMoves.put(entry.getKey(), evaluateWhenEndOfGame());
+                    value = evaluateWhenEndOfGame();
                 }
                 else {
-                    possibleMoves.remove(entry.getKey());
-                    possibleMoves.put(entry.getKey(), 0);
+                    value = 1;
                 }
             }
             catch(CaptureException e) {
@@ -111,35 +110,14 @@ public class AIPlayer {
                             .validateCapturePossibilityForOneFigure(entry.getKey().getRow2(), entry.getKey().getCol2());
                     if(VictoryValidator.validateEndOfGame(tmpBoard, whiteQueenMoves, blackQueenMoves, activePlayer,
                             rulesSet)) {
-                        possibleMoves.remove(entry.getKey());
-                        possibleMoves.put(entry.getKey(), evaluateWhenEndOfGame());
+                        value = evaluateWhenEndOfGame();
                     }
                     else {
-                        if(activePlayer == AIPlayer) {
-                            possibleMoves.remove(entry.getKey());
-                            possibleMoves.put(entry.getKey(), 1);
-                        }
-                        else {
-                            possibleMoves.remove(entry.getKey());
-                            possibleMoves.put(entry.getKey(), -1);
-                        }
+                        value = 100;
                     }
                 }
                 catch(CapturePossibleException e1) {
-                    if(activePlayer == AIPlayer) {
-                        if(rulesSet.isCaptureAny()) {
-                            possibleMoves.remove(entry.getKey());
-                            possibleMoves.put(entry.getKey(), 10);
-                        }
-                        else {
-                            possibleMoves.remove(entry.getKey());
-                            possibleMoves.put(entry.getKey(), 100);
-                        }
-                    }
-                    else {
-                        possibleMoves.remove(entry.getKey());
-                        possibleMoves.put(entry.getKey(), -100);
-                    }
+                    value = 100;
                     capture = true;
                 }
             }
@@ -147,22 +125,22 @@ public class AIPlayer {
                 possibleMoves.remove(entry.getKey());
                 continue;
             }
-            possibleMoves.remove(entry.getKey());
-            possibleMoves.put(entry.getKey(), entry.getValue() + getFigureSetEvaluation(tmpBoard));
+            if(activePlayer != AIPlayer)
+                value *= -1;
+            value += getFigureSetEvaluation(tmpBoard);
             if(depth < MAX_DEPTH){
                 if(capture) {
                     AIPlayer next_move = new AIPlayer(tmpBoard, AIPlayer, activePlayer, rulesSet, whiteQueenMoves,
                             blackQueenMoves, depth, entry.getKey().getRow2(), entry.getKey().getCol2());
-                    possibleMoves.remove(entry.getKey());
-                    possibleMoves.put(entry.getKey(), entry.getValue() + next_move.getMovesMapValue());
+                    value += next_move.getMovesMapValue();
                 }
                 else {
                     AIPlayer next_move = new AIPlayer(tmpBoard, AIPlayer, !activePlayer, rulesSet, whiteQueenMoves,
                             blackQueenMoves, depth);
-                    possibleMoves.remove(entry.getKey());
-                    possibleMoves.put(entry.getKey(), entry.getValue() + next_move.getMovesMapValue());
+                    value += next_move.getMovesMapValue();
                 }
             }
+            possibleMoves.replace(entry.getKey(), value);
         }
     }
 
@@ -175,10 +153,8 @@ public class AIPlayer {
     private int evaluateWhenEndOfGame(){
         if (VictoryValidator.isDraw())
             return 0;
-        else if(VictoryValidator.getWinner() == AIPlayer)
-            return 1000;
         else
-            return -1000;
+            return 10000;
     }
 
     private void getPossibleMovesMultiCapture(char row, int col){
@@ -244,121 +220,58 @@ public class AIPlayer {
 
     private int getFigureSetEvaluation(Board board) {
         int value = 0;
-        int tmp;
         for(int i = 1;i<9;i++) {
             if (!(board.getFigure('A', i) instanceof None)) {
-                if(board.getFigure('A', i) instanceof Queen) {
-                    tmp = 15;
-                }
-                else {
-                    if (board.getFigure('A', i).getColor())
-                        tmp = 1;
-                    else
-                        tmp = 8;
-                }
-                if(AIPlayer != board.getFigure('A', i).getColor())
-                    tmp *= -1;
-                value += tmp;
+                if (board.getFigure('A', i) instanceof Queen)
+                    value += board.getFigure('A', i).getColor() ? -80 : 80;
+                else
+                    value += board.getFigure('A', i).getColor() ? -1 : 8;
             }
             if (!(board.getFigure('B', i) instanceof None)) {
-                if(board.getFigure('B', i) instanceof Queen) {
-                    tmp = 15;
-                }
-                else {
-                    if (board.getFigure('B', i).getColor())
-                        tmp = 2;
-                    else
-                        tmp = 7;
-                }
-                if(AIPlayer != board.getFigure('B', i).getColor())
-                    tmp *= -1;
-                value += tmp;
+                if (board.getFigure('B', i) instanceof Queen)
+                    value += board.getFigure('B', i).getColor() ? -80 : 80;
+                else
+                    value += board.getFigure('B', i).getColor() ? -2 : 7;
             }
             if (!(board.getFigure('C', i) instanceof None)) {
-                if(board.getFigure('C', i) instanceof Queen) {
-                    tmp = 15;
-                }
-                else {
-                    if (board.getFigure('C', i).getColor())
-                        tmp = 3;
-                    else
-                        tmp = 6;
-                }
-                if(AIPlayer != board.getFigure('C', i).getColor())
-                    tmp *= -1;
-                value += tmp;
+                if (board.getFigure('C', i) instanceof Queen)
+                    value += board.getFigure('C', i).getColor() ? -80 : 80;
+                else
+                    value += board.getFigure('C', i).getColor() ? -3 : 6;
             }
             if (!(board.getFigure('D', i) instanceof None)) {
-                if(board.getFigure('D', i) instanceof Queen) {
-                    tmp = 15;
-                }
-                else {
-                    if (board.getFigure('D', i).getColor())
-                        tmp = 4;
-                    else
-                        tmp = 5;
-                }
-                if(AIPlayer != board.getFigure('D', i).getColor())
-                    tmp *= -1;
-                value += tmp;
+                if (board.getFigure('D', i) instanceof Queen)
+                    value += board.getFigure('D', i).getColor() ? -80 : 80;
+                else
+                    value += board.getFigure('D', i).getColor() ? -4 : 5;
             }
             if (!(board.getFigure('E', i) instanceof None)) {
-                if(board.getFigure('E', i) instanceof Queen) {
-                    tmp = 15;
-                }
-                else {
-                    if (board.getFigure('E', i).getColor())
-                        tmp = 5;
-                    else
-                        tmp = 4;
-                }
-                if(AIPlayer != board.getFigure('E', i).getColor())
-                    tmp *= -1;
-                value += tmp;
+                if (board.getFigure('E', i) instanceof Queen)
+                    value += board.getFigure('E', i).getColor() ? -80 : 80;
+                else
+                    value += board.getFigure('E', i).getColor() ? -5 : 4;
             }
             if (!(board.getFigure('F', i) instanceof None)) {
-                if(board.getFigure('F', i) instanceof Queen) {
-                    tmp = 15;
-                }
-                else {
-                    if (board.getFigure('F', i).getColor())
-                        tmp = 6;
-                    else
-                        tmp = 3;
-                }
-                if(AIPlayer != board.getFigure('F', i).getColor())
-                    tmp *= -1;
-                value += tmp;
+                if(board.getFigure('F', i) instanceof Queen)
+                    value += board.getFigure('F', i).getColor() ? -80 : 80;
+                else
+                    value += board.getFigure('F', i).getColor() ? -6 : 3;
             }
             if (!(board.getFigure('G', i) instanceof None)) {
-                if(board.getFigure('G', i) instanceof Queen) {
-                    tmp = 15;
-                }
-                else {
-                    if (board.getFigure('G', i).getColor())
-                        tmp = 7;
-                    else
-                        tmp = 2;
-                }
-                if(AIPlayer != board.getFigure('G', i).getColor())
-                    tmp *= -1;
-                value += tmp;
+                if(board.getFigure('G', i) instanceof Queen)
+                    value += board.getFigure('G', i).getColor() ? -80 : 80;
+                else
+                    value += board.getFigure('G', i).getColor() ? -7 : 2;
             }
             if (!(board.getFigure('H', i) instanceof None)) {
-                if(board.getFigure('H', i) instanceof Queen) {
-                    tmp = 15;
-                }
-                else {
-                    if (board.getFigure('H', i).getColor())
-                        tmp = 8;
-                    else
-                        tmp = 1;
-                }
-                if(AIPlayer != board.getFigure('H', i).getColor())
-                    tmp *= -1;
-                value += tmp;
+                if(board.getFigure('H', i) instanceof Queen)
+                    value += board.getFigure('H', i).getColor() ? -80 : 80;
+                else
+                    value += board.getFigure('H', i).getColor() ? -8 : 1;
             }
         }
+        if(AIPlayer)
+            value *= -1;
         return value;
     }
 
@@ -411,7 +324,7 @@ public class AIPlayer {
             possibleMoves.put(move, 0);
         } catch (IncorrectMoveException e) {}
         catch (CaptureException e) {
-            possibleMoves.put(move, 1);
+            possibleMoves.put(move, 0);
         }
         return true;
     }
@@ -419,14 +332,34 @@ public class AIPlayer {
     public String[] getAIMove(){
         if(possibleMoves.isEmpty())
             throw new UnknownException();
+/*        for(Map.Entry<Move,Integer> e : possibleMoves.entrySet())
+            System.out.println("" + e.getKey() + ", value: " + e.getValue());*/
         int max = -100000;
-        for(Map.Entry e : possibleMoves.entrySet())
-            if(((int) e.getValue()) > max)
-                max = (int) e.getValue();
+        int min = 100000;
+        for(Map.Entry e : possibleMoves.entrySet()) {
+            if(rulesSet.isVictoryConditionsReversed()) {
+                if (((int) e.getValue()) < min)
+                    min = (int) e.getValue();
+            }
+            else {
+                if (((int) e.getValue()) > max)
+                    max = (int) e.getValue();
+            }
+        }
         List<Move> moves = new ArrayList<>();
-        for(Map.Entry e : possibleMoves.entrySet())
-            if(((int) e.getValue()) == max)
-                moves.add((Move) e.getKey());
+        for(Map.Entry e : possibleMoves.entrySet()) {
+            if(rulesSet.isVictoryConditionsReversed()) {
+                if (((int) e.getValue()) == min)
+                    moves.add((Move) e.getKey());
+            }
+            else {
+                if (((int) e.getValue()) == max)
+                    moves.add((Move) e.getKey());
+            }
+        }
+        if(moves.isEmpty())
+            for(Map.Entry<Move,Integer> e : possibleMoves.entrySet())
+                moves.add(e.getKey());
         Random r = new Random();
         Move bestMove = moves.get(r.nextInt(moves.size()));
         String[] s = new String[4];

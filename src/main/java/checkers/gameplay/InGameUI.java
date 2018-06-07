@@ -121,36 +121,36 @@ public class InGameUI {
                 return "\t\t╠═══════╬═══════╬════════╣";
             case 4:
                 if(player)
-                    return "\t\t║ ┌───┐ ║ ╔═══╗ ║        ║";
-                else
                     return "\t\t║ ┌───┐ ║ ╔═══╗ ║╔══════╗║";
+                else
+                    return "\t\t║ ┌───┐ ║ ╔═══╗ ║        ║";
             case 5:
-                if(player)
-                    return "\t\t║ │ █ │ ║ ║ █ ║ ║ WHITE  ║";
-                else
-                    return "\t\t║ │ █ │ ║ ║ █ ║ ║║WHITE ║║";
-            case 6:
-                if(player)
-                    return "\t\t║ └───┘ ║ ╚═══╝ ║        ║";
-                else
-                    return "\t\t║ └───┘ ║ ╚═══╝ ║╚══════╝║";
-            case 7:
-                return "\t\t╠═══════╬═══════╬════════╣";
-            case 8:
-                if(player)
-                    return "\t\t║ ┌───┐ ║ ╔═══╗ ║╔══════╗║";
-                else
-                    return "\t\t║ ┌───┐ ║ ╔═══╗ ║        ║";
-            case 9:
                 if(player)
                     return "\t\t║ │   │ ║ ║   ║ ║║BLACK ║║";
                 else
                     return "\t\t║ │   │ ║ ║   ║ ║ BLACK  ║";
-            case 10:
+            case 6:
                 if(player)
                     return "\t\t║ └───┘ ║ ╚═══╝ ║╚══════╝║";
                 else
                     return "\t\t║ └───┘ ║ ╚═══╝ ║        ║";
+            case 7:
+                return "\t\t╠═══════╬═══════╬════════╣";
+            case 8:
+                if(player)
+                    return "\t\t║ ┌───┐ ║ ╔═══╗ ║        ║";
+                else
+                    return "\t\t║ ┌───┐ ║ ╔═══╗ ║╔══════╗║";
+            case 9:
+                if(player)
+                    return "\t\t║ │ █ │ ║ ║ █ ║ ║ WHITE  ║";
+                else
+                    return "\t\t║ │ █ │ ║ ║ █ ║ ║║WHITE ║║";
+            case 10:
+                if(player)
+                    return "\t\t║ └───┘ ║ ╚═══╝ ║        ║";
+                else
+                    return "\t\t║ └───┘ ║ ╚═══╝ ║╚══════╝║";
             case 11:
                 return "\t\t╠═══════╩═══════╩════════╣";
             case 12:
@@ -215,7 +215,7 @@ public class InGameUI {
     }
 
     public static void printBoard(Board board, boolean simplePrint, boolean player, List<String> moves,
-                                  RulesSet rulesSet){
+                                  RulesSet rulesSet, boolean isItAITurn){
         Menu.cls();
         if(simplePrint) {
             System.out.println(rulesSet);
@@ -226,97 +226,146 @@ public class InGameUI {
             board.printBoard(moves, player);
         }
         if(simplePrint)
-            System.out.println(" Enter your next move.\tActive player: " + (player ? "BLACK" : "WHITE"));
+            System.out.println(" Active player: " + (player ? "BLACK" : "WHITE")
+                    + (isItAITurn ? " (computer)\tPlease wait for move." : "\tEnter your next move."));
         else {
-            System.out.println(" ╔═════════════════════════════════╦══════════════════════╗");
-            System.out.println(" ║ Enter your next move.\t   ║ Active player: " + (player ? "BLACK" : "WHITE") + " ║");
-            System.out.println(" ╚═════════════════════════════════╩══════════════════════╝");
+            System.out.println(" ╔═════════════════════════════════╦═════════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ Active player: " + (player ? "BLACK" : "WHITE") +
+                    (isItAITurn ? " (computer) ║ Please wait for move."
+                            : "            ║ Enter your next move.")
+                     + "\t\t\t\t\t ║ ");
+            System.out.println(" ╚═════════════════════════════════╩═════════════════════════════════════════════════════════════╝");
         }
     }
 
-    public static void printMakingMove(boolean simplePrint, char x1, int y1, char x2, int y2){
+    public static void printMakingMove(boolean simplePrint, char x1, int y1, char x2, int y2, boolean isItAITurn){
+        if(isItAITurn)
+            return;
         if(simplePrint)
             System.out.println(" Making move: " + x1 + y1 + "-" + x2 + y2);
         else {
-            System.out.println(" ╔════════════════════════════════════════════════════════╗");
-            System.out.println(" ║ Making move: " + x1 + y1 + "-" + x2 + y2 + "\t\t\t\t\t  ║");
-            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+            System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ " + complementString("Making move: " + x1 + y1 + "-" + x2 + y2) + " ║");
+            System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
     }
 
-    public static void printMoveDone(boolean simplePrint){
+    public static void printMoveDone(boolean simplePrint, boolean isItAITurn){
+        if(isItAITurn)
+            return;
         if(simplePrint)
             System.out.println(" Move done.");
         else {
-            System.out.println(" ╔════════════════════════════════════════════════════════╗");
-            System.out.println(" ║ Move done.\t\t\t\t\t\t  ║");
-            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+            System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ " + complementString("Move done.") + " ║");
+            System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
     }
 
-    public static void printCaptureDone(boolean simplePrint){
+    public static void printCaptureDone(boolean simplePrint, boolean isItAITurn){
+        if(isItAITurn)
+            return;
         if(simplePrint)
             System.out.println(" Capture done.");
         else {
-            System.out.println(" ╔════════════════════════════════════════════════════════╗");
-            System.out.println(" ║ Capture done.\t\t\t\t\t  ║");
-            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+            System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ " + complementString("Capture done.") + " ║");
+            System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
     }
 
-    public static void printIncorrectMove(String s, boolean simplePrint){
+    public static void printIncorrectMove(String s, boolean simplePrint, boolean isItAITurn){
+        if(isItAITurn)
+            return;
         if(simplePrint)
             System.out.println(" Incorrect move: " + s);
         else {
-            System.out.println(" ╔════════════════════════════════════════════════════════╗");
-            System.out.println(" ║ Incorrect move: " + s + " ║");
-            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+            System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ " + complementString("Incorrect move: " + s) + " ║");
+            System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
     }
 
-    public static void printCapture(String captures, boolean simplePrint){
+    public static void printCapture(String captures, boolean simplePrint, boolean isItAITurn){
+        if(isItAITurn)
+            return;
         if(simplePrint)
             System.out.println(" You have to capture: " + captures);
         else {
-            System.out.println(" ╔════════════════════════════════════════════════════════╗");
-            System.out.println(" ║ You have to capture: " + captures + "\t\t\t\t  ║");
-            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+            System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ " + complementString("You have to capture: " + captures) + " ║");
+            System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
     }
 
-    public static void printMultiCapture(String captures, boolean simplePrint){
+    public static void printMultiCapture(String captures, boolean simplePrint, boolean isItAITurn){
+        if(isItAITurn)
+            return;
         if(simplePrint)
             System.out.println(" Possible captures: " + captures);
         else {
-            System.out.println(" ╔════════════════════════════════════════════════════════╗");
-            System.out.println(" ║ Possible captures: " + captures + "\t\t\t\t  ║");
-            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+            System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ " + complementString("Possible captures: " + captures) + " ║");
+            System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
     }
 
-    public static void printCaptureObligatory(boolean simplePrint) {
+    private static String complementString (String s){
+        String result = s;
+        if(s.length() < 93)
+            result += "\t";
+        if(s.length() < 85)
+            result += "\t";
+        if(s.length() < 77)
+            result += "\t";
+        if(s.length() < 69)
+            result += "\t";
+        if(s.length() < 61)
+            result += "\t";
+        if(s.length() < 53)
+            result += "\t";
+        if(s.length() < 45)
+            result += "\t";
+        if(s.length() < 37)
+            result += "\t";
+        if(s.length() < 29)
+            result += "\t";
+        if(s.length() < 21)
+            result += "\t";
+        if(s.length() < 13)
+            result += "\t";
+        if(s.length() < 5)
+            result += "\t";
+        return result;
+    }
+
+    public static void printCaptureObligatory(boolean simplePrint, boolean isItAITurn) {
+        if(isItAITurn)
+            return;
         if (simplePrint)
             System.out.println(" Capture is obligatory!");
         else {
-            System.out.println(" ╔════════════════════════════════════════════════════════╗");
-            System.out.println(" ║ Capture is obligatory!\t\t\t\t  ║");
-            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+            System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ Capture is obligatory!\t\t\t\t\t\t\t\t\t ║");
+            System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
         Menu.waitForEnter();
     }
 
-    public static void printIncorrectMoveFormat(boolean simplePrint){
+    public static void printIncorrectMoveFormat(boolean simplePrint, boolean isItAITurn){
+        if(isItAITurn)
+            return;
         if(simplePrint)
             System.out.println(" Incorrect move format! Proper format example: E4-D5");
         else {
-            System.out.println(" ╔════════════════════════════════════════════════════════╗");
-            System.out.println(" ║ Incorrect move format! Proper format example: E4-D5\t ║");
-            System.out.println(" ╚════════════════════════════════════════════════════════╝");
+            System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println(" ║ Incorrect move format! Proper format example: E4-D5\t\t\t\t\t\t ║");
+            System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
         Menu.waitForEnter();
     }
 
-    public static String[] getMoveOrOption(String captures, boolean simplePrint){
+    public static String[] getMoveOrOption(String captures, boolean simplePrint, boolean isItAITurn){
         String s;
         s = sc.nextLine();
         String[] result;
@@ -343,12 +392,12 @@ public class InGameUI {
                 result[3] = "" + y2;
             }
             else{
-                InGameUI.printCaptureObligatory(simplePrint);
+                InGameUI.printCaptureObligatory(simplePrint, isItAITurn);
                 return null;
             }
         }
         catch(IncorrectMoveFormat e){
-            InGameUI.printIncorrectMoveFormat(simplePrint);
+            InGameUI.printIncorrectMoveFormat(simplePrint, isItAITurn);
             return null;
         }
         return result;

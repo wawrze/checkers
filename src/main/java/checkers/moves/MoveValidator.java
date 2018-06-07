@@ -22,12 +22,12 @@ public class MoveValidator {
 
     private static void validateField1(Move move, Board board) throws IncorrectMoveException {
         if (board.getFigure(move.getRow1(), move.getCol1()) instanceof None)
-            throw new IncorrectMoveException("No figure to move!\t\t\t ");
+            throw new IncorrectMoveException("No figure to move!");
     }
 
     private static void validateField2(Move move, Board board) throws IncorrectMoveException {
         if (!(board.getFigure(move.getRow2(), move.getCol2()) instanceof None))
-            throw new IncorrectMoveException("Target field is occupied!\t\t ");
+            throw new IncorrectMoveException("Target field is occupied!");
     }
 
     private static void validateBias(Move move) throws IncorrectMoveException {
@@ -36,12 +36,12 @@ public class MoveValidator {
         int x2 = move.getRow2int();
         int y2 = move.getCol2();
         if (!(Math.abs(x1 - x2) == Math.abs(y1 - y2)))
-            throw new IncorrectMoveException("Fields are not bias!\t\t\t ");
+            throw new IncorrectMoveException("Fields are not bias!");
     }
 
     private static void validatePlayer(Move move, Board board, boolean player) throws IncorrectMoveException {
         if (!(board.getFigure(move.getRow1(), move.getCol1()).getColor() == player))
-            throw new IncorrectMoveException("Not your figure!\t\t\t ");
+            throw new IncorrectMoveException("Not your figure!");
     }
 
     private static void validatePawnMove(Move move, Board board, boolean player, RulesSet rulesSet)
@@ -70,19 +70,19 @@ public class MoveValidator {
                 throw new CaptureException(x, y);
             }
             else {
-                throw new IncorrectMoveException("Invalid range!\t\t\t ");
+                throw new IncorrectMoveException("Invalid range!");
             }
         } else if ((Math.abs(x1 - x2) != 1) || (Math.abs(y1 - y2) != 1))
-            throw new IncorrectMoveException("Invalid range!\t\t\t ");
+            throw new IncorrectMoveException("Invalid range!");
     }
 
     private static void validateDirection(Move move, boolean player) throws IncorrectMoveException {
         if (player) {
             if ((move.getRow2int() - move.getRow1int()) < 0)
-                throw new IncorrectMoveException("Invalid direction!\t\t\t ");
+                throw new IncorrectMoveException("Invalid direction!");
         } else {
             if ((move.getRow2int() - move.getRow1int()) > 0)
-                throw new IncorrectMoveException("Invalid direction!\t\t\t ");
+                throw new IncorrectMoveException("Invalid direction!");
         }
     }
 
@@ -109,7 +109,7 @@ public class MoveValidator {
                 figure = board.getFigure((char) (64 + x1 - i), y1 - i);
                 if (!(figure instanceof None)) {
                     if (figure.getColor() == player)
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                        throw new IncorrectMoveException("Some figure on the way!");
                     else {
                         x = (char) (64 + x1 - i);
                         y = y1 - i;
@@ -125,7 +125,7 @@ public class MoveValidator {
                 figure = board.getFigure((char) (64 + x2 + 1), y1 - x1 + x2 + 1);
                 if (!(figure instanceof None)) {
                     if (figure.getColor() == player)
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                        throw new IncorrectMoveException("Some figure on the way!");
                     else {
                         x = (char) (64 + +x2 + 1);
                         y = y1 - x1 + x2 + 1;
@@ -136,7 +136,7 @@ public class MoveValidator {
             if (counter == 1)
                 throw new CaptureException(x, y);
             if (counter != 0)
-                throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                throw new IncorrectMoveException("Some figure on the way!");
         }
         //right-up
         else if (x1 > x2 && y1 < y2) {
@@ -144,7 +144,7 @@ public class MoveValidator {
                 figure = board.getFigure((char) (64 + x1 - i), y1 + i);
                 if (!(figure instanceof None)) {
                     if (figure.getColor() == player)
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                        throw new IncorrectMoveException("Some figure on the way!");
                     else {
                         x = (char) (64 + x1 - i);
                         y = y1 + i;
@@ -160,7 +160,7 @@ public class MoveValidator {
                 figure = board.getFigure((char) (64 + x2 + 1), y1 + x1 - x2 - 1);
                 if (!(figure instanceof None)) {
                     if (figure.getColor() == player)
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                        throw new IncorrectMoveException("Some figure on the way!");
                     else {
                         x = (char) (64 + +x2 + 1);
                         y = y1 + x1 - x2 - 1;
@@ -171,7 +171,7 @@ public class MoveValidator {
             if (counter == 1)
                 throw new CaptureException(x, y);
             if (counter != 0)
-                throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                throw new IncorrectMoveException("Some figure on the way!");
         }
         //left-down
         else if (x1 < x2 && y1 > y2) {
@@ -179,7 +179,7 @@ public class MoveValidator {
                 figure = board.getFigure((char) (64 + x1 + i), y1 - i);
                 if (!(figure instanceof None)) {
                     if (figure.getColor() == player)
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                        throw new IncorrectMoveException("Some figure on the way!");
                     else {
                         x = (char) (64 + x1 + i);
                         y = y1 - i;
@@ -195,7 +195,7 @@ public class MoveValidator {
                 figure = board.getFigure((char) (64 + x2 - 1), y1 - x2 + x1 + 1);
                 if (!(figure instanceof None)) {
                     if (figure.getColor() == player)
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                        throw new IncorrectMoveException("Some figure on the way!");
                     else {
                         x = (char) (64 + x2 - 1);
                         y = y1 - x2 + x1 + 1;
@@ -206,7 +206,7 @@ public class MoveValidator {
             if (counter == 1)
                 throw new CaptureException(x, y);
             if (counter != 0)
-                throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                throw new IncorrectMoveException("Some figure on the way!");
         }
         //right-down
         else if (x1 < x2 && y1 < y2) {
@@ -214,7 +214,7 @@ public class MoveValidator {
                 figure = board.getFigure((char) (64 + x1 + i), y1 + i);
                 if (!(figure instanceof None)) {
                     if (figure.getColor() == player)
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                        throw new IncorrectMoveException("Some figure on the way!");
                     else {
                         x = (char) (64 + x1 + i);
                         y = y1 + i;
@@ -230,7 +230,7 @@ public class MoveValidator {
                 figure = board.getFigure((char) (64 + x2 - 1), y1 + x2 - x1 - 1);
                 if (!(figure instanceof None)) {
                     if (figure.getColor() == player)
-                        throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                        throw new IncorrectMoveException("Some figure on the way!");
                     else {
                         x = (char) (64 + x2 - 1);
                         y = y1 + x2 - x1 - 1;
@@ -241,7 +241,7 @@ public class MoveValidator {
             if (counter == 1)
                 throw new CaptureException(x, y);
             if (counter != 0)
-                throw new IncorrectMoveException("Some figure on the way!\t\t ");
+                throw new IncorrectMoveException("Some figure on the way!");
         }
     }
 }
