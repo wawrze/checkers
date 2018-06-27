@@ -32,7 +32,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testNoCapturesOnBoardWhiteTurn(){
+    public void testNoCapturesOnBoardWhiteTurn() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -68,7 +68,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testNoCapturesOnBoardBlackTurn(){
+    public void testNoCapturesOnBoardBlackTurn() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -104,7 +104,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testOneCaptureForBlackPawns(){
+    public void testOneCaptureForBlackPawns() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -141,7 +141,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testTwoCapturesForBlackPawns(){
+    public void testTwoCapturesForBlackPawns() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -178,7 +178,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testThreeCapturesForBlackPawns(){
+    public void testThreeCapturesForBlackPawns() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -215,7 +215,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testOneCaptureForWhitePawns(){
+    public void testOneCaptureForWhitePawns() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -252,7 +252,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testTwoCapturesForWhitePawns(){
+    public void testTwoCapturesForWhitePawns() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -289,7 +289,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testThreeCapturesForWhitePawns(){
+    public void testThreeCapturesForWhitePawns() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -326,7 +326,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testCaptureForBlackPawnInWhiteTurn(){
+    public void testCaptureForBlackPawnInWhiteTurn() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -363,7 +363,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testCaptureForWhitePawnInBlackTurn(){
+    public void testCaptureForWhitePawnInBlackTurn() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -400,7 +400,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testOneCaptureForWhiteQueen(){
+    public void testOneCaptureForWhiteQueen() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -437,7 +437,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testTwoCapturesForWhiteQueen(){
+    public void testTwoCapturesForWhiteQueen() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -474,7 +474,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testCaptureForWhiteQueenAndWhitePawn(){
+    public void testCaptureForWhiteQueenAndWhitePawn() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -511,7 +511,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testOneCaptureForBlackQueen(){
+    public void testOneCaptureForBlackQueen() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -548,7 +548,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testTwoCapturesForBlackQueen(){
+    public void testTwoCapturesForBlackQueen() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -585,7 +585,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testCaptureForBlackQueenAndBlackPawn(){
+    public void testCaptureForBlackQueenAndBlackPawn() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -622,7 +622,7 @@ public class CapturePossibilityValidatorTestSuite {
     }
 
     @Test
-    public void testOneFigureValidator(){
+    public void testOneFigureValidator() throws IncorrectMoveFormat, IncorrectMoveException {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -674,6 +674,46 @@ public class CapturePossibilityValidatorTestSuite {
         Assert.assertEquals(2,result1);
         Assert.assertEquals(1,result2);
         Assert.assertEquals(0,result3);
+    }
+
+    @Test
+    public void testMaxCaptures() throws IncorrectMoveFormat, IncorrectMoveException{
+        //Given
+        Board board = new Board();
+        Pawn pawn1 = new Pawn(false);
+        Pawn pawn2 = new Pawn(true);
+        Pawn pawn3 = new Pawn(true);
+        Pawn pawn4 = new Pawn(true);
+        Pawn pawn5 = new Pawn(true);
+        Pawn pawn6 = new Pawn(true);
+        Pawn pawn7 = new Pawn(true);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, false,
+                "", "");
+        String result1;
+        int result2;
+        //When
+        board.setFigure('F',5,pawn1);
+        board.setFigure('C',4,pawn2);
+        board.setFigure('C',6,pawn3);
+        board.setFigure('E',6,pawn4);
+        board.setFigure('G',2,pawn5);
+        board.setFigure('G',4,pawn6);
+        board.setFigure('G',6,pawn7);
+        board.setFigure('G',6,pawn7);
+        try{
+            (new CapturePossibilityValidator(board,false, ruleSet)).validateCapturePossibility();
+            result1 = "";
+            result2 = 0;
+        }
+        catch(CapturePossibleException e){
+            String[] sArray = e.getMessage().split(" ");
+            result1 = sArray[0];
+            result2 = sArray.length;
+        }
+        //Then
+        Assert.assertEquals("F5-D7",result1);
+        Assert.assertEquals(1,result2);
     }
 
 }

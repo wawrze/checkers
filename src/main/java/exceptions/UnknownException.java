@@ -1,4 +1,3 @@
 package exceptions;
 
-public class UnknownException extends RuntimeException  {
-}
+public class UnknownException extends RuntimeException  {}

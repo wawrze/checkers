@@ -34,8 +34,6 @@ public class Queen extends Figure implements Serializable {
             case 2:
                 temp = "╚═══╝";
                 break;
-            default:
-                throw new UnknownException();
         }
         return temp;
     }

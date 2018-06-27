@@ -11,9 +11,9 @@ import exceptions.*;
 
 import java.util.*;
 
-public class AIPlayer {
+public class AIPlayer2 {
 
-    private final int MAX_DEPTH = 5;
+    private final int MAX_DEPTH = 3;
 
     private Board board;
     private boolean AIPlayer;
@@ -24,7 +24,8 @@ public class AIPlayer {
     private int depth;
     private Map<Move,Integer> possibleMoves;
 
-    public AIPlayer(Board board, boolean player, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves) {
+    public AIPlayer2(Board board, boolean player, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves)
+            throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
         this.AIPlayer = player;
         this.activePlayer = player;
@@ -37,8 +38,8 @@ public class AIPlayer {
         evaluateMoves();
     }
 
-    public AIPlayer(Board board, boolean player, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves, char row,
-                    int col) {
+    public AIPlayer2(Board board, boolean player, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves, char row,
+                     int col) throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
         this.AIPlayer = player;
         this.activePlayer = player;
@@ -51,8 +52,8 @@ public class AIPlayer {
         evaluateMoves();
     }
 
-    private AIPlayer(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
-                     int blackQueenMoves, int depth) {
+    private AIPlayer2(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
+                      int blackQueenMoves, int depth) throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
         this.AIPlayer = AIPlayer;
         this.activePlayer = activePlayer;
@@ -65,8 +66,9 @@ public class AIPlayer {
         evaluateMoves();
     }
 
-    private AIPlayer(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
-                     int blackQueenMoves, int depth, char row, int col) {
+    private AIPlayer2(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
+                      int blackQueenMoves, int depth, char row, int col)
+            throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
         this.AIPlayer = AIPlayer;
         this.activePlayer = activePlayer;
@@ -79,7 +81,7 @@ public class AIPlayer {
         evaluateMoves();
     }
 
-    private void evaluateMoves(){
+    private void evaluateMoves() throws IncorrectMoveFormat, IncorrectMoveException {
         Map<Move,Integer> moves = new HashMap<>(possibleMoves);
         boolean capture;
         int value;
@@ -130,12 +132,12 @@ public class AIPlayer {
             value += getFigureSetEvaluation(tmpBoard);
             if(depth < MAX_DEPTH){
                 if(capture) {
-                    AIPlayer next_move = new AIPlayer(tmpBoard, AIPlayer, activePlayer, rulesSet, whiteQueenMoves,
+                    AIPlayer2 next_move = new AIPlayer2(tmpBoard, AIPlayer, activePlayer, rulesSet, whiteQueenMoves,
                             blackQueenMoves, depth, entry.getKey().getRow2(), entry.getKey().getCol2());
                     value += next_move.getMovesMapValue();
                 }
                 else {
-                    AIPlayer next_move = new AIPlayer(tmpBoard, AIPlayer, !activePlayer, rulesSet, whiteQueenMoves,
+                    AIPlayer2 next_move = new AIPlayer2(tmpBoard, AIPlayer, !activePlayer, rulesSet, whiteQueenMoves,
                             blackQueenMoves, depth);
                     value += next_move.getMovesMapValue();
                 }
@@ -157,7 +159,7 @@ public class AIPlayer {
             return 10000;
     }
 
-    private void getPossibleMovesMultiCapture(char row, int col){
+    private void getPossibleMovesMultiCapture(char row, int col) throws IncorrectMoveFormat, IncorrectMoveException {
         try {
             (new CapturePossibilityValidator(board, activePlayer, rulesSet))
                     .validateCapturePossibilityForOneFigure(row, col);
@@ -183,7 +185,7 @@ public class AIPlayer {
         }
     }
 
-    private void getPossibleMoves() {
+    private void getPossibleMoves() throws IncorrectMoveFormat, IncorrectMoveException {
         try {
             (new CapturePossibilityValidator(board, activePlayer, rulesSet)).validateCapturePossibility();
             for(int i = 1;i<9;i++) {

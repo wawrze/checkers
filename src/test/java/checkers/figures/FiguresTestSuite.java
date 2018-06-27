@@ -2,6 +2,9 @@ package checkers.figures;
 
 import org.junit.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class FiguresTestSuite {
 
     private static int counter = 1;
@@ -22,13 +25,13 @@ public class FiguresTestSuite {
     }
 
     @After
-    public void after(){
+    public void after() {
         System.out.println("Test #" + counter + ": finished");
         counter++;
     }
 
     @Test
-    public void testNoneToString(){
+    public void testNoneToString() {
         //Given
         Figure none = new None(true);
         String s;
@@ -39,7 +42,7 @@ public class FiguresTestSuite {
     }
 
     @Test
-    public void testPawnToString(){
+    public void testPawnToString() {
         //Given
         Figure pawn1 = new Pawn(true);
         Figure pawn2 = new Pawn(false);
@@ -53,7 +56,7 @@ public class FiguresTestSuite {
     }
 
     @Test
-    public void testQueenToString(){
+    public void testQueenToString() {
         //Given
         Figure queen1 = new Queen(true);
         Figure queen2 = new Queen(false);
@@ -64,6 +67,27 @@ public class FiguresTestSuite {
         //Then
         Assert.assertEquals("QQ",s1);
         Assert.assertEquals("qq",s2);
+    }
+
+    @Test
+    public void testPrint() {
+        //Given
+        Figure pawn1 = new Pawn(true);
+        Figure pawn2 = new Pawn(false);
+        Figure queen1 = new Queen(true);
+        Figure queen2 = new Queen(false);
+        List<Figure> list = new LinkedList<>();
+        //When
+        list.add(pawn1);
+        list.add(pawn2);
+        list.add(queen1);
+        list.add(queen2);
+        for(Figure f : list) {
+            for (int i = 0; i < 3; i++) {
+                f.print(i);
+            }
+        }
+        //Then
     }
 
 }

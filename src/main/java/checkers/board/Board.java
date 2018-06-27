@@ -24,7 +24,7 @@ public class Board implements Serializable {
 	}
 
 	public Board(Board board){
-        this.rows = new HashMap<Character, BoardRow>();
+        rows = new HashMap<Character, BoardRow>();
         rows.put('A', new BoardRow(true));
         for(int i = 1;i<9;i++)
             rows.get('A').setFigure(i,board.getFigure('A',i));

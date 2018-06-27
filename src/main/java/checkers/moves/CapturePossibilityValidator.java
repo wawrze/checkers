@@ -18,7 +18,7 @@ public class CapturePossibilityValidator implements Serializable {
     private int maxDepth;
     private RulesSet rulesSet;
 
-    private void findMaxCaptures() throws IncorrectMoveFormat,IncorrectMoveException{
+    private void findMaxCaptures() throws IncorrectMoveFormat,IncorrectMoveException {
         counter = new int[listOfCaptures.size()];
         for(String s : listOfCaptures){
             Board tmpBoard = new Board(this.board);
@@ -29,21 +29,25 @@ public class CapturePossibilityValidator implements Serializable {
             Move move = new Move(x1, y1, x2, y2);
             try {
                 MoveValidator.validateMove(move, tmpBoard, player, rulesSet);
-            }catch (CaptureException e){
+            }
+            catch (CaptureException e) {
                 move.makeCapture(tmpBoard,e.getRow(),e.getCol());
             }
+            finally {}
             CapturePossibilityValidator validator = new CapturePossibilityValidator(tmpBoard, this.player, rulesSet);
             try {
                 validator.validateCapturePossibilityForOneFigure(x2, y2);
                 counter[listOfCaptures.indexOf(s)] = 1;
             }
-            catch(CapturePossibleException e){
+            catch(CapturePossibleException e) {
                 counter[listOfCaptures.indexOf(s)] += (validator.getMaxDepth() + 1);
             }
         }
-        for(int i = (listOfCaptures.size() - 1);i>=0;i--)
-                if(counter[i] < getMaxDepth())
-                    listOfCaptures.remove(i);
+        for(int i = (listOfCaptures.size() - 1);i >= 0;i--) {
+            if (counter[i] < getMaxDepth()) {
+                listOfCaptures.remove(i);
+            }
+        }
     }
 
     public int getMaxDepth() {
@@ -61,7 +65,8 @@ public class CapturePossibilityValidator implements Serializable {
         this.rulesSet = rulesSet;
     }
 
-    public void validateCapturePossibility() throws CapturePossibleException {
+    public void validateCapturePossibility()
+            throws CapturePossibleException, IncorrectMoveException, IncorrectMoveFormat {
         for(int i = 65;i<73;i++){
             for (int j = 1; j < 9; j++){
                 if (board.getFigure((char) i, j) instanceof Pawn
@@ -75,25 +80,19 @@ public class CapturePossibilityValidator implements Serializable {
             }
         }
         if(!rulesSet.isCaptureAny()) {
-            try {
-                findMaxCaptures();
-            } catch (IncorrectMoveException | IncorrectMoveFormat e) {
-            }
+            findMaxCaptures();
         }
         listCheck();
     }
 
     public void validateCapturePossibilityForOneFigure(char row,int col)
-            throws CapturePossibleException{
+            throws CapturePossibleException, IncorrectMoveException, IncorrectMoveFormat {
         if(board.getFigure(row,col) instanceof Pawn)
             validatePawnCapture(row,col,board);
         else
             validateQueenCapture(row,col,board);
         if(!rulesSet.isCaptureAny()) {
-            try {
-                findMaxCaptures();
-            } catch (IncorrectMoveException | IncorrectMoveFormat e) {
-            }
+            findMaxCaptures();
         }
         listCheck();
     }

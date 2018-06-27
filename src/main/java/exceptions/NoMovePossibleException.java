@@ -1,4 +1,3 @@
 package exceptions;
 
-public class NoMovePossibleException extends Exception {
-}
+public class NoMovePossibleException extends Exception {}

@@ -113,10 +113,6 @@ public class MoveValidator {
                     else {
                         x = (char) (64 + x1 - i);
                         y = y1 - i;
-                        if (rulesSet.isQueenRangeOneAfterCapture()) {
-                            if((x + 1 == x2 - 64) && (y + 1 == y2))
-                                throw new CaptureException(x, y);
-                        }
                         counter++;
                     }
                 }
@@ -148,10 +144,6 @@ public class MoveValidator {
                     else {
                         x = (char) (64 + x1 - i);
                         y = y1 + i;
-                        if (rulesSet.isQueenRangeOneAfterCapture()) {
-                            if((x + 1 == x2 - 64) && (y - 1 == y2))
-                                throw new CaptureException(x, y);
-                        }
                         counter++;
                     }
                 }
@@ -183,10 +175,6 @@ public class MoveValidator {
                     else {
                         x = (char) (64 + x1 + i);
                         y = y1 - i;
-                        if (rulesSet.isQueenRangeOneAfterCapture()) {
-                            if((x - 1 == x2 - 64) && (y + 1 == y2))
-                                throw new CaptureException(x, y);
-                        }
                         counter++;
                     }
                 }
@@ -218,10 +206,6 @@ public class MoveValidator {
                     else {
                         x = (char) (64 + x1 + i);
                         y = y1 + i;
-                        if (rulesSet.isQueenRangeOneAfterCapture()) {
-                            if((x - 1 == x2 - 64) && (y - 1 == y2))
-                                throw new CaptureException(x, y);
-                        }
                         counter++;
                     }
                 }

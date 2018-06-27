@@ -2,6 +2,8 @@ package checkers;
 
 import checkers.gameplay.Game;
 import checkers.gameplay.RulesSet;
+import exceptions.IncorrectMoveException;
+import exceptions.IncorrectMoveFormat;
 import exceptions.UnknownException;
 
 import java.io.*;
@@ -24,18 +26,21 @@ public class Menu {
             } catch (IOException e) {
             }
         }
-        try {
-            ObjectInputStream load = new ObjectInputStream(new FileInputStream(file));
-            Game game;
-            do{
-                game = (Game) load.readObject();
-                if(game == null)
-                    break;
-                games.put(game.getName(),game);
-            }while(true);
-            load.close();
+        else {
+            try {
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream load = new ObjectInputStream(fis);
+                Game game;
+                do {
+                    game = (Game) load.readObject();
+                    if (game == null)
+                        break;
+                    games.put(game.getName(), game);
+                } while (true);
+                load.close();
+                fis.close();
+            } catch (IOException | ClassNotFoundException e) {}
         }
-        catch(IOException | ClassNotFoundException e){}
         file = new File("rules.dat");
         if(!file.exists()) {
             try {
@@ -43,16 +48,20 @@ public class Menu {
             } catch (IOException e) {
             }
         }
-        try {
-            ObjectInputStream load = new ObjectInputStream(new FileInputStream(file));
-            RulesSet rule;
-            do{
-                rule = (RulesSet) load.readObject();
-                rules.add(rule);
-            }while(load.available() > 0);
-            load.close();
+        else {
+            try {
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream load = new ObjectInputStream(fis);
+                RulesSet rule;
+                do {
+                    rule = (RulesSet) load.readObject();
+                    rules.add(rule);
+                } while (load.available() > 0);
+                load.close();
+                fis.close();
+            } catch (IOException | ClassNotFoundException e) {
+            }
         }
-        catch(IOException | ClassNotFoundException e){}
         if(rules.isEmpty() || rules.size() < 3) {
             rules = new ArrayList<>();
             RulesSet rule = new RulesSet(false, false, false,
@@ -70,7 +79,7 @@ public class Menu {
         }
     }
 
-    public void start() {
+    public void start() throws IncorrectMoveFormat, IncorrectMoveException {
         String o;
         do {
             this.printMenu();
@@ -81,14 +90,31 @@ public class Menu {
 
     private void printMenu() {
         this.cls();
-        System.out.println("Choose option:");
-        System.out.println("(s) Start new game");
-        System.out.println("(l) Load game");
-        System.out.println("(r) Print rules sets");
-        System.out.println("(x) Exit");
+        System.out.println("\t╔═════════════════════");
+        System.out.println("\t║███████       ▓▓▓▓▓░░");
+        System.out.println("\t║███████       ▓▓░░░░░");
+        System.out.println("\t║███████       ░░░░░░░");
+        System.out.println("\t║       ▓▓▓▓▓░░");
+        System.out.println("\t║       ▓▓░░░   ██  █ █ ███  ██  █  █ ███ ███    ███");
+        System.out.println("\t║       ░░     █  █ █ █ █   █  █ █ █  █   █  █  █   █");
+        System.out.println("\t║▓▓▓▓▓░░       █    ███ ██  █    ██   ██  ███    ██");
+        System.out.println("\t║▓▓░░░░░       █  █ █ █ █   █  █ █ █  █   █ █  █   █");
+        System.out.println("\t║░░░░░░░        ██  █ █ ███  ██  █  █ ███ █  █  ███\n");
+        System.out.println("\t╔══════════════════════╗");
+        System.out.println("\t║         MENU         ║");
+        System.out.println("\t╠══════════════════════╣");
+        System.out.println("\t║ (s) Start new game   ║");
+        System.out.println("\t╠══════════════════════╣");
+        System.out.println("\t║ (l) Load game        ║");
+        System.out.println("\t╠══════════════════════╣");
+        System.out.println("\t║ (r) Print rules sets ║");
+        System.out.println("\t╠══════════════════════╣");
+        System.out.println("\t║ (x) Exit             ║");
+        System.out.println("\t╚══════════════════════╝");
+        System.out.println("\tChoose option: ");
     }
 
-    private void option(String o) {
+    private void option(String o) throws IncorrectMoveFormat, IncorrectMoveException {
         switch (o) {
             case "s":
                 Game game = newGame();
@@ -134,7 +160,6 @@ public class Menu {
     }
 
     private Game loadGame(){
-        Scanner sc = new Scanner(System.in);
         String name;
         Game game;
         while (true){
@@ -204,8 +229,8 @@ public class Menu {
             catch(NumberFormatException e){}
         }while(number < 0 || number >= rules.size());
         RulesSet rulesSet = rules.get(number);
-        System.out.println("Do you want to play with computer player?");
-        boolean isAIPlayer;
+        System.out.println("Do you want to black player be a computer player?");
+        boolean isBlackAIPlayer;
         String s;
         do {
             System.out.print("Enter (y) for yes or (n) for no: ");
@@ -213,44 +238,46 @@ public class Menu {
             s = s.toLowerCase();
         }while(!s.equals("y") && !s.equals("n"));
         if(s.equals("y"))
-            isAIPlayer = true;
+            isBlackAIPlayer = true;
         else
-            isAIPlayer = false;
-        System.out.println("Which color do you choose?");
-        boolean aiPlayer = false;
-        if(isAIPlayer) {
-            do {
-                System.out.print("Enter (b) for black or (w) for white: ");
-                s = sc.nextLine();
-                s = s.toLowerCase();
-            }while(!s.equals("b") && !s.equals("w"));
-            if(s.equals("b"))
-                aiPlayer = false;
-            else
-                aiPlayer = true;
-        }
-        Game game = new Game(name, rulesSet, isAIPlayer, aiPlayer);
+            isBlackAIPlayer = false;
+        System.out.println("Do you want to white player be a computer player?");
+        boolean isWhiteAIPlayer;
+        do {
+            System.out.print("Enter (y) for yes or (n) for no: ");
+            s = sc.nextLine();
+            s = s.toLowerCase();
+        }while(!s.equals("y") && !s.equals("n"));
+        if(s.equals("y"))
+            isWhiteAIPlayer = true;
+        else
+            isWhiteAIPlayer = false;
+        Game game = new Game(name, rulesSet, isBlackAIPlayer, isWhiteAIPlayer);
         return game;
     }
 
     private void exit(){
         try{
-            ObjectOutputStream savedGames = new ObjectOutputStream(new FileOutputStream("games.dat"));
+            FileOutputStream fos = new FileOutputStream("games.dat");
+            ObjectOutputStream savedGames = new ObjectOutputStream(fos);
             for(Map.Entry g: games.entrySet()) {
                 savedGames.writeObject(g.getValue());
             }
             savedGames.close();
+            fos.close();
         }
         catch(IOException e){
             System.out.println(e);
             throw new UnknownException();
         }
         try{
-            ObjectOutputStream rulesSets = new ObjectOutputStream(new FileOutputStream("rules.dat"));
+            FileOutputStream fos = new FileOutputStream("rules.dat");
+            ObjectOutputStream rulesSets = new ObjectOutputStream(fos);
             for(RulesSet r: rules) {
                 rulesSets.writeObject(r);
             }
             rulesSets.close();
+            fos.close();
         }
         catch(IOException e){
             System.out.println(e);

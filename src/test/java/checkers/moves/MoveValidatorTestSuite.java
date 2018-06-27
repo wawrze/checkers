@@ -616,7 +616,7 @@ public class MoveValidatorTestSuite {
     private boolean isIncorrectMove(Board board, Move move, boolean player, boolean capture, RulesSet rulesSet) {
         boolean result;
         try{
-            MoveValidator.validateMove(move,board,player, rulesSet);
+            MoveValidator.validateMove(move, board, player, rulesSet);
             result = false;
         }
         catch(IncorrectMoveException e){
@@ -630,6 +630,252 @@ public class MoveValidatorTestSuite {
         return result;
     }
 
+    @Test
+    public void testQueenMoveOneFieldPossible() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',8,'H',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        RulesSet ruleSet = new RulesSet(false, true, false,
+                false, true, true,
+                "", "");
+        //When
+        board.setFigure('A',8,queen);
+        result = isIncorrectMove(board, move, true, false, ruleSet);
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testPawnCaptureBackward() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',8,'C',6);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, false, false,
+                "", "");
+        //When
+        board.setFigure('A',8,pawn);
+        board.setFigure('B',7,queen);
+        try {
+            MoveValidator.validateMove(move, board, false, ruleSet);
+            result = false;
+        }
+        catch (IncorrectMoveException e) {
+            result = true;
+        }
+        catch (CaptureException e) {
+            result = false;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testPawnCaptureBackward2() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('B',7,'A',8);
+        boolean result;
+        Pawn pawn = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, false, false,
+                "", "");
+        //When
+        board.setFigure('B',7,pawn);
+        try {
+            MoveValidator.validateMove(move, board, false, ruleSet);
+            result = true;
+        }
+        catch (Exception e) {
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testQueenMoveFigureOnWayAndNoCaptureMoveOneFieldLeftDown() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',8,'H',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, true,
+                "", "");
+        //When
+        board.setFigure('A',8,queen);
+        board.setFigure('F',3,pawn);
+        result = isIncorrectMove(board, move, true, true, ruleSet);
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testQueenMoveFigureOnWayAndNoCaptureMoveOneFieldLeftUp() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',7,'B',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, true,
+                "", "");
+        //When
+        board.setFigure('H',7,queen);
+        board.setFigure('D',3,pawn);
+        result = isIncorrectMove(board, move, true, true, ruleSet);
+        //Then
+        Assert.assertTrue(result);
+    }
+    @Test
+    public void testQueenMoveFigureOnWayAndNoCaptureMoveOneFieldRightDown() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('B',1,'H',7);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, true,
+                "", "");
+        //When
+        board.setFigure('B',1,queen);
+        board.setFigure('F',5,pawn);
+        result = isIncorrectMove(board, move, true, true, ruleSet);
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testQueenMoveFigureOnWayAndNoCaptureMoveOneFieldRightUp() throws IncorrectMoveFormat {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',1,'A',8);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, true,
+                "", "");
+        //When
+        board.setFigure('H',1,queen);
+        board.setFigure('C',6,pawn);
+        result = isIncorrectMove(board, move, true, true, ruleSet);
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testQueenMoveFigureOnWayAndCaptureMoveOneFieldLeftDown()
+            throws IncorrectMoveFormat, IncorrectMoveException {
+        //Given
+        Board board = new Board();
+        Move move = new Move('A',8,'H',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, true,
+                "", "");
+        //When
+        board.setFigure('A',8,queen);
+        board.setFigure('G',2,pawn);
+        try {
+            MoveValidator.validateMove(move, board, true, ruleSet);
+            result = false;
+        }
+        catch (CaptureException e) {
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testQueenMoveFigureOnWayAndCaptureMoveOneFieldLeftUp()
+            throws IncorrectMoveFormat, IncorrectMoveException {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',7,'B',1);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, true,
+                "", "");
+        //When
+        board.setFigure('H',7,queen);
+        board.setFigure('C',2,pawn);
+        try {
+            MoveValidator.validateMove(move, board, true, ruleSet);
+            result = false;
+        }
+        catch (CaptureException e) {
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testQueenMoveFigureOnWayAndCaptureMoveOneFieldRightDown()
+            throws IncorrectMoveFormat, IncorrectMoveException {
+        //Given
+        Board board = new Board();
+        Move move = new Move('B',1,'H',7);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, true,
+                "", "");
+        //When
+        board.setFigure('B',1,queen);
+        board.setFigure('G',6,pawn);
+        try {
+            MoveValidator.validateMove(move, board, true, ruleSet);
+            result = false;
+        }
+        catch (CaptureException e) {
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testQueenMoveFigureOnWayAndCaptureMoveOneFieldRightUp()
+            throws IncorrectMoveFormat, IncorrectMoveException {
+        //Given
+        Board board = new Board();
+        Move move = new Move('H',1,'A',8);
+        boolean result;
+        Queen queen = new Queen(true);
+        Pawn pawn = new Pawn(false);
+        RulesSet ruleSet = new RulesSet(false, false, false,
+                false, true, true,
+                "", "");
+        //When
+        board.setFigure('H',1,queen);
+        board.setFigure('B',7,pawn);
+        try {
+            MoveValidator.validateMove(move, board, true, ruleSet);
+            result = false;
+        }
+        catch (CaptureException e) {
+            result = true;
+        }
+        //Then
+        Assert.assertTrue(result);
+    }
 
 
 }
