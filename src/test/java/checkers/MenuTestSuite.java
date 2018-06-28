@@ -88,7 +88,7 @@ public class MenuTestSuite {
         Menu menu = new Menu();
         menu.start();
         System.setIn(System.in);
-        in = new ByteArrayInputStream(("l\nGame name 2\nl\nx\nx\nx\n").getBytes());
+        in = new ByteArrayInputStream(("l\nGame name 2\nl\np\nx\nx\nx\n").getBytes());
         System.setIn(in);
         menu = new Menu();
         menu.start();

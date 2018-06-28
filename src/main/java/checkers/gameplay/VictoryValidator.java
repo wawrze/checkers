@@ -74,15 +74,11 @@ public class VictoryValidator {
                     return false;
             }
         }
-        if(!movePossible){
-            if(rulesSet.isVictoryConditionsReversed())
-                winner = player;
-            else
-                winner = !player;
-            return true;
-        }
+        if(rulesSet.isVictoryConditionsReversed())
+            winner = player;
         else
-            return false;
+            winner = !player;
+        return true;
     }
 
     private static boolean validateFigureMovePossibility(Board board,char row1, int col1, RulesSet rulesSet){

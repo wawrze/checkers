@@ -7,7 +7,7 @@ import org.junit.*;
 
 public class VictoryValidatorTestSuite {
 
-private static int counter = 1;
+    private static int counter = 1;
 
     @BeforeClass
     public static void beforeTests(){

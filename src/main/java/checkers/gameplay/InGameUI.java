@@ -3,7 +3,6 @@ package checkers.gameplay;
 import checkers.Menu;
 import checkers.board.Board;
 import exceptions.IncorrectMoveFormat;
-import exceptions.UnknownException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -110,10 +109,8 @@ public class InGameUI implements Serializable {
                 if(moves.size() >= 10)
                     s = moves.get(moves.size() - 10);
                 return "\t|    " + s + "     |";
-            case 26:
-                return "\t\t+---------------------+";
             default:
-                throw new UnknownException();
+                return "\t\t+---------------------+";
         }
     }
 
@@ -214,10 +211,8 @@ public class InGameUI implements Serializable {
                 if(moves.size() >= 10)
                     s = moves.get(moves.size() - 10);
                 return "\t\t║      " + s + "      ║";
-            case 29:
-                return "\t\t\t╚════════════════════════╝";
             default:
-                throw new UnknownException();
+                return "\t\t\t╚════════════════════════╝";
         }
     }
 
@@ -346,8 +341,6 @@ public class InGameUI implements Serializable {
             result += "\t";
         if(s.length() < 13)
             result += "\t";
-        if(s.length() < 5)
-            result += "\t";
         return result;
     }
 
@@ -364,7 +357,7 @@ public class InGameUI implements Serializable {
         waitForEnter();
     }
 
-    public void printIncorrectMoveFormat(boolean simplePrint, boolean isItAITurn){
+    public void printIncorrectMoveFormat(boolean simplePrint, boolean isItAITurn) {
         if(isItAITurn)
             return;
         if(simplePrint)
@@ -380,6 +373,7 @@ public class InGameUI implements Serializable {
     public String[] getMoveOrOption(String captures, boolean simplePrint, boolean isItAITurn){
         String s;
         s = sc.nextLine();
+        s = s.toLowerCase();
         String[] result;
         for(String o : options) {
             if (s.equals(o)){
