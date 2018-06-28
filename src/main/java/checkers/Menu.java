@@ -1,10 +1,10 @@
 package checkers;
 
 import checkers.gameplay.Game;
+import checkers.gameplay.InGameUI;
 import checkers.gameplay.RulesSet;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
-import exceptions.UnknownException;
 
 import java.io.*;
 import java.util.*;
@@ -13,71 +13,61 @@ public class Menu {
 
     private Map<String,Game> games;
     private List<RulesSet> rules;
+    InGameUI inGameUI;
 
     Scanner sc = new Scanner(System.in);
 
-    public Menu() throws IOException {
+    public Menu() throws IOException, ClassNotFoundException {
         games = new HashMap<>();
         rules = new ArrayList<>();
+        inGameUI = new InGameUI(sc);
         File file = new File("games.dat");
         if(!file.exists()) {
+            file.createNewFile();
             try {
-                file.createNewFile();
-            } catch (IOException e) {
+                FileInputStream fis = new FileInputStream(file);
+                fis.close();
             }
-            finally {
-                try {
-                    FileInputStream fis = new FileInputStream(file);
-                    fis.close();
-                }
-                catch (IOException e) {}
-            }
+            catch (IOException e) {}
         }
-        else {
+        else if(file.length() > 0) {
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream load = new ObjectInputStream(fis);
-            try {
-                Game game;
-                do {
-                    try {
-                        game = (Game) load.readObject();
-                    }
-                    catch (ClassNotFoundException e) {
-                        game = null;
-                    }
-                    if (game == null)
-                        break;
-                    games.put(game.getName(), game);
-                } while (true);
-            } catch (IOException e) {}
-            finally {
+            Game game;
+            do {
                 try {
-                    load.close();
-                    fis.close();
+                    game = (Game) load.readObject();
                 }
-                catch (IOException e) {}
-            }
+                catch (IOException | ClassNotFoundException e) {
+                    game = null;
+                }
+                finally {}
+                if (game == null)
+                    break;
+                games.put(game.getName(), game);
+            } while (true);
+            load.close();
+            fis.close();
         }
         file = new File("rules.dat");
         if(!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-            }
-        }
-        else {
+            file.createNewFile();
             try {
                 FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream load = new ObjectInputStream(fis);
-                RulesSet rule;
-                do {
-                    rule = (RulesSet) load.readObject();
-                    rules.add(rule);
-                } while (load.available() > 0);
-                load.close();
                 fis.close();
-            } catch (IOException | ClassNotFoundException e) {
             }
+            catch (IOException e) {}
+        }
+        else if(file.length() > 0) {
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream load = new ObjectInputStream(fis);
+            RulesSet rule;
+            do {
+                rule = (RulesSet) load.readObject();
+                rules.add(rule);
+            } while (load.available() > 0);
+            load.close();
+            fis.close();
         }
         if(rules.isEmpty() || rules.size() < 3) {
             rules = new ArrayList<>();
@@ -135,14 +125,14 @@ public class Menu {
         switch (o) {
             case "s":
                 Game game = newGame();
-                if(game.play())
+                if(game.play(inGameUI))
                     games.put(game.getName(), game);
                 break;
             case "l":
                 game = loadGame();
                 if(game == null)
                     break;
-                if(game.play()) {
+                if(game.play(inGameUI)) {
                     if(games.containsKey(game.getName()))
                         games.remove(game.getName());
                     games.put(game.getName(), game);
@@ -150,7 +140,7 @@ public class Menu {
                 break;
             case "r":
                 printRules();
-                waitForEnter();
+                inGameUI.waitForEnter();
                 break;
             case "x":
                 exit();
@@ -168,12 +158,6 @@ public class Menu {
     public static void cls() {
         for (int i = 0; i < 100; i++)
             System.out.println();
-    }
-
-    public static void waitForEnter() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Press \"Enter\" to continue.");
-        sc.nextLine();
     }
 
     private Game loadGame(){
@@ -370,6 +354,14 @@ public class Menu {
         System.out.println(" ║ Queen move after capture:\t"
                 + (rulesSet.isQueenRangeOneAfterCapture() ? "next field" : "any\t") + "\t\t  ║");
         System.out.println(" ╚════════════════════════════════════════════════════════╝");
+    }
+
+    public Map<String, Game> getGames() {
+        return games;
+    }
+
+    public List<RulesSet> getRules() {
+        return rules;
     }
 
 }

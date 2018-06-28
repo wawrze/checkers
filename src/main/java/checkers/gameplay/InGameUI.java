@@ -5,15 +5,22 @@ import checkers.board.Board;
 import exceptions.IncorrectMoveFormat;
 import exceptions.UnknownException;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
 
-public class InGameUI {
+public class InGameUI implements Serializable {
 
-    private static String[] options = {"h", "p", "s", "x"};
-    private static Scanner sc = new Scanner(System.in);
+    private String[] options;
+    private transient Scanner sc;
 
-    public static void printMoveHistory(List<String> moves) {
+    public InGameUI(Scanner sc) {
+        String[] tmp = {"h", "p", "s", "x"};
+        options = tmp;
+        this.sc = sc;
+    }
+
+    public void printMoveHistory(List<String> moves) {
         if(moves.isEmpty())
             System.out.println("No moves history.");
         else
@@ -21,7 +28,7 @@ public class InGameUI {
                 System.out.println(m);
     }
 
-    public static String getGameName(){
+    public String getGameName(){
         System.out.println("Name your game:");
         String name;
         do {
@@ -30,7 +37,7 @@ public class InGameUI {
         return name;
     }
 
-    public static String sideMenuSimple(int line,List<String> moves){
+    public String sideMenuSimple(int line,List<String> moves){
         String s = "            ";
         switch(line){
             case 1:
@@ -110,7 +117,7 @@ public class InGameUI {
         }
     }
 
-    public static String sideMenu(int line,List<String> moves, boolean player){
+    public String sideMenu(int line,List<String> moves, boolean player){
         String s = "            ";
         switch(line){
             case 1:
@@ -214,16 +221,21 @@ public class InGameUI {
         }
     }
 
-    public static void printBoard(Board board, boolean simplePrint, boolean player, List<String> moves,
+    public void waitForEnter() {
+        System.out.println("Press \"Enter\" to continue.");
+        sc.nextLine();
+    }
+
+    public void printBoard(Board board, boolean simplePrint, boolean player, List<String> moves,
                                   RulesSet rulesSet, boolean isItAITurn){
         Menu.cls();
         if(simplePrint) {
             System.out.println(rulesSet);
-            board.printBoardSimple(moves);
+            board.printBoardSimple(moves, this);
         }
         else {
             Menu.printRulesSet(rulesSet);
-            board.printBoard(moves, player);
+            board.printBoard(moves, player, this);
         }
         if(simplePrint)
             System.out.println(" Active player: " + (player ? "BLACK" : "WHITE")
@@ -238,7 +250,7 @@ public class InGameUI {
         }
     }
 
-    public static void printMakingMove(boolean simplePrint, char x1, int y1, char x2, int y2, boolean isItAITurn){
+    public void printMakingMove(boolean simplePrint, char x1, int y1, char x2, int y2, boolean isItAITurn){
         if(isItAITurn)
             return;
         if(simplePrint)
@@ -250,7 +262,7 @@ public class InGameUI {
         }
     }
 
-    public static void printMoveDone(boolean simplePrint, boolean isItAITurn){
+    public void printMoveDone(boolean simplePrint, boolean isItAITurn){
         if(isItAITurn)
             return;
         if(simplePrint)
@@ -262,7 +274,7 @@ public class InGameUI {
         }
     }
 
-    public static void printCaptureDone(boolean simplePrint, boolean isItAITurn){
+    public void printCaptureDone(boolean simplePrint, boolean isItAITurn){
         if(isItAITurn)
             return;
         if(simplePrint)
@@ -274,7 +286,7 @@ public class InGameUI {
         }
     }
 
-    public static void printIncorrectMove(String s, boolean simplePrint, boolean isItAITurn){
+    public void printIncorrectMove(String s, boolean simplePrint, boolean isItAITurn){
         if(isItAITurn)
             return;
         if(simplePrint)
@@ -286,7 +298,7 @@ public class InGameUI {
         }
     }
 
-    public static void printCapture(String captures, boolean simplePrint, boolean isItAITurn){
+    public void printCapture(String captures, boolean simplePrint, boolean isItAITurn){
         if(isItAITurn)
             return;
         if(simplePrint)
@@ -298,7 +310,7 @@ public class InGameUI {
         }
     }
 
-    public static void printMultiCapture(String captures, boolean simplePrint, boolean isItAITurn){
+    public void printMultiCapture(String captures, boolean simplePrint, boolean isItAITurn){
         if(isItAITurn)
             return;
         if(simplePrint)
@@ -310,7 +322,7 @@ public class InGameUI {
         }
     }
 
-    private static String complementString (String s){
+    private String complementString (String s){
         String result = s;
         if(s.length() < 93)
             result += "\t";
@@ -339,7 +351,7 @@ public class InGameUI {
         return result;
     }
 
-    public static void printCaptureObligatory(boolean simplePrint, boolean isItAITurn) {
+    public void printCaptureObligatory(boolean simplePrint, boolean isItAITurn) {
         if(isItAITurn)
             return;
         if (simplePrint)
@@ -349,10 +361,10 @@ public class InGameUI {
             System.out.println(" ║ Capture is obligatory!\t\t\t\t\t\t\t\t\t ║");
             System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
-        Menu.waitForEnter();
+        waitForEnter();
     }
 
-    public static void printIncorrectMoveFormat(boolean simplePrint, boolean isItAITurn){
+    public void printIncorrectMoveFormat(boolean simplePrint, boolean isItAITurn){
         if(isItAITurn)
             return;
         if(simplePrint)
@@ -362,10 +374,10 @@ public class InGameUI {
             System.out.println(" ║ Incorrect move format! Proper format example: E4-D5\t\t\t\t\t\t ║");
             System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
-        Menu.waitForEnter();
+        waitForEnter();
     }
 
-    public static String[] getMoveOrOption(String captures, boolean simplePrint, boolean isItAITurn){
+    public String[] getMoveOrOption(String captures, boolean simplePrint, boolean isItAITurn){
         String s;
         s = sc.nextLine();
         String[] result;
@@ -392,18 +404,18 @@ public class InGameUI {
                 result[3] = "" + y2;
             }
             else{
-                InGameUI.printCaptureObligatory(simplePrint, isItAITurn);
+                printCaptureObligatory(simplePrint, isItAITurn);
                 return null;
             }
         }
         catch(IncorrectMoveFormat e){
-            InGameUI.printIncorrectMoveFormat(simplePrint, isItAITurn);
+            printIncorrectMoveFormat(simplePrint, isItAITurn);
             return null;
         }
         return result;
     }
 
-    private static void validate(String s) throws IncorrectMoveFormat {
+    private void validate(String s) throws IncorrectMoveFormat {
         String[] sArray = s.split("-");
         if (sArray.length != 2)
             throw new IncorrectMoveFormat();
@@ -412,12 +424,12 @@ public class InGameUI {
                 throw new IncorrectMoveFormat();
     }
 
-    public static boolean endOfGame(Board board, boolean simplePrint, List<String> moves, boolean player){
+    public boolean endOfGame(Board board, boolean simplePrint, List<String> moves, boolean player){
         Menu.cls();
         if(simplePrint)
-            board.printBoardSimple(moves);
+            board.printBoardSimple(moves, this);
         else
-            board.printBoard(moves, player);
+            board.printBoard(moves, player, this);
         if(VictoryValidator.isDraw()) {
             if(simplePrint)
                 System.out.println("GAME OVER!\n\tDRAW!");

@@ -1,5 +1,6 @@
 package checkers;
 
+import checkers.gameplay.Game;
 import checkers.gameplay.RulesSet;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
@@ -35,9 +36,11 @@ public class MenuTestSuite {
     }
 
     @Test
-    public void testPrintingRulesSets() throws IOException {
+    public void testPrintingRulesSets()
+            throws IOException, ClassNotFoundException, IncorrectMoveException, IncorrectMoveFormat {
         //Given
-        ByteArrayInputStream in;
+        ByteArrayInputStream in = new ByteArrayInputStream("r\n\nx\nx\n".getBytes());
+        System.setIn(in);
         Menu menu = new Menu();
         RulesSet rulesSet1 = new RulesSet(true, true,true,
         true, true,true , "Sample rules set",
@@ -61,41 +64,33 @@ public class MenuTestSuite {
                 true, true,false,
                 "Sample rules set name longer than forty six characters","Sample description");
         //When
-        menu.printRulesSet(rulesSet1);
-        menu.printRulesSet(rulesSet2);
-        menu.printRulesSet(rulesSet3);
-        menu.printRulesSet(rulesSet4);
-        menu.printRulesSet(rulesSet5);
-        menu.printRulesSet(rulesSet6);
+        menu.getRules().add(rulesSet1);
+        menu.getRules().add(rulesSet2);
+        menu.getRules().add(rulesSet3);
+        menu.getRules().add(rulesSet4);
+        menu.getRules().add(rulesSet5);
+        menu.getRules().add(rulesSet6);
+        menu.start();
         menu.cls();
-        in = new ByteArrayInputStream("\n".getBytes());
-        System.setIn(in);
-        menu.waitForEnter();
         System.setIn(System.in);
         //Then
     }
 
     @Test
-    public void testStart() throws IncorrectMoveFormat, IncorrectMoveException, IOException {
+    public void testStart() throws IncorrectMoveFormat, IncorrectMoveException, IOException, ClassNotFoundException {
         File file = new File("games.dat");
         file.renameTo(new File("tmp.dat"));
         ByteArrayInputStream in = new ByteArrayInputStream(("s\nGame name\n1\nn\nn\n" +
-                "s\nGame name\nGame name 2\n1\ny\ny\n" +
-                "l\nGame name\nc\nGame name\nd\n" +
-                "n\nl\n" +
-                "l\nx\n" +
-                "x\n").getBytes());
+                "s\ns\nGame name\nGame name 2\n1\ny\ny\n" +
+                "s\nl\nGame name\nc\nGame name\nd\n" +
+                "x\nx\nx\n").getBytes());
         System.setIn(in);
         Menu menu = new Menu();
-        in = new ByteArrayInputStream(("s\nx\ns\nx\n").getBytes());
-        System.setIn(in);
         menu.start();
         System.setIn(System.in);
-        in = new ByteArrayInputStream(("s\nSome name\n1\nn\nn\nl\nSome name\nl\nx\n").getBytes());
+        in = new ByteArrayInputStream(("l\nGame name 2\nl\nx\nx\nx\n").getBytes());
         System.setIn(in);
         menu = new Menu();
-        in = new ByteArrayInputStream(("s\nx\nx\nx\n").getBytes());
-        System.setIn(in);
         menu.start();
         System.setIn(System.in);
         file = new File("games.dat");
@@ -105,7 +100,8 @@ public class MenuTestSuite {
     }
 
     @Test
-    public void testStartNoDataFiles() throws IncorrectMoveFormat, IncorrectMoveException, IOException {
+    public void testStartNoDataFiles()
+            throws IncorrectMoveFormat, IncorrectMoveException, IOException, ClassNotFoundException {
         File file1 = new File("games.dat");
         file1.renameTo(new File("tmp1.dat"));
         File file2 = new File("rules.dat");
@@ -128,7 +124,31 @@ public class MenuTestSuite {
     }
 
     @Test
-    public void testMain() throws IncorrectMoveException, IncorrectMoveFormat, IOException {
+    public void testStartWithSavedGame()
+            throws IncorrectMoveFormat, IncorrectMoveException, IOException, ClassNotFoundException {
+        File file = new File("games.dat");
+        file.renameTo(new File("tmp.dat"));
+        ByteArrayInputStream in = new ByteArrayInputStream("x\n".getBytes());
+        System.setIn(in);
+        Menu menu = new Menu();
+        RulesSet rulesSet = new RulesSet(true, true, true,
+                true, true, true, "",
+                "");
+        menu.getGames().put("test", new Game("test", rulesSet, false, false));
+        menu.start();
+        in = new ByteArrayInputStream("l\ntest\nl\np\ns\nx\nx\n".getBytes());
+        System.setIn(in);
+        menu = new Menu();
+        menu.start();
+        System.setIn(System.in);
+        file = new File("games.dat");
+        file.delete();
+        file = new File("tmp.dat");
+        file.renameTo(new File("games.dat"));
+    }
+
+    @Test
+    public void testMain() throws IncorrectMoveException, IncorrectMoveFormat, IOException, ClassNotFoundException {
         ByteArrayInputStream in = new ByteArrayInputStream("x\n".getBytes());
         System.setIn(in);
         Checkers.main(null);

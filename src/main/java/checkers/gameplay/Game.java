@@ -31,6 +31,7 @@ public class Game implements Serializable {
     private RulesSet rulesSet;
     private boolean isBlackAIPlayer;
     private boolean isWhiteAIPlayer;
+    InGameUI inGameUI;
 
     public Game(Game game) {
         this.board = new Board(game.getBoard());
@@ -49,6 +50,7 @@ public class Game implements Serializable {
         this.rulesSet = game.getRulesSet();
         this.isBlackAIPlayer = game.isBlackAIPlayer();
         this.isWhiteAIPlayer = game.isWhiteAIPlayer();
+        this.inGameUI = game.getInGameUI();
     }
 
     public Game(String name, RulesSet rulesSet, boolean isBlackAIPlayer, boolean isWhiteAIPlayer) {
@@ -93,12 +95,13 @@ public class Game implements Serializable {
         board.setFigure('H', 7, new Pawn(false));
     }
 
-    public boolean play() throws IncorrectMoveFormat, IncorrectMoveException {
+    public boolean play(InGameUI inGameUI) throws IncorrectMoveFormat, IncorrectMoveException {
+        this.inGameUI = inGameUI;
         boolean b;
         do {
             isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, activePlayer, rulesSet);
             if (isFinished) {
-                save = InGameUI.endOfGame(board, simplePrint, moves, activePlayer);
+                save = inGameUI.endOfGame(board, simplePrint, moves, activePlayer);
                 isDraw = VictoryValidator.isDraw();
                 winner = VictoryValidator.getWinner();
                 break;
@@ -106,7 +109,7 @@ public class Game implements Serializable {
             b = this.waitForMove();
         } while (b);
         if(save && name.isEmpty()) {
-            name = InGameUI.getGameName();
+            name = inGameUI.getGameName();
         }
         date = LocalDate.now();
         time = LocalTime.now();
@@ -120,13 +123,13 @@ public class Game implements Serializable {
             isItAITurn = true;
         if(isWhiteAIPlayer && !activePlayer)
             isItAITurn = true;
-        InGameUI.printBoard(board, simplePrint, activePlayer, moves, rulesSet, isItAITurn);
+        inGameUI.printBoard(board, simplePrint, activePlayer, moves, rulesSet, isItAITurn);
         try {
             (new CapturePossibilityValidator(board, activePlayer, rulesSet)).validateCapturePossibility();
         }
         catch(CapturePossibleException e){
             captures = e.getMessage();
-            InGameUI.printCapture(captures, simplePrint, isItAITurn);
+            inGameUI.printCapture(captures, simplePrint, isItAITurn);
         }
         String[] s;
         if(isBlackAIPlayer && activePlayer)
@@ -134,7 +137,7 @@ public class Game implements Serializable {
         else if(isWhiteAIPlayer && !activePlayer)
             s = (new AIPlayer2(board, activePlayer, rulesSet, whiteQueenMoves, blackQueenMoves)).getAIMove();
         else {
-            s = InGameUI.getMoveOrOption(captures, simplePrint, isItAITurn);
+            s = inGameUI.getMoveOrOption(captures, simplePrint, isItAITurn);
         }
         if(s == null)
             return true;
@@ -150,7 +153,7 @@ public class Game implements Serializable {
                 return true;
             }
             catch(IncorrectMoveFormat e){
-                InGameUI.printIncorrectMoveFormat(simplePrint, isItAITurn);
+                inGameUI.printIncorrectMoveFormat(simplePrint, isItAITurn);
                 return true;
             }
         }
@@ -168,7 +171,7 @@ public class Game implements Serializable {
             isItAITurn = true;
         if(isWhiteAIPlayer && !activePlayer)
             isItAITurn = true;
-        InGameUI.printMakingMove(simplePrint, x1, y1, x2, y2, isItAITurn);
+        inGameUI.printMakingMove(simplePrint, x1, y1, x2, y2, isItAITurn);
         Move move = new Move(x1, y1, x2, y2);
         try {
             MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
@@ -187,20 +190,20 @@ public class Game implements Serializable {
                     whiteQueenMoves = 0;
             }
             this.activePlayer = !this.activePlayer;
-            InGameUI.printMoveDone(simplePrint, isItAITurn);
+            inGameUI.printMoveDone(simplePrint, isItAITurn);
 
         }catch (CaptureException e){
             moves.add((activePlayer ? "black: " : "white: ") + move);
             move.makeCapture(board,e.getRow(),e.getCol());
             multiCapture(move);
-            InGameUI.printCaptureDone(simplePrint, isItAITurn);
+            inGameUI.printCaptureDone(simplePrint, isItAITurn);
             if(activePlayer)
                 blackQueenMoves = 0;
             else
                 whiteQueenMoves = 0;
             this.activePlayer = !this.activePlayer;
         }catch (IncorrectMoveException e){
-            InGameUI.printIncorrectMove(e.getMessage(), simplePrint, isItAITurn);
+            inGameUI.printIncorrectMove(e.getMessage(), simplePrint, isItAITurn);
         }finally{
             if((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
                     && board.getFigure(move.getRow2(), move.getCol2()).getColor()
@@ -211,7 +214,7 @@ public class Game implements Serializable {
                     && (move.getRow2()) == 'A')
                 board.setFigure('A', move.getCol2(), new Queen(false));
             if(!isItAITurn)
-                Menu.waitForEnter();
+                inGameUI.waitForEnter();
         }
     }
 
@@ -228,8 +231,8 @@ public class Game implements Serializable {
                     isItAITurn = true;
                 if(isWhiteAIPlayer && !activePlayer)
                     isItAITurn = true;
-                InGameUI.printBoard(board, simplePrint, activePlayer, moves, rulesSet, isItAITurn);
-                InGameUI.printMultiCapture(e.getMessage(), simplePrint, isItAITurn);
+                inGameUI.printBoard(board, simplePrint, activePlayer, moves, rulesSet, isItAITurn);
+                inGameUI.printMultiCapture(e.getMessage(), simplePrint, isItAITurn);
                 String[] s;
                 if(isBlackAIPlayer && activePlayer) {
                     s = (new AIPlayer1(board, activePlayer, rulesSet, whiteQueenMoves, blackQueenMoves,
@@ -240,7 +243,7 @@ public class Game implements Serializable {
                             move.getRow2(), move.getCol2())).getAIMove();
                 }
                 else {
-                    s = InGameUI.getMoveOrOption(e.getMessage(), simplePrint, isItAITurn);
+                    s = inGameUI.getMoveOrOption(e.getMessage(), simplePrint, isItAITurn);
                 }
                 if(s == null)
                     continue;
@@ -252,23 +255,23 @@ public class Game implements Serializable {
                     int y1 = Character.getNumericValue(s[1].charAt(0));
                     char x2 = s[2].charAt(0);
                     int y2 = Character.getNumericValue(s[3].charAt(0));
-                    InGameUI.printMakingMove(simplePrint, x1, y1, x2, y2, isItAITurn);
+                    inGameUI.printMakingMove(simplePrint, x1, y1, x2, y2, isItAITurn);
                     try {
                         move = new Move(x1, y1, x2, y2);
                         try{
                             MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
-                            InGameUI.printIncorrectMove("continue capturing is obligatory!", simplePrint, isItAITurn);
+                            inGameUI.printIncorrectMove("continue capturing is obligatory!", simplePrint, isItAITurn);
                         }
                         catch(CaptureException e1){
                             moves.add((activePlayer ? "black: " : "white: ") + move);
                             move.makeCapture(board,e1.getRow(),e1.getCol());
                         }
                         catch(IncorrectMoveException e1){
-                            InGameUI.printIncorrectMove("continue capturing is obligatory!", simplePrint, isItAITurn);
+                            inGameUI.printIncorrectMove("continue capturing is obligatory!", simplePrint, isItAITurn);
                         }
                     }
                     catch(IncorrectMoveFormat e1){
-                        InGameUI.printIncorrectMoveFormat(simplePrint, isItAITurn);
+                        inGameUI.printIncorrectMoveFormat(simplePrint, isItAITurn);
                         continue;
                     }
                 }
@@ -290,8 +293,8 @@ public class Game implements Serializable {
     private boolean inGameMenu(String s){
         switch (s) {
             case "h":
-                InGameUI.printMoveHistory(moves);
-                Menu.waitForEnter();
+                inGameUI.printMoveHistory(moves);
+                inGameUI.waitForEnter();
                 return true;
             case "p":
                 this.simplePrint = !this.simplePrint;
@@ -314,6 +317,8 @@ public class Game implements Serializable {
 
     @Override
     public String toString(){
+        if(date == null || time == null)
+            return "";
         String s = "";
         s += (date.getDayOfMonth() < 10 ? ("0" + date.getDayOfMonth()) : date.getDayOfMonth());
         s += ("." + (date.getMonthValue() < 10 ? ("0" + date.getMonthValue()) : date.getMonthValue()));
@@ -327,64 +332,66 @@ public class Game implements Serializable {
                 + (winner ? "black)" : "white)")))) : ("not finished)")) + ", date and time of save: " + s;
     }
 
-    public Board getBoard() {
+    private Board getBoard() {
         return board;
     }
 
-    public List<String> getMoves() {
+    private List<String> getMoves() {
         return moves;
     }
 
-    public boolean isActivePlayer() {
+    private boolean isActivePlayer() {
         return activePlayer;
     }
 
-    public boolean isSimplePrint() {
+    private boolean isSimplePrint() {
         return simplePrint;
     }
 
-    public int getWhiteQueenMoves() {
+    private int getWhiteQueenMoves() {
         return whiteQueenMoves;
     }
 
-    public int getBlackQueenMoves() {
+    private int getBlackQueenMoves() {
         return blackQueenMoves;
     }
 
-    public boolean isFinished() {
+    private boolean isFinished() {
         return isFinished;
     }
 
-    public boolean isDraw() {
+    private boolean isDraw() {
         return isDraw;
     }
 
-    public boolean isWinner() {
+    private boolean isWinner() {
         return winner;
     }
 
-    public boolean isSave() {
+    private boolean isSave() {
         return save;
     }
 
-    public LocalDate getDate() {
+    private LocalDate getDate() {
         return date;
     }
 
-    public LocalTime getTime() {
+    private LocalTime getTime() {
         return time;
     }
 
-    public RulesSet getRulesSet() {
+    private RulesSet getRulesSet() {
         return rulesSet;
     }
 
-    public boolean isBlackAIPlayer() {
+    private boolean isBlackAIPlayer() {
         return isBlackAIPlayer;
     }
 
-    public boolean isWhiteAIPlayer() {
+    private boolean isWhiteAIPlayer() {
         return isWhiteAIPlayer;
     }
+
+    private InGameUI getInGameUI() {return inGameUI;}
 
 }
