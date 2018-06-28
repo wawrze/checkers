@@ -16,7 +16,7 @@ public class Menu {
 
     Scanner sc = new Scanner(System.in);
 
-    public Menu(){
+    public Menu() throws IOException {
         games = new HashMap<>();
         rules = new ArrayList<>();
         File file = new File("games.dat");
@@ -25,21 +25,38 @@ public class Menu {
                 file.createNewFile();
             } catch (IOException e) {
             }
+            finally {
+                try {
+                    FileInputStream fis = new FileInputStream(file);
+                    fis.close();
+                }
+                catch (IOException e) {}
+            }
         }
         else {
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream load = new ObjectInputStream(fis);
             try {
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream load = new ObjectInputStream(fis);
                 Game game;
                 do {
-                    game = (Game) load.readObject();
+                    try {
+                        game = (Game) load.readObject();
+                    }
+                    catch (ClassNotFoundException e) {
+                        game = null;
+                    }
                     if (game == null)
                         break;
                     games.put(game.getName(), game);
                 } while (true);
-                load.close();
-                fis.close();
-            } catch (IOException | ClassNotFoundException e) {}
+            } catch (IOException e) {}
+            finally {
+                try {
+                    load.close();
+                    fis.close();
+                }
+                catch (IOException e) {}
+            }
         }
         file = new File("rules.dat");
         if(!file.exists()) {
@@ -79,7 +96,7 @@ public class Menu {
         }
     }
 
-    public void start() throws IncorrectMoveFormat, IncorrectMoveException {
+    public void start() throws IncorrectMoveFormat, IncorrectMoveException, IOException {
         String o;
         do {
             this.printMenu();
@@ -114,7 +131,7 @@ public class Menu {
         System.out.println("\tChoose option: ");
     }
 
-    private void option(String o) throws IncorrectMoveFormat, IncorrectMoveException {
+    private void option(String o) throws IncorrectMoveFormat, IncorrectMoveException, IOException {
         switch (o) {
             case "s":
                 Game game = newGame();
@@ -256,33 +273,21 @@ public class Menu {
         return game;
     }
 
-    private void exit(){
-        try{
-            FileOutputStream fos = new FileOutputStream("games.dat");
-            ObjectOutputStream savedGames = new ObjectOutputStream(fos);
-            for(Map.Entry g: games.entrySet()) {
-                savedGames.writeObject(g.getValue());
-            }
-            savedGames.close();
-            fos.close();
+    private void exit() throws IOException {
+        FileOutputStream fos = new FileOutputStream("games.dat");
+        ObjectOutputStream savedGames = new ObjectOutputStream(fos);
+        for(Map.Entry g: games.entrySet()) {
+            savedGames.writeObject(g.getValue());
         }
-        catch(IOException e){
-            System.out.println(e);
-            throw new UnknownException();
+        savedGames.close();
+        fos.close();
+        fos = new FileOutputStream("rules.dat");
+        ObjectOutputStream rulesSets = new ObjectOutputStream(fos);
+        for(RulesSet r: rules) {
+            rulesSets.writeObject(r);
         }
-        try{
-            FileOutputStream fos = new FileOutputStream("rules.dat");
-            ObjectOutputStream rulesSets = new ObjectOutputStream(fos);
-            for(RulesSet r: rules) {
-                rulesSets.writeObject(r);
-            }
-            rulesSets.close();
-            fos.close();
-        }
-        catch(IOException e){
-            System.out.println(e);
-            throw new UnknownException();
-        }
+        rulesSets.close();
+        fos.close();
     }
 
     public static void printRulesSet(RulesSet rulesSet){

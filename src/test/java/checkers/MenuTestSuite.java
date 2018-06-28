@@ -7,6 +7,7 @@ import org.junit.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 
 public class MenuTestSuite {
 
@@ -34,7 +35,7 @@ public class MenuTestSuite {
     }
 
     @Test
-    public void testPrintingRulesSets() {
+    public void testPrintingRulesSets() throws IOException {
         //Given
         ByteArrayInputStream in;
         Menu menu = new Menu();
@@ -75,7 +76,7 @@ public class MenuTestSuite {
     }
 
     @Test
-    public void testStart() throws IncorrectMoveFormat, IncorrectMoveException {
+    public void testStart() throws IncorrectMoveFormat, IncorrectMoveException, IOException {
         File file = new File("games.dat");
         file.renameTo(new File("tmp.dat"));
         ByteArrayInputStream in = new ByteArrayInputStream(("s\nGame name\n1\nn\nn\n" +
@@ -90,6 +91,13 @@ public class MenuTestSuite {
         System.setIn(in);
         menu.start();
         System.setIn(System.in);
+        in = new ByteArrayInputStream(("s\nSome name\n1\nn\nn\nl\nSome name\nl\nx\n").getBytes());
+        System.setIn(in);
+        menu = new Menu();
+        in = new ByteArrayInputStream(("s\nx\nx\nx\n").getBytes());
+        System.setIn(in);
+        menu.start();
+        System.setIn(System.in);
         file = new File("games.dat");
         file.delete();
         file = new File("tmp.dat");
@@ -97,7 +105,30 @@ public class MenuTestSuite {
     }
 
     @Test
-    public void testMain() throws IncorrectMoveException, IncorrectMoveFormat {
+    public void testStartNoDataFiles() throws IncorrectMoveFormat, IncorrectMoveException, IOException {
+        File file1 = new File("games.dat");
+        file1.renameTo(new File("tmp1.dat"));
+        File file2 = new File("rules.dat");
+        file2.renameTo(new File("tmp2.dat"));
+        ByteArrayInputStream in = new ByteArrayInputStream("x\n".getBytes());
+        System.setIn(in);
+        Menu menu = new Menu();
+        in = new ByteArrayInputStream(("s\nx\ns\nx\n").getBytes());
+        System.setIn(in);
+        menu.start();
+        System.setIn(System.in);
+        file1 = new File("games.dat");
+        file1.delete();
+        file1 = new File("tmp1.dat");
+        file1.renameTo(new File("games.dat"));
+        file2 = new File("rules.dat");
+        file2.delete();
+        file2 = new File("tmp2.dat");
+        file2.renameTo(new File("rules.dat"));
+    }
+
+    @Test
+    public void testMain() throws IncorrectMoveException, IncorrectMoveFormat, IOException {
         ByteArrayInputStream in = new ByteArrayInputStream("x\n".getBytes());
         System.setIn(in);
         Checkers.main(null);

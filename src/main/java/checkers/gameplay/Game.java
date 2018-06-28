@@ -321,7 +321,8 @@ public class Game implements Serializable {
         s += (" " + (time.getHour() < 10 ? ("0" + time.getHour()) : time.getHour()));
         s += (":" + (time.getMinute() < 10 ? ("0" + time.getMinute()) : time.getMinute()));
         return name + " (\"" + rulesSet.getName() + "\" rules, " + moves.size() + " moves done, "
-                + (isBlackAIPlayer ? "computer opponent, " : "human opponent, ")
+                + (isBlackAIPlayer ? "black: computer opponent, " : "black: human opponent, ")
+                + (isWhiteAIPlayer ? "white: computer opponent, " : "white: human opponent, ")
                 + (isFinished ? ("finished, " + (isDraw ? "draw)" : ("winner: "
                 + (winner ? "black)" : "white)")))) : ("not finished)")) + ", date and time of save: " + s;
     }

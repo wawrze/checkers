@@ -280,4 +280,34 @@ public class MoveTestSuite {
         Assert.assertTrue(board.getFigure('B',3) instanceof None);
     }
 
+    @Test
+    public void testIncorrectMoveFormat() {
+        //Given
+        char x1 = 'A';
+        char x2 = '.';
+        int y1 = 1;
+        int y2 = 100;
+        boolean result1, result2;
+        Move move;
+        //When
+        try {
+            move = new Move(x1, y1, x1, y2);
+            result1 = false;
+        }
+        catch(IncorrectMoveFormat e) {
+            System.out.println(e);
+            result1 = true;
+        }
+        try {
+            move = new Move(x2, y1, x1, y1);
+            result2 = false;
+        }
+        catch(IncorrectMoveFormat e) {
+            result2 = true;
+        }
+        //Then
+        Assert.assertTrue(result1);
+        Assert.assertTrue(result2);
+    }
+
 }
