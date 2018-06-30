@@ -1,7 +1,5 @@
 package checkers.figures;
 
-import exceptions.UnknownException;
-
 import java.io.Serializable;
 
 public class Pawn extends Figure implements Serializable {

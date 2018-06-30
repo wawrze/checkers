@@ -42,7 +42,7 @@ public class InGameUI implements Serializable {
             case 1:
                 return "\t\t+------+------+-------+";
             case 2:
-                return "\t\t| PAWN |QUEEN |       |";
+                return "\t\t| MEN  | KING |       |";
             case 3:
                 return "\t\t+------+------+-------+";
             case 4:
@@ -120,7 +120,7 @@ public class InGameUI implements Serializable {
             case 1:
                 return "\t\t\t\t\t\t\t\t\t╔═══════╦═══════╦════════╗";
             case 2:
-                return "\t\t\t║ PAWN  ║ QUEEN ║        ║";
+                return "\t\t\t║  MEN  ║ KING  ║        ║";
             case 3:
                 return "\t\t╠═══════╬═══════╬════════╣";
             case 4:

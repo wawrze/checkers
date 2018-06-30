@@ -67,10 +67,10 @@ public class RulesSet implements Serializable {
         s += "Description: " + description + "\n\n";
         s += "Victory conditions: " + (isVictoryConditionsReversed ? "reversed" : "standard") + "\t";
         s += "Capture: " + (isCaptureAny ? "any" : "longest") + "\n";
-        s += "Pawn move backward: " + (isPawnMoveBackward ? "yes" : "no") + "\t\t\t";
-        s += "Queen range: " + (isQueenRangeOne ? "one field" : "any") + "\n";
-        s += "Pawn capture backward: " + (isPawnCaptureBackward ? "yes" : "no") + "\t\t";
-        s += "Queen move after capture: " + (isQueenRangeOneAfterCapture ? "one field" : "any") + "\n";
+        s += "Men move backward: " + (isPawnMoveBackward ? "yes" : "no") + "\t\t\t";
+        s += "King range: " + (isQueenRangeOne ? "one field" : "any") + "\n";
+        s += "Men capture backward: " + (isPawnCaptureBackward ? "yes" : "no") + "\t\t";
+        s += "King move after capture: " + (isQueenRangeOneAfterCapture ? "one field" : "any") + "\n";
         return s;
     }
 

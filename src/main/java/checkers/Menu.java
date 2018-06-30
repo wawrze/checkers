@@ -345,13 +345,13 @@ public class Menu {
                 + (rulesSet.isVictoryConditionsReversed() ? "reversed" : "standard") + "\t\t  ║");
         System.out.println(" ║ Capture:\t\t\t"
                 + (rulesSet.isCaptureAny() ? "any" : "longest") + "\t\t\t  ║");
-        System.out.println(" ║ Pawn move backward:\t\t"
+        System.out.println(" ║ Men move backward:\t\t"
                 + (rulesSet.isPawnMoveBackward() ? "yes" : "no") + "\t\t\t  ║");
-        System.out.println(" ║ Pawn capture backward:\t"
+        System.out.println(" ║ Men capture backward:\t"
                 + (rulesSet.isPawnCaptureBackward() ? "yes" : "no") + "\t\t\t  ║");
-        System.out.println(" ║ Queen range:\t\t\t"
+        System.out.println(" ║ King range:\t\t\t"
                 + (rulesSet.isQueenRangeOne() ? "one field" : "any\t") + "\t\t  ║");
-        System.out.println(" ║ Queen move after capture:\t"
+        System.out.println(" ║ King move after capture:\t"
                 + (rulesSet.isQueenRangeOneAfterCapture() ? "next field" : "any\t") + "\t\t  ║");
         System.out.println(" ╚════════════════════════════════════════════════════════╝");
     }

@@ -1,6 +1,5 @@
 package checkers.gameplay;
 
-import checkers.Menu;
 import checkers.board.*;
 import checkers.figures.*;
 import checkers.moves.*;

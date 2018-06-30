@@ -1,7 +1,5 @@
 package checkers.figures;
 
-import exceptions.UnknownException;
-
 import java.io.Serializable;
 
 public class Queen extends Figure implements Serializable {

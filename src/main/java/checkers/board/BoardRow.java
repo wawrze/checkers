@@ -2,7 +2,6 @@ package checkers.board;
 
 import checkers.figures.*;
 import checkers.gameplay.InGameUI;
-import exceptions.UnknownException;
 
 import java.io.Serializable;
 import java.util.ArrayList;

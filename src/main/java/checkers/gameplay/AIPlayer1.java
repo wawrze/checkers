@@ -123,10 +123,6 @@ public class AIPlayer1 {
                     capture = true;
                 }
             }
-            catch(IncorrectMoveException e) {
-                possibleMoves.remove(entry.getKey());
-                continue;
-            }
             if(activePlayer != AIPlayer)
                 value *= -1;
             value += getFigureSetEvaluation(tmpBoard);
@@ -155,8 +151,10 @@ public class AIPlayer1 {
     private int evaluateWhenEndOfGame(){
         if (VictoryValidator.isDraw())
             return 0;
-        else
+        else if(VictoryValidator.getWinner() == activePlayer)
             return 10000;
+        else
+            return -10000;
     }
 
     private void getPossibleMovesMultiCapture(char row, int col) throws IncorrectMoveFormat, IncorrectMoveException {
@@ -167,6 +165,7 @@ public class AIPlayer1 {
         catch(CapturePossibleException e) {
             moveListFromCaptures(e.getMessage());
         }
+        finally {}
     }
 
     private void moveListFromCaptures(String captureList) {
@@ -272,7 +271,7 @@ public class AIPlayer1 {
                     value += board.getFigure('H', i).getColor() ? -8 : 1;
             }
         }
-        if(AIPlayer)
+        if(activePlayer != AIPlayer)
             value *= -1;
         return value;
     }
@@ -324,18 +323,11 @@ public class AIPlayer1 {
         try {
             MoveValidator.validateMove(move, board, board.getFigure(row, col).getColor(), rulesSet);
             possibleMoves.put(move, 0);
-        } catch (IncorrectMoveException e) {}
-        catch (CaptureException e) {
-            possibleMoves.put(move, 0);
-        }
+        } catch (IncorrectMoveException | CaptureException e) {}
         return true;
     }
 
-    public String[] getAIMove(){
-        if(possibleMoves.isEmpty())
-            throw new UnknownException();
-/*        for(Map.Entry<Move,Integer> e : possibleMoves.entrySet())
-            System.out.println("" + e.getKey() + ", value: " + e.getValue());*/
+    public String[] getAIMove() {
         int max = -100000;
         int min = 100000;
         for(Map.Entry e : possibleMoves.entrySet()) {
@@ -359,9 +351,6 @@ public class AIPlayer1 {
                     moves.add((Move) e.getKey());
             }
         }
-        if(moves.isEmpty())
-            for(Map.Entry<Move,Integer> e : possibleMoves.entrySet())
-                moves.add(e.getKey());
         Random r = new Random();
         Move bestMove = moves.get(r.nextInt(moves.size()));
         String[] s = new String[4];

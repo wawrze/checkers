@@ -23,7 +23,7 @@ public class VictoryValidator {
     }
 
     public static boolean validateEndOfGame(Board board, int whiteQueenMoves, int blackQueenMoves, boolean player,
-                                            RulesSet rulesSet){
+                                            RulesSet rulesSet) {
         draw = false;
         return validateFigures(board, rulesSet)
                 || validateMovePossibility(board, player, rulesSet)
