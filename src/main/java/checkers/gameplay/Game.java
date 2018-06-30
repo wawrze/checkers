@@ -147,7 +147,7 @@ public class Game implements Serializable {
             else
                 return true;
         }
-        else if(s.length == 4){
+        else {
             try {
                 this.makeMove(s);
                 return true;
@@ -157,8 +157,6 @@ public class Game implements Serializable {
                 return true;
             }
         }
-        else
-            throw new UnknownException();
     }
 
     private void makeMove(String[] s) throws IncorrectMoveFormat, IncorrectMoveException {
@@ -192,7 +190,8 @@ public class Game implements Serializable {
             this.activePlayer = !this.activePlayer;
             inGameUI.printMoveDone(simplePrint, isItAITurn);
 
-        }catch (CaptureException e){
+        }
+        catch (CaptureException e) {
             moves.add((activePlayer ? "black: " : "white: ") + move);
             move.makeCapture(board,e.getRow(),e.getCol());
             multiCapture(move);
@@ -202,9 +201,11 @@ public class Game implements Serializable {
             else
                 whiteQueenMoves = 0;
             this.activePlayer = !this.activePlayer;
-        }catch (IncorrectMoveException e){
+        }
+        catch (IncorrectMoveException e) {
             inGameUI.printIncorrectMove(e.getMessage(), simplePrint, isItAITurn);
-        }finally{
+        }
+        finally {
             if((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
                     && board.getFigure(move.getRow2(), move.getCol2()).getColor()
                     && (move.getRow2()) == 'H')
@@ -214,8 +215,7 @@ public class Game implements Serializable {
                     && (move.getRow2()) == 'A')
                 board.setFigure('A', move.getCol2(), new Queen(false));
             if(!isItAITurn)
-                inGameUI.waitForEnter();
-        }
+                inGameUI.waitForEnter(); }
     }
 
     private void multiCapture(Move move) throws IncorrectMoveFormat, IncorrectMoveException {
@@ -250,36 +250,25 @@ public class Game implements Serializable {
                 else if(s.length == 1 && inGameMenu(s[0])){
                     continue;
                 }
-                else if(s.length == 4){
+                else {
                     char x1 = s[0].charAt(0);
                     int y1 = Character.getNumericValue(s[1].charAt(0));
                     char x2 = s[2].charAt(0);
                     int y2 = Character.getNumericValue(s[3].charAt(0));
                     inGameUI.printMakingMove(simplePrint, x1, y1, x2, y2, isItAITurn);
-                    try {
-                        move = new Move(x1, y1, x2, y2);
-                        try{
-                            MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
-                            inGameUI.printIncorrectMove("continue capturing is obligatory!", simplePrint, isItAITurn);
-                        }
-                        catch(CaptureException e1){
-                            moves.add((activePlayer ? "black: " : "white: ") + move);
-                            move.makeCapture(board,e1.getRow(),e1.getCol());
-                        }
-                        catch(IncorrectMoveException e1){
-                            inGameUI.printIncorrectMove("continue capturing is obligatory!", simplePrint, isItAITurn);
-                        }
+                    move = new Move(x1, y1, x2, y2);
+                    try{
+                        MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
                     }
-                    catch(IncorrectMoveFormat e1){
-                        inGameUI.printIncorrectMoveFormat(simplePrint, isItAITurn);
-                        continue;
+                    catch(CaptureException e1){
+                        moves.add((activePlayer ? "black: " : "white: ") + move);
+                        move.makeCapture(board,e1.getRow(),e1.getCol());
                     }
+                    finally {}
                 }
-                else
-                    throw new UnknownException();
                 continue;
             }
-        }while (true);
+        } while(true);
         if((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
                 && board.getFigure(move.getRow2(), move.getCol2()).getColor()
                 && (move.getRow2()) == 'H')
@@ -290,8 +279,8 @@ public class Game implements Serializable {
             board.setFigure('A', move.getCol2(), new Queen(false));
     }
 
-    private boolean inGameMenu(String s){
-        switch (s) {
+    private boolean inGameMenu(String s) {
+        switch(s) {
             case "h":
                 inGameUI.printMoveHistory(moves);
                 inGameUI.waitForEnter();
@@ -302,13 +291,10 @@ public class Game implements Serializable {
             case "s":
                 save = true;
                 return true;
-            case "x":
+            default:
                 save = false;
                 return true;
-            default:
-                break;
         }
-        return false;
     }
 
     public String getName() {
@@ -332,7 +318,7 @@ public class Game implements Serializable {
                 + (winner ? "black)" : "white)")))) : ("not finished)")) + ", date and time of save: " + s;
     }
 
-    private Board getBoard() {
+    public Board getBoard() {
         return board;
     }
 
@@ -348,11 +334,11 @@ public class Game implements Serializable {
         return simplePrint;
     }
 
-    private int getWhiteQueenMoves() {
+    public int getWhiteQueenMoves() {
         return whiteQueenMoves;
     }
 
-    private int getBlackQueenMoves() {
+    public int getBlackQueenMoves() {
         return blackQueenMoves;
     }
 
