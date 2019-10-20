@@ -3,6 +3,9 @@ package checkers;
 import checkers.gameplay.Game;
 import checkers.gameplay.InGameUI;
 import checkers.gameplay.RulesSet;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.terminal.Terminal;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
 
@@ -165,6 +168,33 @@ public class Menu {
     }
 
     public void start() throws IncorrectMoveFormat, IncorrectMoveException, IOException {
+        Terminal terminal = new DefaultTerminalFactory().createTerminal();
+
+        terminal.setCursorVisible(false);
+
+        terminal.putCharacter('H');
+        terminal.putCharacter('e');
+        terminal.putCharacter('l');
+        terminal.putCharacter('l');
+        terminal.putCharacter('o');
+        terminal.putCharacter(',');
+        terminal.putCharacter(' ');
+        terminal.putCharacter('W');
+        terminal.putCharacter('o');
+        terminal.putCharacter('r');
+        terminal.putCharacter('l');
+        terminal.putCharacter('d');
+        terminal.putCharacter('!');
+
+        terminal.setCursorPosition(10, 10);
+
+        KeyStroke key;
+        do {
+            key = terminal.readInput();
+        } while (key == null);
+
+        terminal.putCharacter(key.getCharacter());
+
         String o;
         do {
             this.printMenu();
