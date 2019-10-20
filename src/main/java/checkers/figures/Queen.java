@@ -4,27 +4,27 @@ import java.io.Serializable;
 
 public class Queen extends Figure implements Serializable {
 
-	public Queen(boolean color) {
-		this.color = color;
-	}
+    public Queen(boolean color) {
+        this.color = color;
+    }
 
-	@Override
-	public String toString() {
-		if(this.color == true)
-			return "QQ";
-		else
-			return "qq";
-	}
+    @Override
+    public String toString() {
+        if (this.color)
+            return "QQ";
+        else
+            return "qq";
+    }
 
     @Override
     public String print(int n) {
         String temp = "";
-        switch(n){
+        switch (n) {
             case 0:
                 temp = "╔═══╗";
                 break;
             case 1:
-                if(this.color)
+                if (this.color)
                     temp = "║   ║";
                 else
                     temp = "║ █ ║";

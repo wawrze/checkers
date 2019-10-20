@@ -2,8 +2,8 @@ package exceptions;
 
 public class CaptureException extends Exception {
 
-    private char row;
-    private int col;
+    private final char row;
+    private final int col;
 
     public CaptureException(char row, int col) {
         this.row = row;

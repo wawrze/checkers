@@ -21,7 +21,7 @@ public class RulesSet implements Serializable {
         this.isPawnMoveBackward = isPawnMoveBackward;
         this.isPawnCaptureBackward = isPawnCaptureBackward;
         this.isQueenRangeOne = isQueenRangeOne;
-        if(isQueenRangeOne)
+        if (isQueenRangeOne)
             this.isQueenRangeOneAfterCapture = true;
         else
             this.isQueenRangeOneAfterCapture = isQueenRangeOneAfterCapture;
@@ -62,7 +62,7 @@ public class RulesSet implements Serializable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String s = "\"" + name + "\" rules\n\n";
         s += "Description: " + description + "\n\n";
         s += "Victory conditions: " + (isVictoryConditionsReversed ? "reversed" : "standard") + "\t";

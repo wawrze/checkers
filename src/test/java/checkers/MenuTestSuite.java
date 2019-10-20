@@ -10,27 +10,28 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class MenuTestSuite {
 
     private static int counter = 1;
 
     @BeforeClass
-    public static void beforeTests(){
+    public static void beforeTests() {
         System.out.println("Menu tests: started");
     }
 
     @AfterClass
-    public static void afterTests(){
+    public static void afterTests() {
         System.out.println("Menu tests: finished");
     }
 
     @Before
-    public void before(){
+    public void before() {
         System.out.println("Test #" + counter + ": started");
     }
 
     @After
-    public void after(){
+    public void after() {
         System.out.println("Test #" + counter + ": finished");
         counter++;
     }
@@ -42,27 +43,27 @@ public class MenuTestSuite {
         ByteArrayInputStream in = new ByteArrayInputStream("r\n\nx\nx\n".getBytes());
         System.setIn(in);
         Menu menu = new Menu();
-        RulesSet rulesSet1 = new RulesSet(true, true,true,
-        true, true,true , "Sample rules set",
-        "Sample description");
-        RulesSet rulesSet2 = new RulesSet(true, false,true,
-                true, true,true,
-                ".","Sample description description long for two lines of text.");
-        RulesSet rulesSet3 = new RulesSet(true, true,false,
-                true, true,true,
+        RulesSet rulesSet1 = new RulesSet(true, true, true,
+                true, true, true, "Sample rules set",
+                "Sample description");
+        RulesSet rulesSet2 = new RulesSet(true, false, true,
+                true, true, true,
+                ".", "Sample description description long for two lines of text.");
+        RulesSet rulesSet3 = new RulesSet(true, true, false,
+                true, true, true,
                 "Sample rules set", ".");
-        RulesSet rulesSet4 = new RulesSet(true, true,true,
-                false, true,true,
-                "Sample rules set","Sample description long for more than three lines of text" +
+        RulesSet rulesSet4 = new RulesSet(true, true, true,
+                false, true, true,
+                "Sample rules set", "Sample description long for more than three lines of text" +
                 "..................................................................................................." +
                 "...................................................................................................");
-        RulesSet rulesSet5 = new RulesSet(true, true,true,
-                true, false,true,
-                "Sample rules set","Sample description long forthree lines of text" +
+        RulesSet rulesSet5 = new RulesSet(true, true, true,
+                true, false, true,
+                "Sample rules set", "Sample description long forthree lines of text" +
                 "...................................................................................................");
-        RulesSet rulesSet6 = new RulesSet(true, true,true,
-                true, true,false,
-                "Sample rules set name longer than forty six characters","Sample description");
+        RulesSet rulesSet6 = new RulesSet(true, true, true,
+                true, true, false,
+                "Sample rules set name longer than forty six characters", "Sample description");
         //When
         menu.getRules().add(rulesSet1);
         menu.getRules().add(rulesSet2);
@@ -71,7 +72,7 @@ public class MenuTestSuite {
         menu.getRules().add(rulesSet5);
         menu.getRules().add(rulesSet6);
         menu.start();
-        menu.cls();
+        Menu.cls();
         System.setIn(System.in);
         //Then
     }

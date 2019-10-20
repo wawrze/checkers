@@ -15,22 +15,22 @@ public class GameTestSuite {
     private static int counter = 1;
 
     @BeforeClass
-    public static void beforeTests(){
+    public static void beforeTests() {
         System.out.println("InGameUI tests: started");
     }
 
     @AfterClass
-    public static void afterTests(){
+    public static void afterTests() {
         System.out.println("InGameUI tests: finished");
     }
 
     @Before
-    public void before(){
+    public void before() {
         System.out.println("Test #" + counter + ": started");
     }
 
     @After
-    public void after(){
+    public void after() {
         System.out.println("Test #" + counter + ": finished");
         counter++;
     }
@@ -92,8 +92,8 @@ public class GameTestSuite {
         int blackQueenMovesCounter;
         int whiteQueenMovesCounter;
         //When
-        for(int i = 1;i < 9;i++) {
-            for(int j = 1;j < 9;j++)
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < 9; j++)
                 game.getBoard().setFigure((char) (i + 64), j, new None(true));
         }
         game.getBoard().setFigure('A', 8, new Queen(true));
@@ -117,8 +117,8 @@ public class GameTestSuite {
         Game game = new Game("", rulesSet, false, false);
         InGameUI inGameUI;
         //When
-        for(int i = 1;i < 9;i++) {
-            for(int j = 1;j < 9;j++)
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < 9; j++)
                 game.getBoard().setFigure((char) (i + 64), j, new None(true));
         }
         game.getBoard().setFigure('B', 7, new Pawn(false));
@@ -140,8 +140,8 @@ public class GameTestSuite {
         Game game = new Game("", rulesSet, false, true);
         InGameUI inGameUI;
         //When
-        for(int i = 1;i < 9;i++) {
-            for(int j = 1;j < 9;j++)
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < 9; j++)
                 game.getBoard().setFigure((char) (i + 64), j, new None(true));
         }
         game.getBoard().setFigure('B', 3, new Pawn(true));
@@ -166,8 +166,8 @@ public class GameTestSuite {
         Game game = new Game("", rulesSet, true, false);
         InGameUI inGameUI;
         //When
-        for(int i = 1;i < 9;i++) {
-            for(int j = 1;j < 9;j++)
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < 9; j++)
                 game.getBoard().setFigure((char) (i + 64), j, new None(true));
         }
         game.getBoard().setFigure('B', 3, new Pawn(true));

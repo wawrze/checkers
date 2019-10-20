@@ -1,10 +1,13 @@
 package checkers.moves;
 
-import checkers.board.*;
-import checkers.figures.*;
+import checkers.board.Board;
+import checkers.figures.Figure;
+import checkers.figures.None;
+import checkers.figures.Pawn;
+import checkers.figures.Queen;
 import checkers.gameplay.RulesSet;
-import com.sun.javafx.css.Rule;
-import exceptions.*;
+import exceptions.CaptureException;
+import exceptions.IncorrectMoveException;
 
 public class MoveValidator {
 
@@ -46,11 +49,10 @@ public class MoveValidator {
 
     private static void validatePawnMove(Move move, Board board, boolean player, RulesSet rulesSet)
             throws CaptureException, IncorrectMoveException {
-        if(!rulesSet.isPawnCaptureBackward()) {
+        if (!rulesSet.isPawnCaptureBackward()) {
             validateDirection(move, player);
             validateRange(move, board);
-        }
-        else {
+        } else {
             validateRange(move, board);
             if (!rulesSet.isPawnMoveBackward())
                 validateDirection(move, player);
@@ -68,8 +70,7 @@ public class MoveValidator {
             if (!(board.getFigure(x, y) instanceof None)
                     && board.getFigure(x, y).getColor() != board.getFigure(move.getRow1(), move.getCol1()).getColor()) {
                 throw new CaptureException(x, y);
-            }
-            else {
+            } else {
                 throw new IncorrectMoveException("Invalid range!");
             }
         } else if ((Math.abs(x1 - x2) != 1) || (Math.abs(y1 - y2) != 1))
@@ -88,12 +89,12 @@ public class MoveValidator {
 
     private static void validateQueenMove(Move move, Board board, boolean player, RulesSet rulesSet)
             throws IncorrectMoveException, CaptureException {
-        if(rulesSet.isQueenRangeOne())
+        if (rulesSet.isQueenRangeOne())
             validateRange(move, board);
-        validateOnWay(move, board, player, rulesSet);
+        validateOnWay(move, board, player);
     }
 
-    private static void validateOnWay(Move move, Board board, boolean player, RulesSet rulesSet)
+    private static void validateOnWay(Move move, Board board, boolean player)
             throws IncorrectMoveException, CaptureException {
         int x1 = move.getRow1int();
         int y1 = move.getCol1();

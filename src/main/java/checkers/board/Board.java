@@ -9,10 +9,10 @@ import java.util.List;
 
 public class Board implements Serializable {
 
-	private HashMap<Character, BoardRow> rows;
+    private final HashMap<Character, BoardRow> rows;
 
-	public Board() {
-		this.rows = new HashMap<Character, BoardRow>();
+    public Board() {
+        this.rows = new HashMap<>();
         rows.put('A', new BoardRow(true));
         rows.put('B', new BoardRow(false));
         rows.put('C', new BoardRow(true));
@@ -21,45 +21,45 @@ public class Board implements Serializable {
         rows.put('F', new BoardRow(false));
         rows.put('G', new BoardRow(true));
         rows.put('H', new BoardRow(false));
-	}
+    }
 
-	public Board(Board board){
-        rows = new HashMap<Character, BoardRow>();
+    public Board(Board board) {
+        rows = new HashMap<>();
         rows.put('A', new BoardRow(true));
-        for(int i = 1;i<9;i++)
-            rows.get('A').setFigure(i,board.getFigure('A',i));
+        for (int i = 1; i < 9; i++)
+            rows.get('A').setFigure(i, board.getFigure('A', i));
         rows.put('B', new BoardRow(false));
-        for(int i = 1;i<9;i++)
-            rows.get('B').setFigure(i,board.getFigure('B',i));
+        for (int i = 1; i < 9; i++)
+            rows.get('B').setFigure(i, board.getFigure('B', i));
         rows.put('C', new BoardRow(true));
-        for(int i = 1;i<9;i++)
-            rows.get('C').setFigure(i,board.getFigure('C',i));
+        for (int i = 1; i < 9; i++)
+            rows.get('C').setFigure(i, board.getFigure('C', i));
         rows.put('D', new BoardRow(false));
-        for(int i = 1;i<9;i++)
-            rows.get('D').setFigure(i,board.getFigure('D',i));
+        for (int i = 1; i < 9; i++)
+            rows.get('D').setFigure(i, board.getFigure('D', i));
         rows.put('E', new BoardRow(true));
-        for(int i = 1;i<9;i++)
-            rows.get('E').setFigure(i,board.getFigure('E',i));
+        for (int i = 1; i < 9; i++)
+            rows.get('E').setFigure(i, board.getFigure('E', i));
         rows.put('F', new BoardRow(false));
-        for(int i = 1;i<9;i++)
-            rows.get('F').setFigure(i,board.getFigure('F',i));
+        for (int i = 1; i < 9; i++)
+            rows.get('F').setFigure(i, board.getFigure('F', i));
         rows.put('G', new BoardRow(true));
-        for(int i = 1;i<9;i++)
-            rows.get('G').setFigure(i,board.getFigure('G',i));
+        for (int i = 1; i < 9; i++)
+            rows.get('G').setFigure(i, board.getFigure('G', i));
         rows.put('H', new BoardRow(false));
-        for(int i = 1;i<9;i++)
-            rows.get('H').setFigure(i,board.getFigure('H',i));
+        for (int i = 1; i < 9; i++)
+            rows.get('H').setFigure(i, board.getFigure('H', i));
     }
 
     public Figure getFigure(char row, int col) {
-		return this.rows.get(row).getFigure(col);
-	}
+        return this.rows.get(row).getFigure(col);
+    }
 
-	public void setFigure(char row, int col, Figure figure) {
-		this.rows.get(row).setFigure(col, figure);
-	}
+    public void setFigure(char row, int col, Figure figure) {
+        this.rows.get(row).setFigure(col, figure);
+    }
 
-	public void printBoardSimple(List<String> moves, InGameUI inGameUI){
+    public void printBoardSimple(List<String> moves, InGameUI inGameUI) {
         System.out.print("     1    2    3    4    5    6    7    8" + inGameUI.sideMenuSimple(1, moves));
         System.out.print("\n  +----+----+----+----+----+----+----+----+" + inGameUI.sideMenuSimple(2, moves));
         System.out.print(rows.get('A').printRowSimple('A', 3, moves, inGameUI));

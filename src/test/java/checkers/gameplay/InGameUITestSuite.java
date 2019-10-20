@@ -22,22 +22,22 @@ public class InGameUITestSuite {
     private static int counter = 1;
 
     @BeforeClass
-    public static void beforeTests(){
+    public static void beforeTests() {
         System.out.println("InGameUI tests: started");
     }
 
     @AfterClass
-    public static void afterTests(){
+    public static void afterTests() {
         System.out.println("InGameUI tests: finished");
     }
 
     @Before
-    public void before(){
+    public void before() {
         System.out.println("Test #" + counter + ": started");
     }
 
     @After
-    public void after(){
+    public void after() {
         System.out.println("Test #" + counter + ": finished");
         counter++;
     }
@@ -82,9 +82,9 @@ public class InGameUITestSuite {
         List<String> list = new ArrayList<>();
         InGameUI inGameUI = new InGameUI(new Scanner(System.in));
         //When
-        for(int i = 1;i < 27;i++)
+        for (int i = 1; i < 27; i++)
             inGameUI.sideMenuSimple(i, list);
-        for(int j = 0;j < 10;j++) {
+        for (int j = 0; j < 10; j++) {
             list.add(move);
             for (int i = 16; i < 27; i++)
                 inGameUI.sideMenuSimple(i, list);
@@ -112,9 +112,9 @@ public class InGameUITestSuite {
                 inGameUI.printCaptureObligatory(simplePrint, isItAITurn);
                 inGameUI.printIncorrectMoveFormat(simplePrint, isItAITurn);
                 simplePrint = !simplePrint;
-            } while(simplePrint);
+            } while (simplePrint);
             isItAITurn = !isItAITurn;
-        } while(isItAITurn);
+        } while (isItAITurn);
         //CleanUp
         System.setIn(System.in);
     }

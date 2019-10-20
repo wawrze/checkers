@@ -10,53 +10,49 @@ import java.util.Scanner;
 
 public class InGameUI implements Serializable {
 
-    private String[] options;
-    private transient Scanner sc;
+    private final String[] options;
+    private final transient Scanner sc;
 
     public InGameUI(Scanner sc) {
-        String[] tmp = {"h", "p", "s", "x"};
-        options = tmp;
+        options = new String[]{"h", "p", "s", "x"};
         this.sc = sc;
     }
 
     public void printMoveHistory(List<String> moves) {
-        if(moves.isEmpty())
+        if (moves.isEmpty())
             System.out.println("No moves history.");
         else
             for (String m : moves)
                 System.out.println(m);
     }
 
-    public String getGameName(){
+    public String getGameName() {
         System.out.println("Name your game:");
         String name;
         do {
             name = sc.nextLine();
-        }while(name.isEmpty());
+        } while (name.isEmpty());
         return name;
     }
 
-    public String sideMenuSimple(int line,List<String> moves){
+    public String sideMenuSimple(int line, List<String> moves) {
         String s = "            ";
-        switch(line){
+        switch (line) {
             case 1:
+            case 9:
+            case 6:
+            case 3:
                 return "\t\t+------+------+-------+";
             case 2:
                 return "\t\t| MEN  | KING |       |";
-            case 3:
-                return "\t\t+------+------+-------+";
             case 4:
                 return "\t|  PP  |  QQ  |       |";
             case 5:
                 return "\t\t|  PP  |  QQ  | BLACK |";
-            case 6:
-                return "\t\t+------+------+-------+";
             case 7:
                 return "\t|  pp  |  qq  |       |";
             case 8:
                 return "\t\t|  pp  |  qq  | WHITE |";
-            case 9:
-                return "\t\t+------+------+-------+";
             case 10:
                 return "\t|   MENU              |";
             case 11:
@@ -65,48 +61,46 @@ public class InGameUI implements Serializable {
                 return "\t\t|(s) save and exit    |";
             case 13:
                 return "\t|(x) exit, no saving  |";
-            case 14:
-                return "\t\t+---------------------+";
             case 15:
                 return "\t\t|   LAST 10 MOVES     |";
             case 16:
-                if(moves.size() >= 1)
+                if (moves.size() >= 1)
                     s = moves.get(moves.size() - 1);
                 return "\t|    " + s + "     |";
             case 17:
-                if(moves.size() >= 2)
+                if (moves.size() >= 2)
                     s = moves.get(moves.size() - 2);
                 return "\t\t|    " + s + "     |";
             case 18:
-                if(moves.size() >= 3)
+                if (moves.size() >= 3)
                     s = moves.get(moves.size() - 3);
                 return "\t\t|    " + s + "     |";
             case 19:
-                if(moves.size() >= 4)
+                if (moves.size() >= 4)
                     s = moves.get(moves.size() - 4);
                 return "\t|    " + s + "     |";
             case 20:
-                if(moves.size() >= 5)
+                if (moves.size() >= 5)
                     s = moves.get(moves.size() - 5);
                 return "\t\t|    " + s + "     |";
             case 21:
-                if(moves.size() >= 6)
+                if (moves.size() >= 6)
                     s = moves.get(moves.size() - 6);
                 return "\t\t|    " + s + "     |";
             case 22:
-                if(moves.size() >= 7)
+                if (moves.size() >= 7)
                     s = moves.get(moves.size() - 7);
                 return "\t|    " + s + "     |";
             case 23:
-                if(moves.size() >= 8)
+                if (moves.size() >= 8)
                     s = moves.get(moves.size() - 8);
                 return "\t\t|    " + s + "     |";
             case 24:
-                if(moves.size() >= 9)
+                if (moves.size() >= 9)
                     s = moves.get(moves.size() - 9);
                 return "\t\t|    " + s + "     |";
             case 25:
-                if(moves.size() >= 10)
+                if (moves.size() >= 10)
                     s = moves.get(moves.size() - 10);
                 return "\t|    " + s + "     |";
             default:
@@ -114,44 +108,43 @@ public class InGameUI implements Serializable {
         }
     }
 
-    public String sideMenu(int line,List<String> moves, boolean player){
+    public String sideMenu(int line, List<String> moves, boolean player) {
         String s = "            ";
-        switch(line){
+        switch (line) {
             case 1:
                 return "\t\t\t\t\t\t\t\t\t╔═══════╦═══════╦════════╗";
             case 2:
                 return "\t\t\t║  MEN  ║ KING  ║        ║";
             case 3:
+            case 7:
                 return "\t\t╠═══════╬═══════╬════════╣";
             case 4:
-                if(player)
+                if (player)
                     return "\t\t║ ┌───┐ ║ ╔═══╗ ║╔══════╗║";
                 else
                     return "\t\t║ ┌───┐ ║ ╔═══╗ ║        ║";
             case 5:
-                if(player)
+                if (player)
                     return "\t\t║ │   │ ║ ║   ║ ║║BLACK ║║";
                 else
                     return "\t\t║ │   │ ║ ║   ║ ║ BLACK  ║";
             case 6:
-                if(player)
+                if (player)
                     return "\t\t║ └───┘ ║ ╚═══╝ ║╚══════╝║";
                 else
                     return "\t\t║ └───┘ ║ ╚═══╝ ║        ║";
-            case 7:
-                return "\t\t╠═══════╬═══════╬════════╣";
             case 8:
-                if(player)
+                if (player)
                     return "\t\t║ ┌───┐ ║ ╔═══╗ ║        ║";
                 else
                     return "\t\t║ ┌───┐ ║ ╔═══╗ ║╔══════╗║";
             case 9:
-                if(player)
+                if (player)
                     return "\t\t║ │ █ │ ║ ║ █ ║ ║ WHITE  ║";
                 else
                     return "\t\t║ │ █ │ ║ ║ █ ║ ║║WHITE ║║";
             case 10:
-                if(player)
+                if (player)
                     return "\t\t║ └───┘ ║ ╚═══╝ ║        ║";
                 else
                     return "\t\t║ └───┘ ║ ╚═══╝ ║╚══════╝║";
@@ -172,43 +165,43 @@ public class InGameUI implements Serializable {
             case 18:
                 return "\t\t║      LAST 10 MOVES\t ║";
             case 19:
-                if(moves.size() >= 1)
+                if (moves.size() >= 1)
                     s = moves.get(moves.size() - 1);
                 return "\t\t║      " + s + "      ║";
             case 20:
-                if(moves.size() >= 2)
+                if (moves.size() >= 2)
                     s = moves.get(moves.size() - 2);
                 return "\t\t║      " + s + "      ║";
             case 21:
-                if(moves.size() >= 3)
+                if (moves.size() >= 3)
                     s = moves.get(moves.size() - 3);
                 return "\t\t║      " + s + "      ║";
             case 22:
-                if(moves.size() >= 4)
+                if (moves.size() >= 4)
                     s = moves.get(moves.size() - 4);
                 return "\t\t║      " + s + "      ║";
             case 23:
-                if(moves.size() >= 5)
+                if (moves.size() >= 5)
                     s = moves.get(moves.size() - 5);
                 return "\t\t║      " + s + "      ║";
             case 24:
-                if(moves.size() >= 6)
+                if (moves.size() >= 6)
                     s = moves.get(moves.size() - 6);
                 return "\t\t║      " + s + "      ║";
             case 25:
-                if(moves.size() >= 7)
+                if (moves.size() >= 7)
                     s = moves.get(moves.size() - 7);
                 return "\t\t║      " + s + "      ║";
             case 26:
-                if(moves.size() >= 8)
+                if (moves.size() >= 8)
                     s = moves.get(moves.size() - 8);
                 return "\t\t║      " + s + "      ║";
             case 27:
-                if(moves.size() >= 9)
+                if (moves.size() >= 9)
                     s = moves.get(moves.size() - 9);
                 return "\t\t║      " + s + "      ║";
             case 28:
-                if(moves.size() >= 10)
+                if (moves.size() >= 10)
                     s = moves.get(moves.size() - 10);
                 return "\t\t║      " + s + "      ║";
             default:
@@ -221,18 +214,17 @@ public class InGameUI implements Serializable {
         sc.nextLine();
     }
 
-    public void printBoard(Board board, boolean simplePrint, boolean player, List<String> moves,
-                                  RulesSet rulesSet, boolean isItAITurn){
+    void printBoard(Board board, boolean simplePrint, boolean player, List<String> moves,
+                    RulesSet rulesSet, boolean isItAITurn) {
         Menu.cls();
-        if(simplePrint) {
+        if (simplePrint) {
             System.out.println(rulesSet);
             board.printBoardSimple(moves, this);
-        }
-        else {
+        } else {
             Menu.printRulesSet(rulesSet);
             board.printBoard(moves, player, this);
         }
-        if(simplePrint)
+        if (simplePrint)
             System.out.println(" Active player: " + (player ? "BLACK" : "WHITE")
                     + (isItAITurn ? " (computer)\tPlease wait for move." : "\tEnter your next move."));
         else {
@@ -240,15 +232,15 @@ public class InGameUI implements Serializable {
             System.out.println(" ║ Active player: " + (player ? "BLACK" : "WHITE") +
                     (isItAITurn ? " (computer) ║ Please wait for move."
                             : "            ║ Enter your next move.")
-                     + "\t\t\t\t\t ║ ");
+                    + "\t\t\t\t\t ║ ");
             System.out.println(" ╚═════════════════════════════════╩═════════════════════════════════════════════════════════════╝");
         }
     }
 
-    public void printMakingMove(boolean simplePrint, char x1, int y1, char x2, int y2, boolean isItAITurn){
-        if(isItAITurn)
+    public void printMakingMove(boolean simplePrint, char x1, int y1, char x2, int y2, boolean isItAITurn) {
+        if (isItAITurn)
             return;
-        if(simplePrint)
+        if (simplePrint)
             System.out.println(" Making move: " + x1 + y1 + "-" + x2 + y2);
         else {
             System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
@@ -257,10 +249,10 @@ public class InGameUI implements Serializable {
         }
     }
 
-    public void printMoveDone(boolean simplePrint, boolean isItAITurn){
-        if(isItAITurn)
+    public void printMoveDone(boolean simplePrint, boolean isItAITurn) {
+        if (isItAITurn)
             return;
-        if(simplePrint)
+        if (simplePrint)
             System.out.println(" Move done.");
         else {
             System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
@@ -269,10 +261,10 @@ public class InGameUI implements Serializable {
         }
     }
 
-    public void printCaptureDone(boolean simplePrint, boolean isItAITurn){
-        if(isItAITurn)
+    public void printCaptureDone(boolean simplePrint, boolean isItAITurn) {
+        if (isItAITurn)
             return;
-        if(simplePrint)
+        if (simplePrint)
             System.out.println(" Capture done.");
         else {
             System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
@@ -281,10 +273,10 @@ public class InGameUI implements Serializable {
         }
     }
 
-    public void printIncorrectMove(String s, boolean simplePrint, boolean isItAITurn){
-        if(isItAITurn)
+    public void printIncorrectMove(String s, boolean simplePrint, boolean isItAITurn) {
+        if (isItAITurn)
             return;
-        if(simplePrint)
+        if (simplePrint)
             System.out.println(" Incorrect move: " + s);
         else {
             System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
@@ -293,10 +285,10 @@ public class InGameUI implements Serializable {
         }
     }
 
-    public void printCapture(String captures, boolean simplePrint, boolean isItAITurn){
-        if(isItAITurn)
+    public void printCapture(String captures, boolean simplePrint, boolean isItAITurn) {
+        if (isItAITurn)
             return;
-        if(simplePrint)
+        if (simplePrint)
             System.out.println(" You have to capture: " + captures);
         else {
             System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
@@ -305,10 +297,10 @@ public class InGameUI implements Serializable {
         }
     }
 
-    public void printMultiCapture(String captures, boolean simplePrint, boolean isItAITurn){
-        if(isItAITurn)
+    public void printMultiCapture(String captures, boolean simplePrint, boolean isItAITurn) {
+        if (isItAITurn)
             return;
-        if(simplePrint)
+        if (simplePrint)
             System.out.println(" Possible captures: " + captures);
         else {
             System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
@@ -317,35 +309,35 @@ public class InGameUI implements Serializable {
         }
     }
 
-    private String complementString (String s){
+    private String complementString(String s) {
         String result = s;
-        if(s.length() < 93)
+        if (s.length() < 93)
             result += "\t";
-        if(s.length() < 85)
+        if (s.length() < 85)
             result += "\t";
-        if(s.length() < 77)
+        if (s.length() < 77)
             result += "\t";
-        if(s.length() < 69)
+        if (s.length() < 69)
             result += "\t";
-        if(s.length() < 61)
+        if (s.length() < 61)
             result += "\t";
-        if(s.length() < 53)
+        if (s.length() < 53)
             result += "\t";
-        if(s.length() < 45)
+        if (s.length() < 45)
             result += "\t";
-        if(s.length() < 37)
+        if (s.length() < 37)
             result += "\t";
-        if(s.length() < 29)
+        if (s.length() < 29)
             result += "\t";
-        if(s.length() < 21)
+        if (s.length() < 21)
             result += "\t";
-        if(s.length() < 13)
+        if (s.length() < 13)
             result += "\t";
         return result;
     }
 
     public void printCaptureObligatory(boolean simplePrint, boolean isItAITurn) {
-        if(isItAITurn)
+        if (isItAITurn)
             return;
         if (simplePrint)
             System.out.println(" Capture is obligatory!");
@@ -358,9 +350,9 @@ public class InGameUI implements Serializable {
     }
 
     public void printIncorrectMoveFormat(boolean simplePrint, boolean isItAITurn) {
-        if(isItAITurn)
+        if (isItAITurn)
             return;
-        if(simplePrint)
+        if (simplePrint)
             System.out.println(" Incorrect move format! Proper format example: E4-D5");
         else {
             System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
@@ -370,22 +362,22 @@ public class InGameUI implements Serializable {
         waitForEnter();
     }
 
-    public String[] getMoveOrOption(String captures, boolean simplePrint, boolean isItAITurn){
+    public String[] getMoveOrOption(String captures, boolean simplePrint, boolean isItAITurn) {
         String s;
         s = sc.nextLine();
         s = s.toLowerCase();
         String[] result;
-        for(String o : options) {
-            if (s.equals(o)){
+        for (String o : options) {
+            if (s.equals(o)) {
                 result = new String[1];
                 result[0] = s;
                 return result;
             }
         }
         s = s.toUpperCase();
-        try{
+        try {
             validate(s);
-            if(captures.isEmpty() || captures.contains(s)) {
+            if (captures.isEmpty() || captures.contains(s)) {
                 String[] sArray = s.split("-");
                 char x1 = sArray[0].charAt(0);
                 int y1 = Character.getNumericValue(sArray[0].charAt(1));
@@ -396,13 +388,11 @@ public class InGameUI implements Serializable {
                 result[1] = "" + y1;
                 result[2] = "" + x2;
                 result[3] = "" + y2;
-            }
-            else{
+            } else {
                 printCaptureObligatory(simplePrint, isItAITurn);
                 return null;
             }
-        }
-        catch(IncorrectMoveFormat e){
+        } catch (IncorrectMoveFormat e) {
             printIncorrectMoveFormat(simplePrint, isItAITurn);
             return null;
         }
@@ -418,14 +408,14 @@ public class InGameUI implements Serializable {
                 throw new IncorrectMoveFormat();
     }
 
-    public boolean endOfGame(Board board, boolean simplePrint, List<String> moves, boolean player){
+    public boolean endOfGame(Board board, boolean simplePrint, List<String> moves, boolean player) {
         Menu.cls();
-        if(simplePrint)
+        if (simplePrint)
             board.printBoardSimple(moves, this);
         else
             board.printBoard(moves, player, this);
-        if(VictoryValidator.isDraw()) {
-            if(simplePrint)
+        if (VictoryValidator.isDraw()) {
+            if (simplePrint)
                 System.out.println("GAME OVER!\n\tDRAW!");
             else {
                 System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
@@ -441,10 +431,9 @@ public class InGameUI implements Serializable {
                 System.out.println(" ║			     ███     █    ████ █   █  ██					 ║");
                 System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
             }
-        }
-        else {
+        } else {
             if (VictoryValidator.getWinner()) {
-                if(simplePrint)
+                if (simplePrint)
                     System.out.println("GAME OVER!\n\tBLACK WINS!");
                 else {
                     System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
@@ -460,9 +449,8 @@ public class InGameUI implements Serializable {
                     System.out.println(" ║			     ███     █    ████ █   █  ██		█   █ █	█   █ ███ 	 ║");
                     System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
                 }
-            }
-            else {
-                if(simplePrint)
+            } else {
+                if (simplePrint)
                     System.out.println("GAME OVER!\n\tWHITE WINS!");
                 else {
                     System.out.println(" ╔═══════════════════════════════════════════════════════════════════════════════════════════════╗");
@@ -481,17 +469,19 @@ public class InGameUI implements Serializable {
             }
         }
         String o;
-        do{
+        do {
             o = sc.nextLine();
-            if(o.equals("h")){
-                System.out.println("Moves history:");
-                printMoveHistory(moves);
+            switch (o) {
+                case "h":
+                    System.out.println("Moves history:");
+                    printMoveHistory(moves);
+                    break;
+                case "s":
+                    return true;
+                case "x":
+                    return false;
             }
-            else if(o.equals("s"))
-                return true;
-            else if(o.equals("x"))
-                return false;
-        }while(true);
+        } while (true);
     }
 
 }
