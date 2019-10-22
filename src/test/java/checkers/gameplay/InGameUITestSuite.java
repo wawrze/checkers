@@ -76,23 +76,6 @@ public class InGameUITestSuite {
     }
 
     @Test
-    public void testSideMenuSimple() {
-        //Given
-        String move = "A1-B2";
-        List<String> list = new ArrayList<>();
-        InGameUI inGameUI = new InGameUI(new Scanner(System.in));
-        //When
-        for (int i = 1; i < 27; i++)
-            inGameUI.sideMenuSimple(i, list);
-        for (int j = 0; j < 10; j++) {
-            list.add(move);
-            for (int i = 16; i < 27; i++)
-                inGameUI.sideMenuSimple(i, list);
-        }
-        //Then
-    }
-
-    @Test
     public void testMakingMove() {
         //Given
         ByteArrayInputStream in = new ByteArrayInputStream(("\n\n\n\n\n\n\n").getBytes());
@@ -103,14 +86,14 @@ public class InGameUITestSuite {
         //When
         do {
             do {
-                inGameUI.printMakingMove(simplePrint, 'A', 1, 'B', 2, isItAITurn);
-                inGameUI.printMoveDone(simplePrint, isItAITurn);
-                inGameUI.printCaptureDone(simplePrint, isItAITurn);
-                inGameUI.printIncorrectMove("abc", simplePrint, isItAITurn);
-                inGameUI.printCapture("abc", simplePrint, isItAITurn);
-                inGameUI.printMultiCapture("abc", simplePrint, isItAITurn);
-                inGameUI.printCaptureObligatory(simplePrint, isItAITurn);
-                inGameUI.printIncorrectMoveFormat(simplePrint, isItAITurn);
+                inGameUI.printMakingMove('A', 1, 'B', 2, isItAITurn);
+                inGameUI.printMoveDone(isItAITurn);
+                inGameUI.printCaptureDone(isItAITurn);
+                inGameUI.printIncorrectMove("abc", isItAITurn);
+                inGameUI.printCapture("abc", isItAITurn);
+                inGameUI.printMultiCapture("abc", isItAITurn);
+                inGameUI.printCaptureObligatory(isItAITurn);
+                inGameUI.printIncorrectMoveFormat(isItAITurn);
                 simplePrint = !simplePrint;
             } while (simplePrint);
             isItAITurn = !isItAITurn;
@@ -138,19 +121,19 @@ public class InGameUITestSuite {
         //When
         System.setIn(in1);
         inGameUI = new InGameUI(new Scanner(System.in));
-        result1 = inGameUI.getMoveOrOption(captures1, false, false);
+        result1 = inGameUI.getMoveOrOption(captures1, false);
         System.setIn(in2);
         inGameUI = new InGameUI(new Scanner(System.in));
-        result2 = inGameUI.getMoveOrOption(captures1, true, false);
+        result2 = inGameUI.getMoveOrOption(captures1, true);
         System.setIn(in3);
         inGameUI = new InGameUI(new Scanner(System.in));
-        result3 = inGameUI.getMoveOrOption(captures2, false, false);
+        result3 = inGameUI.getMoveOrOption(captures2, false);
         System.setIn(in4);
         inGameUI = new InGameUI(new Scanner(System.in));
-        result4 = inGameUI.getMoveOrOption(captures1, false, false);
+        result4 = inGameUI.getMoveOrOption(captures1, false);
         System.setIn(in5);
         inGameUI = new InGameUI(new Scanner(System.in));
-        result5 = inGameUI.getMoveOrOption(captures1, false, false);
+        result5 = inGameUI.getMoveOrOption(captures1, false);
         //Then
         Assert.assertEquals(1, result1.length);
         Assert.assertEquals("h", result1[0]);
@@ -186,25 +169,25 @@ public class InGameUITestSuite {
         System.setIn(in1);
         inGameUI = new InGameUI(new Scanner(System.in));
         BDDMockito.given(VictoryValidator.isDraw()).willReturn(true);
-        inGameUI.endOfGame(board, false, moves, true);
+        inGameUI.endOfGame(board, moves, true);
         System.setIn(in2);
         inGameUI = new InGameUI(new Scanner(System.in));
-        inGameUI.endOfGame(board, true, moves, true);
+        inGameUI.endOfGame(board, moves, true);
         BDDMockito.given(VictoryValidator.isDraw()).willReturn(false);
         BDDMockito.given(VictoryValidator.getWinner()).willReturn(true);
         System.setIn(in3);
         inGameUI = new InGameUI(new Scanner(System.in));
-        inGameUI.endOfGame(board, false, moves, true);
+        inGameUI.endOfGame(board, moves, true);
         System.setIn(in4);
         inGameUI = new InGameUI(new Scanner(System.in));
-        inGameUI.endOfGame(board, true, moves, true);
+        inGameUI.endOfGame(board, moves, true);
         BDDMockito.given(VictoryValidator.getWinner()).willReturn(false);
         System.setIn(in5);
         inGameUI = new InGameUI(new Scanner(System.in));
-        inGameUI.endOfGame(board, false, moves, true);
+        inGameUI.endOfGame(board, moves, true);
         System.setIn(in6);
         inGameUI = new InGameUI(new Scanner(System.in));
-        inGameUI.endOfGame(board, true, moves, true);
+        inGameUI.endOfGame(board, moves, true);
         //Then
         //CleanUp
         System.setIn(System.in);

@@ -3,7 +3,7 @@ package checkers;
 import checkers.gameplay.Game;
 import checkers.gameplay.InGameUI;
 import checkers.gameplay.RulesSet;
-import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import exceptions.IncorrectMoveException;
@@ -18,11 +18,12 @@ public class Menu {
     private final InGameUI inGameUI;
     private final Scanner sc = new Scanner(System.in);
     private List<RulesSet> rules;
+    private Terminal terminal;
 
     public Menu() throws IOException, ClassNotFoundException {
         games = new HashMap<>();
         rules = new ArrayList<>();
-        inGameUI = new InGameUI(sc);
+        inGameUI = new InGameUI(sc, terminal);
         File file = new File("games.dat");
         if (!file.exists()) {
             boolean isCreated = file.createNewFile();
@@ -168,33 +169,6 @@ public class Menu {
     }
 
     public void start() throws IncorrectMoveFormat, IncorrectMoveException, IOException {
-        Terminal terminal = new DefaultTerminalFactory().createTerminal();
-
-        terminal.setCursorVisible(false);
-
-        terminal.putCharacter('H');
-        terminal.putCharacter('e');
-        terminal.putCharacter('l');
-        terminal.putCharacter('l');
-        terminal.putCharacter('o');
-        terminal.putCharacter(',');
-        terminal.putCharacter(' ');
-        terminal.putCharacter('W');
-        terminal.putCharacter('o');
-        terminal.putCharacter('r');
-        terminal.putCharacter('l');
-        terminal.putCharacter('d');
-        terminal.putCharacter('!');
-
-        terminal.setCursorPosition(10, 10);
-
-        KeyStroke key;
-        do {
-            key = terminal.readInput();
-        } while (key == null);
-
-        terminal.putCharacter(key.getCharacter());
-
         String o;
         do {
             this.printMenu();
@@ -233,13 +207,11 @@ public class Menu {
         switch (o) {
             case "s":
                 Game game = newGame();
-                if (game.play(inGameUI))
-                    games.put(game.getName(), game);
+                if (game.play(inGameUI)) games.put(game.getName(), game);
                 break;
             case "l":
                 game = loadGame();
-                if (game == null)
-                    break;
+                if (game == null) break;
                 if (game.play(inGameUI)) {
                     games.remove(game.getName());
                     games.put(game.getName(), game);
