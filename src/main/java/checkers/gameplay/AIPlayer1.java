@@ -94,7 +94,7 @@ class AIPlayer1 {
             capture = false;
             try {
                 MoveValidator.validateMove(entry.getKey(), tmpBoard, activePlayer, rulesSet);
-                entry.getKey().makeMove(tmpBoard);
+                entry.getKey().makeMove(tmpBoard, false);
                 if (tmpBoard.getFigure(entry.getKey().getRow2(), entry.getKey().getCol2()) instanceof Queen) {
                     if (activePlayer)
                         blackQueenMoves++;
@@ -108,7 +108,7 @@ class AIPlayer1 {
                     value = 1;
                 }
             } catch (CaptureException e) {
-                entry.getKey().makeCapture(tmpBoard, e.getRow(), e.getCol());
+                entry.getKey().makeCapture(tmpBoard, e.getRow(), e.getCol(), false);
                 try {
                     (new CapturePossibilityValidator(tmpBoard, activePlayer, rulesSet))
                             .validateCapturePossibilityForOneFigure(entry.getKey().getRow2(), entry.getKey().getCol2());

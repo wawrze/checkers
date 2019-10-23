@@ -6,15 +6,11 @@ import checkers.figures.Queen;
 import checkers.moves.CapturePossibilityValidator;
 import checkers.moves.Move;
 import checkers.moves.MoveValidator;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
 import exceptions.CaptureException;
 import exceptions.CapturePossibleException;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -39,7 +35,6 @@ public class Game implements Serializable {
     private LocalDate date;
     private LocalTime time;
     private InGameUI inGameUI;
-    private Terminal terminal;
 
     public Game(Game game) {
         this.board = new Board(game.getBoard());
@@ -58,7 +53,6 @@ public class Game implements Serializable {
         this.isBlackAIPlayer = game.isBlackAIPlayer();
         this.isWhiteAIPlayer = game.isWhiteAIPlayer();
         this.inGameUI = game.getInGameUI();
-        this.terminal = null;
     }
 
     public Game(String name, RulesSet rulesSet, boolean isBlackAIPlayer, boolean isWhiteAIPlayer) {
@@ -77,46 +71,37 @@ public class Game implements Serializable {
     }
 
     private void initFigures() {
-        board.setFigure('A', 2, new Pawn(true));
-        board.setFigure('A', 4, new Pawn(true));
-        board.setFigure('A', 6, new Pawn(true));
-        board.setFigure('A', 8, new Pawn(true));
-        board.setFigure('B', 1, new Pawn(true));
-        board.setFigure('B', 3, new Pawn(true));
-        board.setFigure('B', 5, new Pawn(true));
-        board.setFigure('B', 7, new Pawn(true));
-        board.setFigure('C', 2, new Pawn(true));
-        board.setFigure('C', 4, new Pawn(true));
-        board.setFigure('C', 6, new Pawn(true));
-        board.setFigure('C', 8, new Pawn(true));
+        board.setAndPrintFigure('A', 2, new Pawn(true));
+        board.setAndPrintFigure('A', 4, new Pawn(true));
+        board.setAndPrintFigure('A', 6, new Pawn(true));
+        board.setAndPrintFigure('A', 8, new Pawn(true));
+        board.setAndPrintFigure('B', 1, new Pawn(true));
+        board.setAndPrintFigure('B', 3, new Pawn(true));
+        board.setAndPrintFigure('B', 5, new Pawn(true));
+        board.setAndPrintFigure('B', 7, new Pawn(true));
+        board.setAndPrintFigure('C', 2, new Pawn(true));
+        board.setAndPrintFigure('C', 4, new Pawn(true));
+        board.setAndPrintFigure('C', 6, new Pawn(true));
+        board.setAndPrintFigure('C', 8, new Pawn(true));
 
-        board.setFigure('F', 1, new Pawn(false));
-        board.setFigure('F', 3, new Pawn(false));
-        board.setFigure('F', 5, new Pawn(false));
-        board.setFigure('F', 7, new Pawn(false));
-        board.setFigure('G', 2, new Pawn(false));
-        board.setFigure('G', 4, new Pawn(false));
-        board.setFigure('G', 6, new Pawn(false));
-        board.setFigure('G', 8, new Pawn(false));
-        board.setFigure('H', 1, new Pawn(false));
-        board.setFigure('H', 3, new Pawn(false));
-        board.setFigure('H', 5, new Pawn(false));
-        board.setFigure('H', 7, new Pawn(false));
+        board.setAndPrintFigure('F', 1, new Pawn(false));
+        board.setAndPrintFigure('F', 3, new Pawn(false));
+        board.setAndPrintFigure('F', 5, new Pawn(false));
+        board.setAndPrintFigure('F', 7, new Pawn(false));
+        board.setAndPrintFigure('G', 2, new Pawn(false));
+        board.setAndPrintFigure('G', 4, new Pawn(false));
+        board.setAndPrintFigure('G', 6, new Pawn(false));
+        board.setAndPrintFigure('G', 8, new Pawn(false));
+        board.setAndPrintFigure('H', 1, new Pawn(false));
+        board.setAndPrintFigure('H', 3, new Pawn(false));
+        board.setAndPrintFigure('H', 5, new Pawn(false));
+        board.setAndPrintFigure('H', 7, new Pawn(false));
     }
 
     public boolean play(InGameUI inGameUI) throws IncorrectMoveFormat, IncorrectMoveException {
         this.inGameUI = inGameUI;
-        try {
-            terminal = new DefaultTerminalFactory()
-                    .setInitialTerminalSize(new TerminalSize(100, 33))
-                    .createTerminal();
-            terminal.setCursorVisible(false);
-            inGameUI.setTerminal(terminal);
-            board.setTerminal(terminal);
-            board.printEmptyBoardAndSideMenu();
-            initFigures();
-        } catch (IOException ignored) {
-        }
+        board.printEmptyBoardAndSideMenu();
+        initFigures();
 
         boolean b;
         do {
@@ -129,10 +114,7 @@ public class Game implements Serializable {
             }
             b = this.waitForMove();
         } while (b);
-        try {
-            terminal.close();
-        } catch (IOException ignored) {
-        }
+        STerminal.getInstance().close();
         if (save && name.isEmpty()) {
             name = inGameUI.getGameName();
         }
@@ -193,7 +175,7 @@ public class Game implements Serializable {
         try {
             MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
             moves.add((activePlayer ? "black: " : "white: ") + move);
-            move.makeMove(board);
+            move.makeMove(board, true);
             if (board.getFigure(move.getRow2(), move.getCol2()) instanceof Queen) {
                 if (activePlayer)
                     blackQueenMoves++;
@@ -210,7 +192,7 @@ public class Game implements Serializable {
 
         } catch (CaptureException e) {
             moves.add((activePlayer ? "black: " : "white: ") + move);
-            move.makeCapture(board, e.getRow(), e.getCol());
+            move.makeCapture(board, e.getRow(), e.getCol(), true);
             multiCapture(move);
             inGameUI.printCaptureDone(isItAITurn);
             if (activePlayer)
@@ -224,11 +206,11 @@ public class Game implements Serializable {
             if ((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
                     && board.getFigure(move.getRow2(), move.getCol2()).getColor()
                     && (move.getRow2()) == 'H')
-                board.setFigure('H', move.getCol2(), new Queen(true));
+                board.setAndPrintFigure('H', move.getCol2(), new Queen(true));
             if ((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
                     && !board.getFigure(move.getRow2(), move.getCol2()).getColor()
                     && (move.getRow2()) == 'A')
-                board.setFigure('A', move.getCol2(), new Queen(false));
+                board.setAndPrintFigure('A', move.getCol2(), new Queen(false));
             if (!isItAITurn)
                 inGameUI.waitForEnter();
         }
@@ -269,7 +251,7 @@ public class Game implements Serializable {
                         MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
                     } catch (CaptureException e1) {
                         moves.add((activePlayer ? "black: " : "white: ") + move);
-                        move.makeCapture(board, e1.getRow(), e1.getCol());
+                        move.makeCapture(board, e1.getRow(), e1.getCol(), true);
                     }
                 }
             }
@@ -277,11 +259,11 @@ public class Game implements Serializable {
         if ((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
                 && board.getFigure(move.getRow2(), move.getCol2()).getColor()
                 && (move.getRow2()) == 'H')
-            board.setFigure('H', move.getCol2(), new Queen(true));
+            board.setAndPrintFigure('H', move.getCol2(), new Queen(true));
         if ((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
                 && !board.getFigure(move.getRow2(), move.getCol2()).getColor()
                 && (move.getRow2()) == 'A')
-            board.setFigure('A', move.getCol2(), new Queen(false));
+            board.setAndPrintFigure('A', move.getCol2(), new Queen(false));
     }
 
     private boolean inGameMenu(String s) {

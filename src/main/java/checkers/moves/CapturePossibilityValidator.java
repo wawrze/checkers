@@ -42,7 +42,7 @@ public class CapturePossibilityValidator implements Serializable {
             try {
                 MoveValidator.validateMove(move, tmpBoard, player, rulesSet);
             } catch (CaptureException e) {
-                move.makeCapture(tmpBoard, e.getRow(), e.getCol());
+                move.makeCapture(tmpBoard, e.getRow(), e.getCol(), false);
             }
             CapturePossibilityValidator validator = new CapturePossibilityValidator(tmpBoard, this.player, rulesSet);
             try {

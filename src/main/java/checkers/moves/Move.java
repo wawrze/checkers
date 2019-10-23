@@ -81,14 +81,23 @@ public class Move implements Serializable {
         return this.col2;
     }
 
-    public void makeMove(Board board) {
-        board.setFigure(this.row2, this.col2, board.getFigure(this.row1, this.col1));
-        board.setFigure(this.row1, this.col1, new None(false));
+    public void makeMove(Board board, boolean printMove) {
+        if (printMove) {
+            board.setAndPrintFigure(this.row2, this.col2, board.getFigure(this.row1, this.col1));
+            board.setAndPrintFigure(this.row1, this.col1, new None(false));
+        } else {
+            board.setFigure(this.row2, this.col2, board.getFigure(this.row1, this.col1));
+            board.setFigure(this.row1, this.col1, new None(false));
+        }
     }
 
-    public void makeCapture(Board board, char row, int col) {
-        this.makeMove(board);
-        board.setFigure(row, col, new None(board.getFigure(this.row1, this.col1).getColor()));
+    public void makeCapture(Board board, char row, int col, boolean printMove) {
+        this.makeMove(board, printMove);
+        if (printMove) {
+            board.setAndPrintFigure(row, col, new None(board.getFigure(this.row1, this.col1).getColor()));
+        } else {
+            board.setFigure(row, col, new None(board.getFigure(this.row1, this.col1).getColor()));
+        }
     }
 
     @Override

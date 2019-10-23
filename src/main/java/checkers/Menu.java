@@ -3,9 +3,6 @@ package checkers;
 import checkers.gameplay.Game;
 import checkers.gameplay.InGameUI;
 import checkers.gameplay.RulesSet;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
 
@@ -18,12 +15,11 @@ public class Menu {
     private final InGameUI inGameUI;
     private final Scanner sc = new Scanner(System.in);
     private List<RulesSet> rules;
-    private Terminal terminal;
 
     public Menu() throws IOException, ClassNotFoundException {
         games = new HashMap<>();
         rules = new ArrayList<>();
-        inGameUI = new InGameUI(sc, terminal);
+        inGameUI = new InGameUI(sc);
         File file = new File("games.dat");
         if (!file.exists()) {
             boolean isCreated = file.createNewFile();
