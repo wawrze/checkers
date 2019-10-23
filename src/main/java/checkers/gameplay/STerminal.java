@@ -31,16 +31,14 @@ public class STerminal {
     public void putCharacter(char character) {
         try {
             terminal.putCharacter(character);
-            terminal.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void putCharMultipled(char character, int positions) {
+    public void putCharMultiplied(char character, int positions) {
         try {
             for (int i = 0; i < positions; i++) terminal.putCharacter(character);
-            terminal.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,7 +56,6 @@ public class STerminal {
         try {
             terminal.setCursorPosition(x, y);
             terminal.putCharacter(character);
-            terminal.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,7 +65,6 @@ public class STerminal {
         try {
             terminal.setCursorPosition(x, y);
             for (int i = 0; i < string.length(); i++) terminal.putCharacter(string.charAt(i));
-            terminal.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,7 +75,6 @@ public class STerminal {
             terminal.setCursorPosition(x, y);
             for (int i = 0; i < string.length(); i++) terminal.putCharacter(string.charAt(i));
             for (int i = 0; i < stringMaxLength - string.length(); i++) terminal.putCharacter(' ');
-            terminal.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,6 +87,14 @@ public class STerminal {
             e.printStackTrace();
         }
         terminal = null;
+    }
+
+    public void update() {
+        try {
+            terminal.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     KeyStroke readInput() {
