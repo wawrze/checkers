@@ -28,7 +28,7 @@ class AIPlayer1 {
     private int whiteQueenMoves;
     private int blackQueenMoves;
 
-    public AIPlayer1(Board board, boolean player, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves)
+    AIPlayer1(Board board, boolean player, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves)
             throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
         this.AIPlayer = player;
@@ -323,7 +323,7 @@ class AIPlayer1 {
         return false;
     }
 
-    public String[] getAIMove() {
+    String[] getAIMove() {
         int max = -100000;
         int min = 100000;
         for (Map.Entry e : possibleMoves.entrySet()) {

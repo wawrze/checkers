@@ -11,6 +11,4 @@ public abstract class Figure implements Serializable {
         return this.color;
     }
 
-    public abstract String print(int n);
-
 }

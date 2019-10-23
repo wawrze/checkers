@@ -68,6 +68,7 @@ public class Game implements Serializable {
         this.name = name;
         save = false;
         this.rulesSet = rulesSet;
+        initFigures();
     }
 
     private void initFigures() {
@@ -101,7 +102,7 @@ public class Game implements Serializable {
     public boolean play(InGameUI inGameUI) throws IncorrectMoveFormat, IncorrectMoveException {
         this.inGameUI = inGameUI;
         board.printEmptyBoardAndSideMenu();
-        initFigures();
+        board.refreshFigures();
         printRules();
 
         boolean b;
@@ -115,10 +116,6 @@ public class Game implements Serializable {
             }
             b = this.waitForMove();
         } while (b);
-        STerminal.getInstance().close();
-        if (save && name.isEmpty()) {
-            name = inGameUI.getGameName();
-        }
         date = LocalDate.now();
         time = LocalTime.now();
         return save;
@@ -300,20 +297,21 @@ public class Game implements Serializable {
     public String toString() {
         if (date == null || time == null)
             return "";
-        String s = "";
-        s += (date.getDayOfMonth() < 10 ? ("0" + date.getDayOfMonth()) : date.getDayOfMonth());
-        s += ("." + (date.getMonthValue() < 10 ? ("0" + date.getMonthValue()) : date.getMonthValue()));
-        s += ("." + date.getYear());
-        s += (" " + (time.getHour() < 10 ? ("0" + time.getHour()) : time.getHour()));
-        s += (":" + (time.getMinute() < 10 ? ("0" + time.getMinute()) : time.getMinute()));
-        return name + " (\"" + rulesSet.getName() + "\" rules, " + moves.size() + " moves done, "
-                + (isBlackAIPlayer ? "black: computer opponent, " : "black: human opponent, ")
-                + (isWhiteAIPlayer ? "white: computer opponent, " : "white: human opponent, ")
-                + (isFinished ? ("finished, " + (isDraw ? "draw)" : ("winner: "
-                + (winner ? "black)" : "white)")))) : ("not finished)")) + ", date and time of save: " + s;
+        String s = new StringBuilder()
+                .append(date.getDayOfMonth() < 10 ? ("0" + date.getDayOfMonth()) : date.getDayOfMonth())
+                .append(".")
+                .append(date.getMonthValue() < 10 ? ("0" + date.getMonthValue()) : date.getMonthValue())
+                .append(".")
+                .append(date.getYear())
+                .append(" ")
+                .append(time.getHour() < 10 ? ("0" + time.getHour()) : time.getHour())
+                .append(":")
+                .append(time.getMinute() < 10 ? ("0" + time.getMinute()) : time.getMinute())
+                .toString();
+        return name + " (" + s + ")";
     }
 
-    public Board getBoard() {
+    private Board getBoard() {
         return board;
     }
 
@@ -325,11 +323,11 @@ public class Game implements Serializable {
         return activePlayer;
     }
 
-    public int getWhiteQueenMoves() {
+    private int getWhiteQueenMoves() {
         return whiteQueenMoves;
     }
 
-    public int getBlackQueenMoves() {
+    private int getBlackQueenMoves() {
         return blackQueenMoves;
     }
 

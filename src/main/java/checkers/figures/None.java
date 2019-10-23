@@ -8,17 +8,4 @@ public class None extends Figure implements Serializable {
         this.color = color;
     }
 
-    @Override
-    public String toString() {
-        return "  ";
-    }
-
-    @Override
-    public String print(int n) {
-        if (this.color)
-            return "█████";
-        else
-            return "     ";
-    }
-
 }

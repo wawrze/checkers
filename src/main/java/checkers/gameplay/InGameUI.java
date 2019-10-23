@@ -1,40 +1,27 @@
 package checkers.gameplay;
 
 import checkers.Menu;
-import checkers.board.Board;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import exceptions.IncorrectMoveFormat;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Scanner;
 
 public class InGameUI implements Serializable {
 
     private final String[] options;
-    private final transient Scanner sc;
 
-    public InGameUI(Scanner sc) {
+    public InGameUI() {
         options = new String[]{/*"h", */"s", "x"};  // TODO
-        this.sc = sc;
     }
 
-    public void printMoveHistory(List<String> moves) {
-        if (moves.isEmpty())
+    void printMoveHistory(List<String> moves) {  // TODO
+        if (moves.isEmpty()) {
             System.out.println("No moves history.");
-        else
-            for (String m : moves)
-                System.out.println(m);
-    }
-
-    public String getGameName() {
-        System.out.println("Name your game:");
-        String name;
-        do {
-            name = sc.nextLine();
-        } while (name.isEmpty());
-        return name;
+        } else {
+            for (String m : moves) System.out.println(m);
+        }
     }
 
     private void printMovesAndActivePlayer(List<String> moves, boolean player, boolean isItAITurn) {
@@ -53,7 +40,7 @@ public class InGameUI implements Serializable {
             STerminal.getInstance().putCharAtPosition(' ', 112, 8);
             STerminal.getInstance().setCursorPosition(105, 9);
             STerminal.getInstance().putCharMultiplied(' ', 8);
-            STerminal.getInstance().putStringAtPosition("BLACK", 18, 29);
+            STerminal.getInstance().replaceStringAtPosition("BLACK", 17, 18, 29);
         } else {
             STerminal.getInstance().putCharAtPosition('╔', 105, 7);
             STerminal.getInstance().putCharMultiplied('═', 6);
@@ -69,7 +56,7 @@ public class InGameUI implements Serializable {
             STerminal.getInstance().putCharAtPosition(' ', 112, 4);
             STerminal.getInstance().setCursorPosition(105, 5);
             STerminal.getInstance().putCharMultiplied(' ', 8);
-            STerminal.getInstance().putStringAtPosition("WHITE", 18, 29);
+            STerminal.getInstance().replaceStringAtPosition("WHITE", 17, 18, 29);
         }
         if (isItAITurn) STerminal.getInstance().putStringAtPosition("(computer)", 24, 29);
 
@@ -80,8 +67,16 @@ public class InGameUI implements Serializable {
         }
     }
 
-    public void waitForEnter() {
-        // TODO : remove ???
+    void waitForEnter() {
+        STerminal.getInstance().replaceStringAtPosition("Press any key.", 60, 37, 29);
+        STerminal.getInstance().update();
+        KeyStroke key;
+        do {
+            key = STerminal.getInstance().readInput();
+        } while (key == null);
+        STerminal.getInstance().replaceStringAtPosition("", 60, 37, 29);
+        STerminal.getInstance().replaceStringAtPosition("", 94, 3, 31);
+        STerminal.getInstance().update();
     }
 
     void printBoard(boolean player, List<String> moves, boolean isItAITurn) {
@@ -94,56 +89,56 @@ public class InGameUI implements Serializable {
         STerminal.getInstance().update();
     }
 
-    public void printMakingMove(char x1, int y1, char x2, int y2, boolean isItAITurn) {
+    void printMakingMove(char x1, int y1, char x2, int y2, boolean isItAITurn) {
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Making move: " + x1 + y1 + "-" + x2 + y2, 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    public void printMoveDone(boolean isItAITurn) {
+    void printMoveDone(boolean isItAITurn) {
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Move done.", 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    public void printCaptureDone(boolean isItAITurn) {
+    void printCaptureDone(boolean isItAITurn) {
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Capture done.", 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    public void printIncorrectMove(String s, boolean isItAITurn) {
+    void printIncorrectMove(String s, boolean isItAITurn) {
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Incorrect move: " + s, 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    public void printCapture(String captures, boolean isItAITurn) {
+    void printCapture(String captures, boolean isItAITurn) {
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("You have to capture: " + captures, 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    public void printMultiCapture(String captures, boolean isItAITurn) {
+    void printMultiCapture(String captures, boolean isItAITurn) {
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Possible captures: " + captures, 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    public void printCaptureObligatory(boolean isItAITurn) {
+    private void printCaptureObligatory(boolean isItAITurn) {
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Capture is obligatory!", 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    public void printIncorrectMoveFormat(boolean isItAITurn) {
+    void printIncorrectMoveFormat(boolean isItAITurn) {
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Incorrect move format! Proper format example: E4-D5", 94, 3, 31);
@@ -211,7 +206,7 @@ public class InGameUI implements Serializable {
         STerminal.getInstance().update();
     }
 
-    public String[] getMoveOrOption(String captures, boolean isItAITurn, boolean player) {
+    String[] getMoveOrOption(String captures, boolean isItAITurn, boolean player) {
         int cursorRow = 0;
         int cursorCol = 0;
         if (!isItAITurn) {
@@ -299,8 +294,8 @@ public class InGameUI implements Serializable {
                 throw new IncorrectMoveFormat();
     }
 
-    public boolean endOfGame(List<String> moves, boolean player) {
-        Menu.cls();
+    boolean endOfGame(List<String> moves, boolean player) { // TODO
+        Menu.clearMenu();
         printMovesAndActivePlayer(moves, player, false);
         STerminal.getInstance().update();
         if (VictoryValidator.isDraw()) {
@@ -345,21 +340,20 @@ public class InGameUI implements Serializable {
                 System.out.println(" ╚═══════════════════════════════════════════════════════════════════════════════════════════════╝");
             }
         }
-        String o;
-        do {
-            o = sc.nextLine();
-            switch (o) {
-                // TODO: find solution
+//        String o;
+//        do {
+//            o = sc.nextLine();
+//            switch (o) {
 //                case "h":
 //                    System.out.println("Moves history:");
 //                    printMoveHistory(moves);
 //                    break;
-                case "s":
-                    return true;
-                case "x":
-                    return false;
-            }
-        } while (true);
+//                case "s":
+//                    return true;
+//                case "x":
+        return false;
+//            }
+//        } while (true);
     }
 
 }

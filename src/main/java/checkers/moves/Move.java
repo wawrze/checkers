@@ -61,7 +61,7 @@ public class Move implements Serializable {
         return this.row1;
     }
 
-    public int getRow1int() {
+    int getRow1int() {
         return this.rowCharToInt(this.row1);
     }
 
@@ -73,7 +73,7 @@ public class Move implements Serializable {
         return this.row2;
     }
 
-    public int getRow2int() {
+    int getRow2int() {
         return this.rowCharToInt(this.row2);
     }
 

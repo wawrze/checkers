@@ -10,7 +10,7 @@ class BoardRow implements Serializable {
 
     private final ArrayList<Figure> figures;
 
-    public BoardRow(boolean startColor) {
+    BoardRow(boolean startColor) {
         this.figures = new ArrayList<>();
         //columns numeration 1-8, setting column 0 to null
         this.figures.add(0, null);
@@ -20,11 +20,11 @@ class BoardRow implements Serializable {
         }
     }
 
-    public Figure getFigure(int col) {
+    Figure getFigure(int col) {
         return figures.get(col);
     }
 
-    public void setFigure(int col, Figure figure) {
+    void setFigure(int col, Figure figure) {
         figures.set(col, figure);
     }
 

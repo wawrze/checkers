@@ -7,6 +7,7 @@ import checkers.gameplay.STerminal;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Board implements Serializable {
 
@@ -84,7 +85,6 @@ public class Board implements Serializable {
             STerminal.getInstance().putCharAtPosition('└', ((col - 1) * 7) + 3, (rowInt * 3) + 4);
             STerminal.getInstance().putCharMultiplied('─', 3);
             STerminal.getInstance().putCharacter('┘');
-            STerminal.getInstance().putCharacter('╝');
         } else {
             STerminal.getInstance().putCharacter('╔');
             STerminal.getInstance().putCharMultiplied('═', 3);
@@ -93,6 +93,7 @@ public class Board implements Serializable {
             STerminal.getInstance().putCharAtPosition('║', ((col - 1) * 7) + 7, (rowInt * 3) + 3);
             STerminal.getInstance().putCharAtPosition('╚', ((col - 1) * 7) + 3, (rowInt * 3) + 4);
             STerminal.getInstance().putCharMultiplied('═', 3);
+            STerminal.getInstance().putCharacter('╝');
         }
 
         if (!figure.getColor()) {
@@ -101,7 +102,19 @@ public class Board implements Serializable {
         STerminal.getInstance().update();
     }
 
+    public void refreshFigures() {
+        for (Map.Entry<Character, BoardRow> row : rows.entrySet()) {
+            for (int i = 1; i < 9; i++) {
+                if (!(row.getValue().getFigure(i) instanceof None)) {
+                    setAndPrintFigure(row.getKey(), i, row.getValue().getFigure(i));
+                }
+            }
+        }
+        STerminal.getInstance().update();
+    }
+
     public void printEmptyBoardAndSideMenu() {
+        STerminal.getInstance().clear();
         for (int k = 0; k < 4; k++) {
             STerminal.getInstance().setCursorPosition(2, (6 * k) + 2);
             for (int i = 0; i < 4; i++) {
@@ -186,7 +199,7 @@ public class Board implements Serializable {
         STerminal.getInstance().putCharAtPosition('║', 61, 1);
         STerminal.getInstance().putCharAtPosition('╔', 61, 0);
         STerminal.getInstance().putCharMultiplied('═', 26);
-        for (int i = 0;i < 6;i++) {
+        for (int i = 0; i < 6; i++) {
             STerminal.getInstance().putCharAtPosition('╠', 61, (i * 3) + 2);
             STerminal.getInstance().putCharMultiplied('═', 26);
             STerminal.getInstance().putCharAtPosition('║', 61, (i * 3) + 3);

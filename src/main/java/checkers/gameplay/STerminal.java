@@ -15,7 +15,7 @@ public class STerminal {
     private STerminal() {
         try {
             terminal = new DefaultTerminalFactory()
-                    .setInitialTerminalSize(new TerminalSize(115, 33))
+                    .setInitialTerminalSize(new TerminalSize(115, 34))
                     .createTerminal();
             terminal.setCursorVisible(false);
         } catch (IOException e) {
@@ -26,6 +26,14 @@ public class STerminal {
     public static STerminal getInstance() {
         if (instance == null) instance = new STerminal();
         return instance;
+    }
+
+    public void setCursorVisibility(boolean visible) {
+        try {
+            terminal.setCursorVisible(visible);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void putCharacter(char character) {
@@ -73,14 +81,24 @@ public class STerminal {
     public void replaceStringAtPosition(String string, int stringMaxLength, int x, int y) {
         try {
             terminal.setCursorPosition(x, y);
-            for (int i = 0; i < string.length(); i++) terminal.putCharacter(string.charAt(i));
-            for (int i = 0; i < stringMaxLength - string.length(); i++) terminal.putCharacter(' ');
+            for (int i = 0; i < string.length() && i < stringMaxLength; i++) terminal.putCharacter(string.charAt(i));
+            if (string.length() < stringMaxLength) {
+                for (int i = 0; i < stringMaxLength - string.length(); i++) terminal.putCharacter(' ');
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    void close() {
+    public void clear() {
+        try {
+            terminal.clearScreen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close() {
         try {
             terminal.close();
         } catch (IOException e) {
@@ -97,7 +115,7 @@ public class STerminal {
         }
     }
 
-    KeyStroke readInput() {
+    public KeyStroke readInput() {
         KeyStroke key = null;
         try {
             key = terminal.readInput();

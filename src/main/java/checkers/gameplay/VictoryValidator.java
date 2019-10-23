@@ -14,16 +14,16 @@ class VictoryValidator {
     private static boolean winner;
     private static boolean draw;
 
-    public static boolean getWinner() {
+    static boolean getWinner() {
         return winner;
     }
 
-    public static boolean isDraw() {
+    static boolean isDraw() {
         return draw;
     }
 
-    public static boolean validateEndOfGame(Board board, int whiteQueenMoves, int blackQueenMoves, boolean player,
-                                            RulesSet rulesSet) {
+    static boolean validateEndOfGame(Board board, int whiteQueenMoves, int blackQueenMoves, boolean player,
+                                     RulesSet rulesSet) {
         draw = false;
         return validateFigures(board, rulesSet)
                 || validateMovePossibility(board, player, rulesSet)
