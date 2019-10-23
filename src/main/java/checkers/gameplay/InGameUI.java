@@ -39,35 +39,35 @@ public class InGameUI implements Serializable {
 
     private void printMovesAndActivePlayer(List<String> moves, boolean player, boolean isItAITurn) {
         if (player) {
-            STerminal.getInstance().putCharAtPosition('╔', 89, 3);
+            STerminal.getInstance().putCharAtPosition('╔', 105, 3);
             STerminal.getInstance().putCharMultiplied('═', 6);
             STerminal.getInstance().putCharacter('╗');
-            STerminal.getInstance().putCharAtPosition('║', 89, 4);
-            STerminal.getInstance().putCharAtPosition('║', 96, 4);
-            STerminal.getInstance().putCharAtPosition('╚', 89, 5);
+            STerminal.getInstance().putCharAtPosition('║', 105, 4);
+            STerminal.getInstance().putCharAtPosition('║', 112, 4);
+            STerminal.getInstance().putCharAtPosition('╚', 105, 5);
             STerminal.getInstance().putCharMultiplied('═', 6);
             STerminal.getInstance().putCharacter('╝');
-            STerminal.getInstance().setCursorPosition(89, 7);
+            STerminal.getInstance().setCursorPosition(105, 7);
             STerminal.getInstance().putCharMultiplied(' ', 8);
-            STerminal.getInstance().putCharAtPosition(' ', 89, 8);
-            STerminal.getInstance().putCharAtPosition(' ', 96, 8);
-            STerminal.getInstance().setCursorPosition(89, 9);
+            STerminal.getInstance().putCharAtPosition(' ', 105, 8);
+            STerminal.getInstance().putCharAtPosition(' ', 112, 8);
+            STerminal.getInstance().setCursorPosition(105, 9);
             STerminal.getInstance().putCharMultiplied(' ', 8);
             STerminal.getInstance().putStringAtPosition("BLACK", 18, 29);
         } else {
-            STerminal.getInstance().putCharAtPosition('╔', 89, 7);
+            STerminal.getInstance().putCharAtPosition('╔', 105, 7);
             STerminal.getInstance().putCharMultiplied('═', 6);
             STerminal.getInstance().putCharacter('╗');
-            STerminal.getInstance().putCharAtPosition('║', 89, 8);
-            STerminal.getInstance().putCharAtPosition('║', 96, 8);
-            STerminal.getInstance().putCharAtPosition('╚', 89, 9);
+            STerminal.getInstance().putCharAtPosition('║', 105, 8);
+            STerminal.getInstance().putCharAtPosition('║', 112, 8);
+            STerminal.getInstance().putCharAtPosition('╚', 105, 9);
             STerminal.getInstance().putCharMultiplied('═', 6);
             STerminal.getInstance().putCharacter('╝');
-            STerminal.getInstance().setCursorPosition(89, 3);
+            STerminal.getInstance().setCursorPosition(105, 3);
             STerminal.getInstance().putCharMultiplied(' ', 8);
-            STerminal.getInstance().putCharAtPosition(' ', 89, 4);
-            STerminal.getInstance().putCharAtPosition(' ', 96, 4);
-            STerminal.getInstance().setCursorPosition(89, 5);
+            STerminal.getInstance().putCharAtPosition(' ', 105, 4);
+            STerminal.getInstance().putCharAtPosition(' ', 112, 4);
+            STerminal.getInstance().setCursorPosition(105, 5);
             STerminal.getInstance().putCharMultiplied(' ', 8);
             STerminal.getInstance().putStringAtPosition("WHITE", 18, 29);
         }
@@ -76,7 +76,7 @@ public class InGameUI implements Serializable {
         for (int i = 0; i < 10; i++) {
             if (i == moves.size()) break;
             String move = moves.get(moves.size() - 1 - i);
-            STerminal.getInstance().putStringAtPosition(move, 79, i + 17);
+            STerminal.getInstance().putStringAtPosition(move, 95, i + 17);
         }
     }
 
@@ -84,9 +84,7 @@ public class InGameUI implements Serializable {
         // TODO : remove ???
     }
 
-    void printBoard(Board board, boolean player, List<String> moves,
-                    RulesSet rulesSet, boolean isItAITurn) {
-        // Menu.printRulesSet(rulesSet); TODO
+    void printBoard(boolean player, List<String> moves, boolean isItAITurn) {
         printMovesAndActivePlayer(moves, player, isItAITurn);
         if (isItAITurn) {
             STerminal.getInstance().replaceStringAtPosition("Please wait for move.", 60, 37, 29);
@@ -301,7 +299,7 @@ public class InGameUI implements Serializable {
                 throw new IncorrectMoveFormat();
     }
 
-    public boolean endOfGame(Board board, List<String> moves, boolean player) {
+    public boolean endOfGame(List<String> moves, boolean player) {
         Menu.cls();
         printMovesAndActivePlayer(moves, player, false);
         STerminal.getInstance().update();

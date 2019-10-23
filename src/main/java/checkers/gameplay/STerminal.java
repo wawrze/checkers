@@ -15,7 +15,7 @@ public class STerminal {
     private STerminal() {
         try {
             terminal = new DefaultTerminalFactory()
-                    .setInitialTerminalSize(new TerminalSize(100, 33))
+                    .setInitialTerminalSize(new TerminalSize(115, 33))
                     .createTerminal();
             terminal.setCursorVisible(false);
         } catch (IOException e) {

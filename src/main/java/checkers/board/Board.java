@@ -170,99 +170,128 @@ public class Board implements Serializable {
         STerminal.getInstance().putCharAtPosition('H', 59, 24);
         printRightMenu();
         printBottomMenu();
+        printRulesTable();
         STerminal.getInstance().update();
     }
 
-    private void printRightMenu() {
-        STerminal.getInstance().putCharAtPosition('╔', 72, 0);
-        STerminal.getInstance().putCharAtPosition('╗', 97, 0);
-        STerminal.getInstance().putCharAtPosition('╚', 72, 27);
-        STerminal.getInstance().putCharAtPosition('╝', 97, 27);
-        for (int i = 1; i < 27; i++) {
-            STerminal.getInstance().putCharAtPosition('║', 72, i);
-            STerminal.getInstance().putCharAtPosition('║', 97, i);
+    private void printRulesTable() {
+        STerminal.getInstance().putCharAtPosition('╦', 88, 0);
+        STerminal.getInstance().putCharAtPosition('╬', 88, 2);
+        STerminal.getInstance().putCharAtPosition('╣', 88, 5);
+        STerminal.getInstance().putCharAtPosition('╣', 88, 8);
+        STerminal.getInstance().putCharAtPosition('╣', 88, 11);
+        STerminal.getInstance().putCharAtPosition('╣', 88, 14);
+        STerminal.getInstance().putCharAtPosition('╣', 88, 17);
+        STerminal.getInstance().putCharAtPosition('╣', 88, 20);
+        STerminal.getInstance().putCharAtPosition('║', 61, 1);
+        STerminal.getInstance().putCharAtPosition('╔', 61, 0);
+        STerminal.getInstance().putCharMultiplied('═', 26);
+        for (int i = 0;i < 6;i++) {
+            STerminal.getInstance().putCharAtPosition('╠', 61, (i * 3) + 2);
+            STerminal.getInstance().putCharMultiplied('═', 26);
+            STerminal.getInstance().putCharAtPosition('║', 61, (i * 3) + 3);
+            STerminal.getInstance().putCharAtPosition('║', 61, (i * 3) + 4);
         }
-        STerminal.getInstance().setCursorPosition(73, 0);
+        STerminal.getInstance().putCharAtPosition('╚', 61, 20);
+        STerminal.getInstance().putCharMultiplied('═', 26);
+        STerminal.getInstance().putStringAtPosition("Victory conditions:", 63, 3);
+        STerminal.getInstance().putStringAtPosition("Capture:", 63, 6);
+        STerminal.getInstance().putStringAtPosition("Men move backward:", 63, 9);
+        STerminal.getInstance().putStringAtPosition("Men capture backward:", 63, 12);
+        STerminal.getInstance().putStringAtPosition("King range:", 63, 15);
+        STerminal.getInstance().putStringAtPosition("King move after capture:", 63, 18);
+    }
+
+    private void printRightMenu() {
+        STerminal.getInstance().putCharAtPosition('╔', 88, 0);
+        STerminal.getInstance().putCharAtPosition('╗', 113, 0);
+        STerminal.getInstance().putCharAtPosition('╚', 88, 27);
+        STerminal.getInstance().putCharAtPosition('╝', 113, 27);
+        for (int i = 1; i < 27; i++) {
+            STerminal.getInstance().putCharAtPosition('║', 88, i);
+            STerminal.getInstance().putCharAtPosition('║', 113, i);
+        }
+        STerminal.getInstance().setCursorPosition(89, 0);
         STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().setCursorPosition(73, 2);
+        STerminal.getInstance().setCursorPosition(89, 2);
         STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().setCursorPosition(73, 6);
+        STerminal.getInstance().setCursorPosition(89, 6);
         STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().setCursorPosition(73, 10);
+        STerminal.getInstance().setCursorPosition(89, 10);
         STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().setCursorPosition(73, 15);
+        STerminal.getInstance().setCursorPosition(89, 15);
         STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().setCursorPosition(73, 27);
+        STerminal.getInstance().setCursorPosition(89, 27);
         STerminal.getInstance().putCharMultiplied('═', 24);
 
-        STerminal.getInstance().putCharAtPosition('╠', 72, 2);
-        STerminal.getInstance().putCharAtPosition('╠', 72, 6);
-        STerminal.getInstance().putCharAtPosition('╠', 72, 10);
-        STerminal.getInstance().putCharAtPosition('╠', 72, 15);
-        STerminal.getInstance().putCharAtPosition('╣', 97, 2);
-        STerminal.getInstance().putCharAtPosition('╣', 97, 6);
-        STerminal.getInstance().putCharAtPosition('╣', 97, 10);
-        STerminal.getInstance().putCharAtPosition('╣', 97, 15);
-        STerminal.getInstance().putCharAtPosition('╦', 80, 0);
-        STerminal.getInstance().putCharAtPosition('╦', 88, 0);
+        STerminal.getInstance().putCharAtPosition('╠', 88, 2);
+        STerminal.getInstance().putCharAtPosition('╠', 88, 6);
+        STerminal.getInstance().putCharAtPosition('╠', 88, 10);
+        STerminal.getInstance().putCharAtPosition('╠', 88, 15);
+        STerminal.getInstance().putCharAtPosition('╣', 113, 2);
+        STerminal.getInstance().putCharAtPosition('╣', 113, 6);
+        STerminal.getInstance().putCharAtPosition('╣', 113, 10);
+        STerminal.getInstance().putCharAtPosition('╣', 113, 15);
+        STerminal.getInstance().putCharAtPosition('╦', 96, 0);
+        STerminal.getInstance().putCharAtPosition('╦', 104, 0);
 
         for (int i = 1; i < 10; i++) {
-            STerminal.getInstance().putCharAtPosition('║', 80, i);
-            STerminal.getInstance().putCharAtPosition('║', 88, i);
+            STerminal.getInstance().putCharAtPosition('║', 96, i);
+            STerminal.getInstance().putCharAtPosition('║', 104, i);
         }
-        STerminal.getInstance().putCharAtPosition('╬', 80, 2);
-        STerminal.getInstance().putCharAtPosition('╬', 80, 6);
-        STerminal.getInstance().putCharAtPosition('╬', 88, 2);
-        STerminal.getInstance().putCharAtPosition('╬', 88, 6);
-        STerminal.getInstance().putCharAtPosition('╩', 80, 10);
-        STerminal.getInstance().putCharAtPosition('╩', 88, 10);
+        STerminal.getInstance().putCharAtPosition('╬', 96, 2);
+        STerminal.getInstance().putCharAtPosition('╬', 96, 6);
+        STerminal.getInstance().putCharAtPosition('╬', 104, 2);
+        STerminal.getInstance().putCharAtPosition('╬', 104, 6);
+        STerminal.getInstance().putCharAtPosition('╩', 96, 10);
+        STerminal.getInstance().putCharAtPosition('╩', 104, 10);
 
-        STerminal.getInstance().putStringAtPosition("MEN", 74, 1);
-        STerminal.getInstance().putStringAtPosition("KING", 82, 1);
+        STerminal.getInstance().putStringAtPosition("MEN", 90, 1);
+        STerminal.getInstance().putStringAtPosition("KING", 98, 1);
 
-        STerminal.getInstance().putCharAtPosition('┌', 74, 3);
+        STerminal.getInstance().putCharAtPosition('┌', 90, 3);
         STerminal.getInstance().putCharMultiplied('─', 3);
         STerminal.getInstance().putCharacter('┐');
-        STerminal.getInstance().putCharAtPosition('╔', 82, 3);
+        STerminal.getInstance().putCharAtPosition('╔', 98, 3);
         STerminal.getInstance().putCharMultiplied('═', 3);
         STerminal.getInstance().putCharacter('╗');
-        STerminal.getInstance().putCharAtPosition('│', 74, 4);
-        STerminal.getInstance().putCharAtPosition('│', 78, 4);
-        STerminal.getInstance().putCharAtPosition('║', 82, 4);
-        STerminal.getInstance().putCharAtPosition('║', 86, 4);
+        STerminal.getInstance().putCharAtPosition('│', 90, 4);
+        STerminal.getInstance().putCharAtPosition('│', 94, 4);
+        STerminal.getInstance().putCharAtPosition('║', 98, 4);
+        STerminal.getInstance().putCharAtPosition('║', 102, 4);
 
-        STerminal.getInstance().putStringAtPosition("BLACK", 90, 4);
+        STerminal.getInstance().putStringAtPosition("BLACK", 106, 4);
 
-        STerminal.getInstance().putCharAtPosition('└', 74, 5);
+        STerminal.getInstance().putCharAtPosition('└', 90, 5);
         STerminal.getInstance().putCharMultiplied('─', 3);
         STerminal.getInstance().putCharacter('┘');
-        STerminal.getInstance().putCharAtPosition('╚', 82, 5);
+        STerminal.getInstance().putCharAtPosition('╚', 98, 5);
         STerminal.getInstance().putCharMultiplied('═', 3);
         STerminal.getInstance().putCharacter('╝');
-        STerminal.getInstance().putCharAtPosition('┌', 74, 7);
+        STerminal.getInstance().putCharAtPosition('┌', 90, 7);
         STerminal.getInstance().putCharMultiplied('─', 3);
         STerminal.getInstance().putCharacter('┐');
-        STerminal.getInstance().putCharAtPosition('╔', 82, 7);
+        STerminal.getInstance().putCharAtPosition('╔', 98, 7);
         STerminal.getInstance().putCharMultiplied('═', 3);
         STerminal.getInstance().putCharacter('╗');
-        STerminal.getInstance().putCharAtPosition('│', 74, 8);
-        STerminal.getInstance().putCharAtPosition('│', 78, 8);
-        STerminal.getInstance().putCharAtPosition('║', 82, 8);
-        STerminal.getInstance().putCharAtPosition('║', 86, 8);
+        STerminal.getInstance().putCharAtPosition('│', 90, 8);
+        STerminal.getInstance().putCharAtPosition('│', 94, 8);
+        STerminal.getInstance().putCharAtPosition('║', 98, 8);
+        STerminal.getInstance().putCharAtPosition('║', 102, 8);
 
-        STerminal.getInstance().putStringAtPosition("WHITE", 90, 8);
+        STerminal.getInstance().putStringAtPosition("WHITE", 106, 8);
 
-        STerminal.getInstance().putCharAtPosition('└', 74, 9);
+        STerminal.getInstance().putCharAtPosition('└', 90, 9);
         STerminal.getInstance().putCharMultiplied('─', 3);
         STerminal.getInstance().putCharacter('┘');
-        STerminal.getInstance().putCharAtPosition('╚', 82, 9);
+        STerminal.getInstance().putCharAtPosition('╚', 98, 9);
         STerminal.getInstance().putCharMultiplied('═', 3);
         STerminal.getInstance().putCharacter('╝');
 
-        STerminal.getInstance().putStringAtPosition("MENU", 74, 11);
-        STerminal.getInstance().putStringAtPosition("(s) save and exit", 73, 13);
-        STerminal.getInstance().putStringAtPosition("(x) exit without saving", 73, 14);
-        STerminal.getInstance().putStringAtPosition("LAST 10 MOVES", 79, 16);
+        STerminal.getInstance().putStringAtPosition("MENU", 90, 11);
+        STerminal.getInstance().putStringAtPosition("(s) save and exit", 89, 13);
+        STerminal.getInstance().putStringAtPosition("(x) exit without saving", 89, 14);
+        STerminal.getInstance().putStringAtPosition("LAST 10 MOVES", 95, 16);
     }
 
     private void printBottomMenu() {

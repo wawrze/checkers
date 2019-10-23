@@ -102,12 +102,13 @@ public class Game implements Serializable {
         this.inGameUI = inGameUI;
         board.printEmptyBoardAndSideMenu();
         initFigures();
+        printRules();
 
         boolean b;
         do {
             isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, activePlayer, rulesSet);
             if (isFinished) {
-                save = inGameUI.endOfGame(board, moves, activePlayer);
+                save = inGameUI.endOfGame(moves, activePlayer);
                 isDraw = VictoryValidator.isDraw();
                 winner = VictoryValidator.getWinner();
                 break;
@@ -123,6 +124,16 @@ public class Game implements Serializable {
         return save;
     }
 
+    private void printRules() {
+        STerminal.getInstance().putStringAtPosition("\"" + rulesSet.getName() + "\" rules", 63, 1);
+        STerminal.getInstance().putStringAtPosition(rulesSet.isVictoryConditionsReversed() ? "reversed" : "standard", 63, 4);
+        STerminal.getInstance().putStringAtPosition(rulesSet.isCaptureAny() ? "any" : "longest", 63, 7);
+        STerminal.getInstance().putStringAtPosition(rulesSet.isPawnMoveBackward() ? "yes" : "no", 63, 10);
+        STerminal.getInstance().putStringAtPosition(rulesSet.isPawnCaptureBackward() ? "yes" : "no", 63, 13);
+        STerminal.getInstance().putStringAtPosition(rulesSet.isQueenRangeOne() ? "one field" : "any", 63, 16);
+        STerminal.getInstance().putStringAtPosition(rulesSet.isQueenRangeOneAfterCapture() ? "next field" : "any", 63, 19);
+    }
+
     private boolean waitForMove() throws IncorrectMoveFormat, IncorrectMoveException {
         String captures = "";
         boolean isItAITurn = false;
@@ -130,7 +141,7 @@ public class Game implements Serializable {
             isItAITurn = true;
         if (isWhiteAIPlayer && !activePlayer)
             isItAITurn = true;
-        inGameUI.printBoard(board, activePlayer, moves, rulesSet, isItAITurn);
+        inGameUI.printBoard(activePlayer, moves, isItAITurn);
         try {
             (new CapturePossibilityValidator(board, activePlayer, rulesSet)).validateCapturePossibility();
         } catch (CapturePossibleException e) {
@@ -228,7 +239,7 @@ public class Game implements Serializable {
                     isItAITurn = true;
                 if (isWhiteAIPlayer && !activePlayer)
                     isItAITurn = true;
-                inGameUI.printBoard(board, activePlayer, moves, rulesSet, isItAITurn);
+                inGameUI.printBoard(activePlayer, moves, isItAITurn);
                 inGameUI.printMultiCapture(e.getMessage(), isItAITurn);
                 String[] s;
                 if (isBlackAIPlayer && activePlayer) {
