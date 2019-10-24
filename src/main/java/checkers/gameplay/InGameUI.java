@@ -23,7 +23,7 @@ public class InGameUI implements Serializable {
             for (int i = 0; i < 10; i++) {
                 STerminal.getInstance().putStringAtPosition("       ", 93, i + 17);
             }
-            STerminal.getInstance().putCharAtPosition('⚫', 93, actualPosition + 17);
+            STerminal.getInstance().putCharAtPosition('●', 93, actualPosition + 17);
             for (int i = 0; i < 10; i++) {
                 int moveToPrintIndex = movesToPrintTo - i;
                 if (moveToPrintIndex == moves.size() || moveToPrintIndex < 0) break;
@@ -417,7 +417,7 @@ public class InGameUI implements Serializable {
             for (int i = 0; i < 10; i++) {
                 STerminal.getInstance().putStringAtPosition("       ", 93, i + 3);
             }
-            STerminal.getInstance().putCharAtPosition('⚫', 93, actualPosition + 3);
+            STerminal.getInstance().putCharAtPosition('●', 93, actualPosition + 3);
             for (int i = 0; i < 10; i++) {
                 int moveToPrintIndex = movesToPrintTo - i;
                 if (moveToPrintIndex == moves.size() || moveToPrintIndex < 0) break;

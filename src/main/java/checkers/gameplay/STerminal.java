@@ -4,7 +4,9 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class STerminal {
@@ -16,6 +18,7 @@ public class STerminal {
         try {
             terminal = new DefaultTerminalFactory()
                     .setInitialTerminalSize(new TerminalSize(115, 34))
+                    .setTerminalEmulatorFontConfiguration(SwingTerminalFontConfiguration.newInstance(new Font("Courier New", Font.PLAIN, 16)))
                     .createTerminal();
             terminal.setCursorVisible(false);
         } catch (IOException e) {

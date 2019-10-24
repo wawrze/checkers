@@ -179,7 +179,7 @@ public class Menu {
             STerminal.getInstance().putCharAtPosition(' ', 9, 20);
             STerminal.getInstance().putCharAtPosition(' ', 9, 22);
             STerminal.getInstance().putCharAtPosition(' ', 9, 24);
-            STerminal.getInstance().putCharAtPosition('⚫', 9, (activePosition * 2) + 18);
+            STerminal.getInstance().putCharAtPosition('●', 9, (activePosition * 2) + 18);
             STerminal.getInstance().update();
             do {
                 key = STerminal.getInstance().readInput();
@@ -308,7 +308,7 @@ public class Menu {
         KeyStroke key;
         do {
             for (int i = 0; i < gameList.size(); i++) STerminal.getInstance().putCharAtPosition(' ', 7, i + 18);
-            if (gameList.size() > 0) STerminal.getInstance().putCharAtPosition('⚫', 7, actualPosition + 18);
+            if (gameList.size() > 0) STerminal.getInstance().putCharAtPosition('●', 7, actualPosition + 18);
             STerminal.getInstance().update();
             do {
                 key = STerminal.getInstance().readInput();
@@ -381,13 +381,13 @@ public class Menu {
                 STerminal.getInstance().putCharAtPosition(' ', 39, 24);
             }
             if (yPosition == 0 && xPosition == 0) {
-                STerminal.getInstance().putCharAtPosition('⚫', 24, 22);
+                STerminal.getInstance().putCharAtPosition('●', 24, 22);
             } else if (yPosition == 0 && xPosition == 1) {
-                STerminal.getInstance().putCharAtPosition('⚫', 39, 22);
+                STerminal.getInstance().putCharAtPosition('●', 39, 22);
             } else if (yPosition == 1 && xPosition == 0) {
-                STerminal.getInstance().putCharAtPosition('⚫', 24, 24);
+                STerminal.getInstance().putCharAtPosition('●', 24, 24);
             } else {
-                STerminal.getInstance().putCharAtPosition('⚫', 39, 24);
+                STerminal.getInstance().putCharAtPosition('●', 39, 24);
             }
             STerminal.getInstance().update();
 
@@ -434,7 +434,7 @@ public class Menu {
             STerminal.getInstance().putCharAtPosition(' ', 3, 20);
             STerminal.getInstance().putCharAtPosition(' ', 41, 20);
             STerminal.getInstance().putCharAtPosition(' ', 79, 20);
-            STerminal.getInstance().putCharAtPosition('⚫', (chosenRules * 38) + 3, 20);
+            STerminal.getInstance().putCharAtPosition('●', (chosenRules * 38) + 3, 20);
             STerminal.getInstance().update();
             do {
                 key = STerminal.getInstance().readInput();
