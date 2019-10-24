@@ -302,9 +302,10 @@ public class Board implements Serializable {
         STerminal.getInstance().putCharacter('╝');
 
         STerminal.getInstance().putStringAtPosition("MENU", 90, 11);
+        STerminal.getInstance().putStringAtPosition("(h) scroll moves history", 89, 12);
         STerminal.getInstance().putStringAtPosition("(s) save and exit", 89, 13);
         STerminal.getInstance().putStringAtPosition("(x) exit without saving", 89, 14);
-        STerminal.getInstance().putStringAtPosition("LAST 10 MOVES", 95, 16);
+        STerminal.getInstance().putStringAtPosition("MOVES HISTORY", 94, 16);
     }
 
     private void printBottomMenu() {

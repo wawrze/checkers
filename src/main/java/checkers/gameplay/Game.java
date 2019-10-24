@@ -24,13 +24,13 @@ public class Game implements Serializable {
     private final RulesSet rulesSet;
     private final boolean isBlackAIPlayer;
     private final boolean isWhiteAIPlayer;
+    private final String name;
     private boolean activePlayer;
     private int whiteQueenMoves;
     private int blackQueenMoves;
     private boolean isFinished;
     private boolean isDraw;
     private boolean winner;
-    private String name;
     private boolean save;
     private LocalDate date;
     private LocalTime time;
@@ -277,8 +277,7 @@ public class Game implements Serializable {
     private boolean inGameMenu(String s) {
         switch (s) {
             case "h":
-                inGameUI.printMoveHistory(moves);
-                inGameUI.waitForEnter();
+                inGameUI.switchToMovesHistory(moves);
                 return true;
             case "s":
                 save = true;

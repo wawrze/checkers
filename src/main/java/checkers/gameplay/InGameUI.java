@@ -13,15 +13,57 @@ public class InGameUI implements Serializable {
     private final String[] options;
 
     public InGameUI() {
-        options = new String[]{/*"h", */"s", "x"};  // TODO
+        options = new String[]{"h", "s", "x"};
     }
 
-    void printMoveHistory(List<String> moves) {  // TODO
-        if (moves.isEmpty()) {
-            System.out.println("No moves history.");
-        } else {
-            for (String m : moves) System.out.println(m);
+    void switchToMovesHistory(List<String> moves) {
+        if (moves.size() == 0) return;
+        int movesToPrintTo = moves.size() - 1;
+        int actualPosition = 0;
+        do {
+            for (int i = 0; i < 10; i++) {
+                STerminal.getInstance().putStringAtPosition("       ", 93, i + 17);
+            }
+            STerminal.getInstance().putCharAtPosition('⚫', 93, actualPosition + 17);
+            for (int i = 0; i < 10; i++) {
+                int moveToPrintIndex = movesToPrintTo - i;
+                if (moveToPrintIndex == moves.size() || moveToPrintIndex < 0) break;
+                String move = moves.get(moveToPrintIndex);
+                STerminal.getInstance().putStringAtPosition(move, 95, i + 17);
+            }
+            STerminal.getInstance().update();
+            KeyStroke key;
+            do {
+                key = STerminal.getInstance().readInput();
+            } while (key == null);
+            if (key.getKeyType() == KeyType.ArrowDown) {
+                if (actualPosition == 9 && movesToPrintTo > 9) {
+                    movesToPrintTo--;
+                } else if (actualPosition < 9) {
+                    actualPosition++;
+                }
+            } else if (key.getKeyType() == KeyType.ArrowUp) {
+                if (actualPosition == 0 && movesToPrintTo < moves.size() - 1) {
+                    movesToPrintTo++;
+                } else if (actualPosition > 0) {
+                    actualPosition--;
+                }
+            } else if (key.getKeyType() == KeyType.Escape) {
+                break;
+            } else if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'h') {
+                break;
+            }
+        } while (true);
+
+        for (int i = 0; i < 10; i++) {
+            STerminal.getInstance().putStringAtPosition("       ", 93, i + 17);
         }
+        for (int i = 0; i < 10; i++) {
+            if (i == moves.size()) break;
+            String move = moves.get(moves.size() - 1 - i);
+            STerminal.getInstance().putStringAtPosition(move, 95, i + 17);
+        }
+        STerminal.getInstance().update();
     }
 
     private void printMovesAndActivePlayer(List<String> moves, boolean player, boolean isItAITurn) {
@@ -346,7 +388,7 @@ public class InGameUI implements Serializable {
 //            switch (o) {
 //                case "h":
 //                    System.out.println("Moves history:");
-//                    printMoveHistory(moves);
+//                    switchToMovesHistory(moves);
 //                    break;
 //                case "s":
 //                    return true;

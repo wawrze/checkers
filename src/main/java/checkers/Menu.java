@@ -79,7 +79,7 @@ public class Menu {
             rules = new ArrayList<>();
             RulesSet rule = new RulesSet(false, false, false,
                     false, true, false,
-                    "classic", "classic (brasilian) draughts");
+                    "classic", "classic (brazilian) draughts");
             rules.add(rule);
             rule = new RulesSet(false, true, true,
                     false, true, true,
@@ -529,5 +529,5 @@ public class Menu {
         rulesSets.close();
         fos.close();
     }
-    
+
 }
