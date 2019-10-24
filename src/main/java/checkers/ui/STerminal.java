@@ -31,7 +31,7 @@ public class STerminal {
         return instance;
     }
 
-    public void setCursorVisibility(boolean visible) {
+    void setCursorVisibility(boolean visible) {
         try {
             terminal.setCursorVisible(visible);
         } catch (IOException e) {
@@ -81,7 +81,7 @@ public class STerminal {
         }
     }
 
-    public void replaceStringAtPosition(String string, int stringMaxLength, int x, int y) {
+    void replaceStringAtPosition(String string, int stringMaxLength, int x, int y) {
         try {
             terminal.setCursorPosition(x, y);
             for (int i = 0; i < string.length() && i < stringMaxLength; i++) terminal.putCharacter(string.charAt(i));

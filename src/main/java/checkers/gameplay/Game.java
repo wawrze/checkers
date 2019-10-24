@@ -180,7 +180,6 @@ public class Game implements Serializable {
             isItAITurn = true;
         if (isWhiteAIPlayer && !activePlayer)
             isItAITurn = true;
-        inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn);
         Move move = new Move(x1, y1, x2, y2);
         try {
             MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
@@ -199,10 +198,11 @@ public class Game implements Serializable {
             }
             this.activePlayer = !this.activePlayer;
             inGameUI.printMoveDone(isItAITurn);
-
+            inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, false);
         } catch (CaptureException e) {
             moves.add((activePlayer ? "black: " : "white: ") + move);
             move.makeCapture(board, e.getRow(), e.getCol(), true);
+            inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, true);
             multiCapture(move);
             inGameUI.printCaptureDone(isItAITurn);
             if (activePlayer)
@@ -221,8 +221,6 @@ public class Game implements Serializable {
                     && !board.getFigure(move.getRow2(), move.getCol2()).getColor()
                     && (move.getRow2()) == 'A')
                 board.setAndPrintFigure('A', move.getCol2(), new Queen(false));
-            if (!isItAITurn)
-                inGameUI.waitForEnter();
         }
     }
 
@@ -255,13 +253,13 @@ public class Game implements Serializable {
                     int y1 = Character.getNumericValue(s[1].charAt(0));
                     char x2 = s[2].charAt(0);
                     int y2 = Character.getNumericValue(s[3].charAt(0));
-                    inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn);
                     move = new Move(x1, y1, x2, y2);
                     try {
                         MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
                     } catch (CaptureException e1) {
                         moves.add((activePlayer ? "black: " : "white: ") + move);
                         move.makeCapture(board, e1.getRow(), e1.getCol(), true);
+                        inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, true);
                     }
                 }
             }

@@ -109,7 +109,7 @@ public class InGameUI implements Serializable {
         }
     }
 
-    public void waitForEnter() {
+    private void waitForKey() {
         STerminal.getInstance().replaceStringAtPosition("Press any key.", 60, 37, 29);
         STerminal.getInstance().update();
         KeyStroke key;
@@ -126,16 +126,18 @@ public class InGameUI implements Serializable {
         if (isItAITurn) {
             STerminal.getInstance().replaceStringAtPosition("Please wait for move.", 60, 37, 29);
         } else {
-            STerminal.getInstance().replaceStringAtPosition("Choose your next move.", 60, 37, 29);
+            STerminal.getInstance().replaceStringAtPosition("Choose your next move.", 94, 3, 31);
         }
         STerminal.getInstance().update();
     }
 
-    public void printMakingMove(char x1, int y1, char x2, int y2, boolean isItAITurn) {
-        if (isItAITurn)
+    public void printMakingMove(char x1, int y1, char x2, int y2, boolean isItAITurn, boolean wasCapture) {
+        if (!isItAITurn)
             return;
-        STerminal.getInstance().replaceStringAtPosition("Making move: " + x1 + y1 + "-" + x2 + y2, 94, 3, 31);
+        STerminal.getInstance().replaceStringAtPosition("Computer made " + (wasCapture ? "capture" : "move") + ": " + x1 + y1 + "-" + x2 + y2, 94, 3, 31);
+        setCursor(x2 - 64, y2, x1 - 64, y1);
         STerminal.getInstance().update();
+        waitForKey();
     }
 
     public void printMoveDone(boolean isItAITurn) {
@@ -157,6 +159,7 @@ public class InGameUI implements Serializable {
             return;
         STerminal.getInstance().replaceStringAtPosition("Incorrect move: " + s, 94, 3, 31);
         STerminal.getInstance().update();
+        waitForKey();
     }
 
     public void printCapture(String captures, boolean isItAITurn) {
@@ -176,8 +179,9 @@ public class InGameUI implements Serializable {
     private void printCaptureObligatory(boolean isItAITurn) {
         if (isItAITurn)
             return;
-        STerminal.getInstance().replaceStringAtPosition("Capture is obligatory!", 94, 3, 31);
+        STerminal.getInstance().replaceStringAtPosition("Move not done - capture is obligatory!", 94, 3, 31);
         STerminal.getInstance().update();
+        waitForKey();
     }
 
     public void printIncorrectMoveFormat(boolean isItAITurn) {

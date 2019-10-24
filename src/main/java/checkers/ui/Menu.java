@@ -1,9 +1,7 @@
 package checkers.ui;
 
 import checkers.gameplay.Game;
-import checkers.ui.InGameUI;
 import checkers.gameplay.RulesSet;
-import checkers.ui.STerminal;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import exceptions.IncorrectMoveException;
@@ -92,7 +90,7 @@ public class Menu {
         }
     }
 
-    static void clearMenu() {
+    private static void clearMenu() {
         STerminal.getInstance().setCursorPosition(0, 15);
         STerminal.getInstance().putCharMultiplied(' ', 115);
         STerminal.getInstance().setCursorPosition(0, 16);
