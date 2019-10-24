@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Menu {
+class Menu {
 
     private final Map<String, Game> games;
     private final InGameUI inGameUI;
@@ -92,7 +92,7 @@ public class Menu {
         }
     }
 
-    public static void clearMenu() {
+    static void clearMenu() {
         STerminal.getInstance().setCursorPosition(0, 15);
         STerminal.getInstance().putCharMultiplied(' ', 115);
         STerminal.getInstance().setCursorPosition(0, 16);
@@ -267,9 +267,9 @@ public class Menu {
 
     private void printRules() {
         printRulesSets();
-        STerminal.getInstance().putStringAtPosition("╔════════════════════════════════════════════╗", 6, 15);
-        STerminal.getInstance().putStringAtPosition("║ Available rule sets:                       ║", 6, 16);
-        STerminal.getInstance().putStringAtPosition("╚════════════════════════════════════════════╝", 6, 17);
+        STerminal.getInstance().putStringAtPosition("╔════════════════════════════════════════════╗", 6, 16);
+        STerminal.getInstance().putStringAtPosition("║ Available rule sets:                       ║", 6, 17);
+        STerminal.getInstance().putStringAtPosition("╚════════════════════════════════════════════╝", 6, 18);
         STerminal.getInstance().putCharAtPosition(' ', 2, 20);
         STerminal.getInstance().putCharAtPosition(' ', 4, 20);
         STerminal.getInstance().putCharAtPosition(' ', 40, 20);
