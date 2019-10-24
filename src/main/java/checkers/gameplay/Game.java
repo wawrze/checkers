@@ -6,6 +6,8 @@ import checkers.figures.Queen;
 import checkers.moves.CapturePossibilityValidator;
 import checkers.moves.Move;
 import checkers.moves.MoveValidator;
+import checkers.ui.InGameUI;
+import checkers.ui.STerminal;
 import exceptions.CaptureException;
 import exceptions.CapturePossibleException;
 import exceptions.IncorrectMoveException;

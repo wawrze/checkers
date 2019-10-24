@@ -1,5 +1,6 @@
 package checkers;
 
+import checkers.ui.Menu;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
 

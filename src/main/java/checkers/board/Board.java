@@ -3,7 +3,7 @@ package checkers.board;
 import checkers.figures.Figure;
 import checkers.figures.None;
 import checkers.figures.Pawn;
-import checkers.gameplay.STerminal;
+import checkers.ui.STerminal;
 
 import java.io.Serializable;
 import java.util.HashMap;

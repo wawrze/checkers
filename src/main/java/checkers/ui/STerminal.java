@@ -1,4 +1,4 @@
-package checkers.gameplay;
+package checkers.ui;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;
