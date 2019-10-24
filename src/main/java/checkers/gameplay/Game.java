@@ -109,7 +109,7 @@ public class Game implements Serializable {
         do {
             isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, activePlayer, rulesSet);
             if (isFinished) {
-                save = inGameUI.endOfGame(moves, activePlayer);
+                save = inGameUI.endOfGame(moves);
                 isDraw = VictoryValidator.isDraw();
                 winner = VictoryValidator.getWinner();
                 break;
