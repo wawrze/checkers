@@ -272,15 +272,14 @@ public class Board implements Serializable {
         STerminal.getInstance().putCharAtPosition('│', 94, 4);
         STerminal.getInstance().putCharAtPosition('║', 98, 4);
         STerminal.getInstance().putCharAtPosition('║', 102, 4);
-
         STerminal.getInstance().putStringAtPosition("BLACK", 106, 4);
-
         STerminal.getInstance().putCharAtPosition('└', 90, 5);
         STerminal.getInstance().putCharMultiplied('─', 3);
         STerminal.getInstance().putCharacter('┘');
         STerminal.getInstance().putCharAtPosition('╚', 98, 5);
         STerminal.getInstance().putCharMultiplied('═', 3);
         STerminal.getInstance().putCharacter('╝');
+
         STerminal.getInstance().putCharAtPosition('┌', 90, 7);
         STerminal.getInstance().putCharMultiplied('─', 3);
         STerminal.getInstance().putCharacter('┐');
@@ -288,12 +287,12 @@ public class Board implements Serializable {
         STerminal.getInstance().putCharMultiplied('═', 3);
         STerminal.getInstance().putCharacter('╗');
         STerminal.getInstance().putCharAtPosition('│', 90, 8);
+        STerminal.getInstance().putCharAtPosition('█', 92, 8);
         STerminal.getInstance().putCharAtPosition('│', 94, 8);
         STerminal.getInstance().putCharAtPosition('║', 98, 8);
+        STerminal.getInstance().putCharAtPosition('█', 100, 8);
         STerminal.getInstance().putCharAtPosition('║', 102, 8);
-
         STerminal.getInstance().putStringAtPosition("WHITE", 106, 8);
-
         STerminal.getInstance().putCharAtPosition('└', 90, 9);
         STerminal.getInstance().putCharMultiplied('─', 3);
         STerminal.getInstance().putCharacter('┘');
