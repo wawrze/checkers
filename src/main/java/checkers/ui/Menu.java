@@ -166,7 +166,6 @@ public class Menu {
             o = getOption();
             option(o);
         } while (!o.equals("x"));
-        STerminal.getInstance().close();
     }
 
     private String getOption() {
@@ -526,6 +525,7 @@ public class Menu {
         }
         rulesSets.close();
         fos.close();
+        STerminal.getInstance().close();
     }
 
 }
