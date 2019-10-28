@@ -51,6 +51,7 @@ public class ComboBox<V> extends AbstractInteractableComponent<ComboBox<V>> {
     private boolean dropDownFocused;
     private int textInputPosition;
     private int dropDownNumberOfRows;
+
     /**
      * Creates a new {@code ComboBox} initialized with N number of items supplied through the varargs parameter. If at
      * least one item is given, the first one in the array will be initially selected. By default 10 items will be

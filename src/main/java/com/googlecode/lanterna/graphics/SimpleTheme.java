@@ -38,6 +38,7 @@ public class SimpleTheme implements Theme {
     private final Map<Class<?>, Definition> overrideDefinitions;
     private WindowPostRenderer windowPostRenderer;
     private WindowDecorationRenderer windowDecorationRenderer;
+
     /**
      * Creates a new {@link SimpleTheme} object that uses the supplied constructor arguments as the default style
      *

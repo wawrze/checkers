@@ -6,12 +6,12 @@ public class Window {
 
     private static Stage window;
 
-    public void setWindow(Stage window) {
-        Window.window = window;
-    }
-
     public static Stage getWindow() {
         return window;
+    }
+
+    public void setWindow(Stage window) {
+        Window.window = window;
     }
 
 }

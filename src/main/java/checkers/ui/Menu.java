@@ -2,8 +2,6 @@ package checkers.ui;
 
 import checkers.gameplay.Game;
 import checkers.gameplay.RulesSet;
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
 import javafx.geometry.Insets;
@@ -100,73 +98,74 @@ public class Menu {
         }
     }
 
-    private static void clearMenu() {
-        STerminal.getInstance().setCursorPosition(0, 15);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 16);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 17);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 18);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 19);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 20);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 21);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 22);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 23);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 24);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 25);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 26);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 27);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 28);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 29);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 30);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 31);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 32);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().setCursorPosition(0, 33);
-        STerminal.getInstance().putCharMultiplied(' ', 115);
-        STerminal.getInstance().update();
-    }
-
     private void printRulesSets() {
-        clearMenu();
-        STerminal.getInstance().putStringAtPosition("╔═════════════════════════════════════╦═════════════════════════════════════╦═════════════════════════════════════╗", 0, 19);
-        STerminal.getInstance().putStringAtPosition("║ ( )                                 ║ ( )                                 ║ ( )                                 ║", 0, 20);
-        STerminal.getInstance().putStringAtPosition("╠═════════════════════════════════════╬═════════════════════════════════════╬═════════════════════════════════════╣", 0, 21);
-        STerminal.getInstance().putStringAtPosition("║                                     ║                                     ║                                     ║", 0, 22);
-        STerminal.getInstance().putStringAtPosition("╠═════════════════════════════════════╬═════════════════════════════════════╬═════════════════════════════════════╣", 0, 23);
-        STerminal.getInstance().putStringAtPosition("║ Victory conditions:                 ║ Victory conditions:                 ║ Victory conditions:                 ║", 0, 24);
-        STerminal.getInstance().putStringAtPosition("║ Capture:                            ║ Capture:                            ║ Capture:                            ║", 0, 25);
-        STerminal.getInstance().putStringAtPosition("║ Men move backward:                  ║ Men move backward:                  ║ Men move backward:                  ║", 0, 26);
-        STerminal.getInstance().putStringAtPosition("║ Men capture backward:               ║ Men capture backward:               ║ Men capture backward:               ║", 0, 27);
-        STerminal.getInstance().putStringAtPosition("║ King range:                         ║ King range:                         ║ King range:                         ║", 0, 28);
-        STerminal.getInstance().putStringAtPosition("║ King move after capture:            ║ King move after capture:            ║ King move after capture:            ║", 0, 29);
-        STerminal.getInstance().putStringAtPosition("╚═════════════════════════════════════╩═════════════════════════════════════╩═════════════════════════════════════╝", 0, 30);
+        BorderPane ruleSetsMenu = new BorderPane();
+
+        Label rulesLabel = new Label("RULES SETS");
+        StackPane rulesLabelContainer = new StackPane();
+        rulesLabelContainer.getChildren().add(rulesLabel);
+        rulesLabelContainer.setPadding(new Insets(20, 20, 20, 20));
+        ruleSetsMenu.setTop(rulesLabelContainer);
+
+        VBox ruleSetsContainer = new VBox(20);
+
         for (int i = 0; i < 3; i++) {
-            STerminal.getInstance().replaceStringAtPosition("\"" + rules.get(i).getName() + "\" rules", 31, (i * 38) + 6, 20);
-            STerminal.getInstance().replaceStringAtPosition(rules.get(i).getDescription(), 36, (i * 38) + 2, 22);
-            STerminal.getInstance().putStringAtPosition(rules.get(i).isVictoryConditionsReversed() ? "reversed" : "standard", (i * 38) + 27, 24);
-            STerminal.getInstance().putStringAtPosition(rules.get(i).isCaptureAny() ? "any" : "longest", (i * 38) + 27, 25);
-            STerminal.getInstance().putStringAtPosition(rules.get(i).isPawnMoveBackward() ? "yes" : "no", (i * 38) + 27, 26);
-            STerminal.getInstance().putStringAtPosition(rules.get(i).isPawnCaptureBackward() ? "yes" : "no", (i * 38) + 27, 27);
-            STerminal.getInstance().putStringAtPosition(rules.get(i).isQueenRangeOne() ? "one field" : "any", (i * 38) + 27, 28);
-            STerminal.getInstance().putStringAtPosition(rules.get(i).isQueenRangeOneAfterCapture() ? "next field" : "any", (i * 38) + 27, 29);
+            VBox ruleSetContainer = new VBox(20);
+
+            HBox rulesNameContainer = new HBox(20);
+            Label rulesNameLabel = new Label("Rules name:");
+            Label rulesNameValue = new Label(rules.get(i).getName());
+            rulesNameContainer.getChildren().addAll(rulesNameLabel, rulesNameValue);
+            HBox rulesDescriptionContainer = new HBox(20);
+            Label rulesDescriptionLabel = new Label("Description:");
+            Label rulesDescriptionValue = new Label(rules.get(i).getDescription());
+            rulesDescriptionContainer.getChildren().addAll(rulesDescriptionLabel, rulesDescriptionValue);
+            HBox rulesVictoryContainer = new HBox(20);
+            Label rulesVictoryLabel = new Label("Victory conditions:");
+            Label rulesVictoryValue = new Label(rules.get(i).isVictoryConditionsReversed() ? "reversed" : "standard");
+            rulesVictoryContainer.getChildren().addAll(rulesVictoryLabel, rulesVictoryValue);
+            HBox rulesCaptureContainer = new HBox(20);
+            Label rulesCaptureLabel = new Label("Capture:");
+            Label rulesCaptureValue = new Label(rules.get(i).isCaptureAny() ? "any" : "longest");
+            rulesCaptureContainer.getChildren().addAll(rulesCaptureLabel, rulesCaptureValue);
+            HBox rulesMenMoveBackwardContainer = new HBox(20);
+            Label rulesMenMoveBackwardLabel = new Label("Men move backward:");
+            Label rulesMenMoveBackwardValue = new Label(rules.get(i).isPawnMoveBackward() ? "yes" : "no");
+            rulesMenMoveBackwardContainer.getChildren().addAll(rulesMenMoveBackwardLabel, rulesMenMoveBackwardValue);
+            HBox rulesMenCaptureBackwardContainer = new HBox(20);
+            Label rulesMenCaptureBackwardLabel = new Label("Men capture backward:");
+            Label rulesMenCaptureBackwardValue = new Label(rules.get(i).isPawnCaptureBackward() ? "yes" : "no");
+            rulesMenCaptureBackwardContainer.getChildren().addAll(rulesMenCaptureBackwardLabel, rulesMenCaptureBackwardValue);
+            HBox rulesKingRangeContainer = new HBox(20);
+            Label rulesKingRangeLabel = new Label("King range:");
+            Label rulesKingRangeValue = new Label(rules.get(i).isQueenRangeOne() ? "one field" : "any");
+            rulesKingRangeContainer.getChildren().addAll(rulesKingRangeLabel, rulesKingRangeValue);
+            HBox rulesKingMoveAfterCaptureContainer = new HBox(20);
+            Label rulesKingMoveAfterCaptureLabel = new Label("King move after capture:");
+            Label rulesKingMoveAfterCaptureValue = new Label(rules.get(i).isQueenRangeOneAfterCapture() ? "next field" : "any");
+            rulesKingMoveAfterCaptureContainer.getChildren().addAll(rulesKingMoveAfterCaptureLabel, rulesKingMoveAfterCaptureValue);
+
+            ruleSetContainer.getChildren().addAll(
+                    rulesNameContainer,
+                    rulesDescriptionContainer,
+                    rulesVictoryContainer,
+                    rulesCaptureContainer,
+                    rulesMenMoveBackwardContainer,
+                    rulesMenCaptureBackwardContainer,
+                    rulesKingRangeContainer,
+                    rulesKingMoveAfterCaptureContainer
+            );
+            ruleSetsContainer.getChildren().add(ruleSetContainer);
         }
-        STerminal.getInstance().update();
+        ruleSetsMenu.setCenter(ruleSetsContainer);
+
+        Button backButton = new Button("BACK TO MAIN MENU");
+        backButton.setOnAction(e -> start());
+        ruleSetsMenu.setBottom(backButton);
+
+        Scene rulesSetsMenu = new Scene(ruleSetsMenu, 300, 1000);
+        Window.getWindow().setTitle("Checkers - rule sets");
+        Window.getWindow().setScene(rulesSetsMenu);
     }
 
     public void start() {
@@ -180,26 +179,15 @@ public class Menu {
 
         VBox buttonsMenuSection = new VBox(20);
         Button startGameButton = new Button("Start new game");
-        startGameButton.setOnAction(e -> {
-            newGame();
-        });
+        startGameButton.setOnAction(e -> newGame());
         StackPane startGameButtonContainer = new StackPane();
         startGameButtonContainer.getChildren().add(startGameButton);
         Button loadGameButton = new Button("Load game");
-        loadGameButton.setOnAction(e -> {
-            Game game = loadGame();
-            try {
-                if (game != null && game.play(inGameUI)) {
-                    games.remove(game.getName());
-                    games.put(game.getName(), game);
-                }
-            } catch (IncorrectMoveException | IncorrectMoveFormat ignored) {
-            }
-        });
+        loadGameButton.setOnAction(e -> loadGame());
         StackPane loadGameButtonContainer = new StackPane();
         loadGameButtonContainer.getChildren().add(loadGameButton);
-        Button showRulesButton = new Button("Print rules sets");
-        showRulesButton.setOnAction(e -> printRules());
+        Button showRulesButton = new Button("Show rules sets");
+        showRulesButton.setOnAction(e -> printRulesSets());
         StackPane showRulesButtonContainer = new StackPane();
         showRulesButtonContainer.getChildren().add(showRulesButton);
         Button exitButton = new Button("Exit");
@@ -231,71 +219,52 @@ public class Menu {
         });
     }
 
-    private void printRules() {
-        System.out.println("PRINT RULES CLICKED");
-//        printRulesSets();
-//        STerminal.getInstance().putStringAtPosition("╔════════════════════════════════════════════╗", 6, 16);
-//        STerminal.getInstance().putStringAtPosition("║ Available rule sets:                       ║", 6, 17);
-//        STerminal.getInstance().putStringAtPosition("╚════════════════════════════════════════════╝", 6, 18);
-//        STerminal.getInstance().putCharAtPosition(' ', 2, 20);
-//        STerminal.getInstance().putCharAtPosition(' ', 4, 20);
-//        STerminal.getInstance().putCharAtPosition(' ', 40, 20);
-//        STerminal.getInstance().putCharAtPosition(' ', 42, 20);
-//        STerminal.getInstance().putCharAtPosition(' ', 78, 20);
-//        STerminal.getInstance().putCharAtPosition(' ', 80, 20);
-//        printEscapeInfo();
-//        STerminal.getInstance().update();
-//        KeyStroke key;
-//        do {
-//            key = STerminal.getInstance().readInput();
-//        } while (key.getKeyType() != KeyType.Escape);
-    }
+    private void loadGame() {
+        BorderPane loadGameMenu = new BorderPane();
 
-    private Game loadGame() {
+        Label loadGameLabel = new Label("SAVED GAMES");
+        StackPane loadGameLabelContainer = new StackPane();
+        loadGameLabelContainer.getChildren().add(loadGameLabel);
+        loadGameLabelContainer.setPadding(new Insets(20, 20, 20, 20));
+        loadGameMenu.setTop(loadGameLabelContainer);
+
+        VBox savedGamesContainer = new VBox(20);
+
+        for (Map.Entry<String, Game> game : games.entrySet()) {
+            HBox gameContainer = new HBox(20);
+            Label gameLabel = new Label(game.getValue().toString());
+            Button loadGameButton = new Button("LOAD");
+            loadGameButton.setOnAction(e -> {
+                try {
+                    if (game.getValue().play(inGameUI)) {
+                        games.remove(game.getKey());
+                        games.put(game.getKey(), game.getValue());
+                    }
+                    start();
+                } catch (IncorrectMoveException | IncorrectMoveFormat ignored) {
+                }
+            });
+            Button deleteGameButton = new Button("DELETE");
+            deleteGameButton.setOnAction(e -> {
+                games.remove(game.getKey());
+                loadGame();
+            });
+            gameContainer.getChildren().addAll(gameLabel, loadGameButton, deleteGameButton);
+
+            savedGamesContainer.getChildren().add(gameContainer);
+        }
+        loadGameMenu.setCenter(savedGamesContainer);
+
+        Button backButton = new Button("BACK TO MAIN MENU");
+        backButton.setOnAction(e -> start());
+        loadGameMenu.setBottom(backButton);
+
+        Scene rulesSetsMenu = new Scene(loadGameMenu, 300, 1000);
+        Window.getWindow().setTitle("Checkers - load game");
+        Window.getWindow().setScene(rulesSetsMenu);
+
+
         System.out.println("LOAD GAME CLICKED");
-        return null;
-//        clearMenu();
-//        STerminal.getInstance().putStringAtPosition("╔════════════════════════════════════════════╗", 6, 15);
-//        STerminal.getInstance().putStringAtPosition("║ Choose game:                               ║", 6, 16);
-//        STerminal.getInstance().putStringAtPosition("╚════════════════════════════════════════════╝", 6, 17);
-//        STerminal.getInstance().putStringAtPosition("╔═════════════════════════════════════════════════════════════╗", 6, 31);
-//        STerminal.getInstance().putStringAtPosition("║ ESCAPE - main menu, ENTER - load game, DELETE - remove game ║", 6, 32);
-//        STerminal.getInstance().putStringAtPosition("╚═════════════════════════════════════════════════════════════╝", 6, 33);
-//
-//        int gamesSize = 0;
-//        ArrayList<Game> gameList = new ArrayList<>();
-//        for (Map.Entry<String, Game> game : games.entrySet()) {
-//            gameList.add(game.getValue());
-//            gamesSize++;
-//            if (gamesSize == 12) break;
-//        }
-//        for (int i = 0; i < gameList.size(); i++) {
-//            STerminal.getInstance().putStringAtPosition("( ) " + gameList.get(i), 6, i + 18);
-//        }
-//
-//        int actualPosition = 0;
-//        KeyStroke key;
-//        do {
-//            for (int i = 0; i < gameList.size(); i++) STerminal.getInstance().putCharAtPosition(' ', 7, i + 18);
-//            if (gameList.size() > 0) STerminal.getInstance().putCharAtPosition('●', 7, actualPosition + 18);
-//            STerminal.getInstance().update();
-//            do {
-//                key = STerminal.getInstance().readInput();
-//            } while (key == null);
-//            if (key.getKeyType() == KeyType.ArrowDown && actualPosition < gameList.size() - 1) {
-//                actualPosition++;
-//            } else if (key.getKeyType() == KeyType.ArrowUp && actualPosition > 0) {
-//                actualPosition--;
-//            } else if (key.getKeyType() == KeyType.Delete && gameList.size() > 0) {
-//                games.remove(gameList.get(actualPosition).getName());
-//                return loadGame();
-//            } else if (key.getKeyType() == KeyType.Enter && gameList.size() > 0) {
-//                break;
-//            } else if (key.getKeyType() == KeyType.Escape) {
-//                return null;
-//            }
-//        } while (true);
-//        return new Game(gameList.get(actualPosition));
     }
 
     private void newGame() {

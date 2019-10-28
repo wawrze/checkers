@@ -74,6 +74,7 @@ public class EscapeSequenceCharacterPattern implements CharacterPattern {
      * to false. (It might then also want to remove the CtrlAltAndCharacterPattern.)
      */
     protected boolean useEscEsc = true;
+
     /**
      * Create an instance with a standard set of mappings.
      */

@@ -49,6 +49,7 @@ public class TextBox extends AbstractInteractableComponent<TextBox> {
     private int longestRow;
     private Character mask;
     private Pattern validationPattern;
+
     /**
      * Default constructor, this creates a single-line {@code TextBox} of size 10 which is initially empty
      */

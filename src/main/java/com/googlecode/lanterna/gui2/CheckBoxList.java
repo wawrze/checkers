@@ -36,6 +36,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CheckBoxList<V> extends AbstractListBox<V, CheckBoxList<V>> {
     private final List<Listener> listeners;
     private final List<Boolean> itemStatus;
+
     /**
      * Creates a new {@code CheckBoxList} that is initially empty and has no hardcoded preferred size, so it will
      * attempt to be as big as necessary to draw all items.

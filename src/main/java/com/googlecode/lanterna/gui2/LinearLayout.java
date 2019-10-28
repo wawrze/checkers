@@ -37,6 +37,7 @@ public class LinearLayout implements LayoutManager {
     public LinearLayout() {
         this(Direction.VERTICAL);
     }
+
     /**
      * Standard constructor that creates a {@code LinearLayout} with a specified direction to position the components on
      *

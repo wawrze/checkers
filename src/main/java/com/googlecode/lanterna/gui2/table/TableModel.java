@@ -34,6 +34,7 @@ public class TableModel<V> {
     private final List<String> columns;
     private final List<List<V>> rows;
     private final List<Listener<V>> listeners;
+
     /**
      * Default constructor, creates a new model with same number of columns as labels supplied
      *
