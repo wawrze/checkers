@@ -5,12 +5,9 @@ import checkers.gameplay.RulesSet;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.io.*;

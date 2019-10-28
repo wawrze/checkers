@@ -116,7 +116,7 @@ public class Board implements Serializable {
     public void printEmptyBoardAndSideMenu() {
 //        try {
 //            ImageView image = new ImageView();
-//            FileInputStream input = new FileInputStream("board.png");
+//            FileInputStream input = new FileInputStream("images/board.png");
 //            Image img = new Image(input);
 //            image.setImage(img);
 //            mainMenuLayout.getChildren().add(image);
