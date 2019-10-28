@@ -3,8 +3,17 @@ package checkers.board;
 import checkers.figures.Figure;
 import checkers.figures.None;
 import checkers.figures.Pawn;
+import checkers.figures.Queen;
 import checkers.ui.STerminal;
+import checkers.ui.Window;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +21,7 @@ import java.util.Map;
 public class Board implements Serializable {
 
     private final HashMap<Character, BoardRow> rows;
+    private Map<Character, ImageView[]> figuresOnBoard;
 
     public Board() {
         this.rows = new HashMap<>();
@@ -63,43 +73,52 @@ public class Board implements Serializable {
 
     public void setAndPrintFigure(char row, int col, Figure figure) {
         this.rows.get(row).setFigure(col, figure);
-        int rowInt = (int) row - 65;
-        if (figure instanceof None) {
-            STerminal.getInstance().setCursorPosition(((col - 1) * 7) + 3, (rowInt * 3) + 2);
-            STerminal.getInstance().putCharMultiplied(' ', 5);
-            STerminal.getInstance().setCursorPosition(((col - 1) * 7) + 3, (rowInt * 3) + 3);
-            STerminal.getInstance().putCharMultiplied(' ', 5);
-            STerminal.getInstance().setCursorPosition(((col - 1) * 7) + 3, (rowInt * 3) + 4);
-            STerminal.getInstance().putCharMultiplied(' ', 5);
-            STerminal.getInstance().update();
-            return;
+        try {
+            int xPos = ((col - 1) * 75) + 42;
+            int yPos = (((int) row - 65) * 75) + 42;
+            AnchorPane board = (AnchorPane) Window.getGameLayout().getChildren().get(0);
+
+            ImageView figureRepresentation = figuresOnBoard.get(row)[col - 1];
+            if (figureRepresentation != null) board.getChildren().remove(figureRepresentation);
+
+            if (figure instanceof Pawn && figure.getColor()) {
+                figureRepresentation = new ImageView();
+                FileInputStream input = new FileInputStream("images/black_pawn.png");
+                Image img = new Image(input);
+                figureRepresentation.setImage(img);
+                figureRepresentation.setX(xPos);
+                figureRepresentation.setY(yPos);
+            } else if (figure instanceof Pawn && !figure.getColor()) {
+                figureRepresentation = new ImageView();
+                FileInputStream input = new FileInputStream("images/white_pawn.png");
+                Image img = new Image(input);
+                figureRepresentation.setImage(img);
+                figureRepresentation.setX(xPos);
+                figureRepresentation.setY(yPos);
+            } else if (figure instanceof Queen && figure.getColor()) {
+                figureRepresentation = new ImageView();
+                FileInputStream input = new FileInputStream("images/black_queen.png");
+                Image img = new Image(input);
+                figureRepresentation.setImage(img);
+                figureRepresentation.setX(xPos);
+                figureRepresentation.setY(yPos);
+            } else if (figure instanceof Queen && !figure.getColor()) {
+                figureRepresentation = new ImageView();
+                FileInputStream input = new FileInputStream("images/white_queen.png");
+                Image img = new Image(input);
+                figureRepresentation.setImage(img);
+                figureRepresentation.setX(xPos);
+                figureRepresentation.setY(yPos);
+            } else {
+                figureRepresentation = null;
+            }
+
+            figuresOnBoard.get(row)[col - 1] = figureRepresentation;
+            if (figureRepresentation != null) board.getChildren().add(figureRepresentation);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        STerminal.getInstance().setCursorPosition(((col - 1) * 7) + 3, (rowInt * 3) + 2);
-        if (figure instanceof Pawn) {
-            STerminal.getInstance().putCharacter('┌');
-            STerminal.getInstance().putCharMultiplied('─', 3);
-            STerminal.getInstance().putCharacter('┐');
-            STerminal.getInstance().putCharAtPosition('│', ((col - 1) * 7) + 3, (rowInt * 3) + 3);
-            STerminal.getInstance().putCharAtPosition('│', ((col - 1) * 7) + 7, (rowInt * 3) + 3);
-            STerminal.getInstance().putCharAtPosition('└', ((col - 1) * 7) + 3, (rowInt * 3) + 4);
-            STerminal.getInstance().putCharMultiplied('─', 3);
-            STerminal.getInstance().putCharacter('┘');
-        } else {
-            STerminal.getInstance().putCharacter('╔');
-            STerminal.getInstance().putCharMultiplied('═', 3);
-            STerminal.getInstance().putCharacter('╗');
-            STerminal.getInstance().putCharAtPosition('║', ((col - 1) * 7) + 3, (rowInt * 3) + 3);
-            STerminal.getInstance().putCharAtPosition('║', ((col - 1) * 7) + 7, (rowInt * 3) + 3);
-            STerminal.getInstance().putCharAtPosition('╚', ((col - 1) * 7) + 3, (rowInt * 3) + 4);
-            STerminal.getInstance().putCharMultiplied('═', 3);
-            STerminal.getInstance().putCharacter('╝');
-        }
-
-        if (!figure.getColor()) {
-            STerminal.getInstance().putCharAtPosition('█', ((col - 1) * 7) + 5, (rowInt * 3) + 3);
-        }
-        STerminal.getInstance().update();
     }
 
     public void refreshFigures() {
@@ -110,90 +129,110 @@ public class Board implements Serializable {
                 }
             }
         }
-        STerminal.getInstance().update();
     }
 
     public void printEmptyBoardAndSideMenu() {
-//        try {
-//            ImageView image = new ImageView();
-//            FileInputStream input = new FileInputStream("images/board.png");
-//            Image img = new Image(input);
-//            image.setImage(img);
-//            mainMenuLayout.getChildren().add(image);
-//        } catch (IOException e) {
-//            e.printStackTrace();
+        Pane boardLayout = Window.getGameLayout();
+
+        AnchorPane boardContainer = new AnchorPane();
+        boardLayout.getChildren().add(boardContainer);
+        try {
+            ImageView image = new ImageView();
+            FileInputStream input = new FileInputStream("images/board.png");
+            Image img = new Image(input);
+            image.setImage(img);
+            image.setX(20);
+            image.setY(20);
+            boardContainer.getChildren().add(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Scene gameScene = new Scene(boardLayout, 1200, 800);
+        Window.getWindow().setTitle("Checkers");
+        Window.getWindow().setScene(gameScene);
+        figuresOnBoard = new HashMap<>();
+        figuresOnBoard.put('A', new ImageView[8]);
+        figuresOnBoard.put('B', new ImageView[8]);
+        figuresOnBoard.put('C', new ImageView[8]);
+        figuresOnBoard.put('D', new ImageView[8]);
+        figuresOnBoard.put('E', new ImageView[8]);
+        figuresOnBoard.put('F', new ImageView[8]);
+        figuresOnBoard.put('G', new ImageView[8]);
+        figuresOnBoard.put('H', new ImageView[8]);
+
+
+//        STerminal.getInstance().clear();
+//        for (int k = 0; k < 4; k++) {
+//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 2);
+//            for (int i = 0; i < 4; i++) {
+//                STerminal.getInstance().putCharMultiplied('█', 7);
+//                STerminal.getInstance().putCharMultiplied(' ', 7);
+//            }
+//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 3);
+//            for (int i = 0; i < 4; i++) {
+//                STerminal.getInstance().putCharMultiplied('█', 7);
+//                STerminal.getInstance().putCharMultiplied(' ', 7);
+//            }
+//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 4);
+//            for (int i = 0; i < 4; i++) {
+//                STerminal.getInstance().putCharMultiplied('█', 7);
+//                STerminal.getInstance().putCharMultiplied(' ', 7);
+//            }
+//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 5);
+//            for (int i = 0; i < 4; i++) {
+//                STerminal.getInstance().putCharMultiplied(' ', 7);
+//                STerminal.getInstance().putCharMultiplied('█', 7);
+//            }
+//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 6);
+//            for (int i = 0; i < 4; i++) {
+//                STerminal.getInstance().putCharMultiplied(' ', 7);
+//                STerminal.getInstance().putCharMultiplied('█', 7);
+//            }
+//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 7);
+//            for (int i = 0; i < 4; i++) {
+//                STerminal.getInstance().putCharMultiplied(' ', 7);
+//                STerminal.getInstance().putCharMultiplied('█', 7);
+//            }
 //        }
-        STerminal.getInstance().clear();
-        for (int k = 0; k < 4; k++) {
-            STerminal.getInstance().setCursorPosition(2, (6 * k) + 2);
-            for (int i = 0; i < 4; i++) {
-                STerminal.getInstance().putCharMultiplied('█', 7);
-                STerminal.getInstance().putCharMultiplied(' ', 7);
-            }
-            STerminal.getInstance().setCursorPosition(2, (6 * k) + 3);
-            for (int i = 0; i < 4; i++) {
-                STerminal.getInstance().putCharMultiplied('█', 7);
-                STerminal.getInstance().putCharMultiplied(' ', 7);
-            }
-            STerminal.getInstance().setCursorPosition(2, (6 * k) + 4);
-            for (int i = 0; i < 4; i++) {
-                STerminal.getInstance().putCharMultiplied('█', 7);
-                STerminal.getInstance().putCharMultiplied(' ', 7);
-            }
-            STerminal.getInstance().setCursorPosition(2, (6 * k) + 5);
-            for (int i = 0; i < 4; i++) {
-                STerminal.getInstance().putCharMultiplied(' ', 7);
-                STerminal.getInstance().putCharMultiplied('█', 7);
-            }
-            STerminal.getInstance().setCursorPosition(2, (6 * k) + 6);
-            for (int i = 0; i < 4; i++) {
-                STerminal.getInstance().putCharMultiplied(' ', 7);
-                STerminal.getInstance().putCharMultiplied('█', 7);
-            }
-            STerminal.getInstance().setCursorPosition(2, (6 * k) + 7);
-            for (int i = 0; i < 4; i++) {
-                STerminal.getInstance().putCharMultiplied(' ', 7);
-                STerminal.getInstance().putCharMultiplied('█', 7);
-            }
-        }
-        STerminal.getInstance().putCharAtPosition('╔', 1, 1);
-        STerminal.getInstance().putCharMultiplied('═', 56);
-        STerminal.getInstance().putCharacter('╗');
-        STerminal.getInstance().putCharAtPosition('╚', 1, 26);
-        STerminal.getInstance().putCharMultiplied('═', 56);
-        STerminal.getInstance().putCharacter('╝');
-
-        for (int i = 2; i < 26; i++) {
-            STerminal.getInstance().putCharAtPosition('║', 1, i);
-        }
-        for (int i = 2; i < 26; i++) {
-            STerminal.getInstance().putCharAtPosition('║', 58, i);
-        }
-        for (int i = 0; i < 8; i++) {
-            STerminal.getInstance().putCharAtPosition((char) (i + 49), (i * 7) + 5, 0);
-            STerminal.getInstance().putCharAtPosition((char) (i + 49), (i * 7) + 5, 27);
-        }
-
-        STerminal.getInstance().putCharAtPosition('A', 0, 3);
-        STerminal.getInstance().putCharAtPosition('B', 0, 6);
-        STerminal.getInstance().putCharAtPosition('C', 0, 9);
-        STerminal.getInstance().putCharAtPosition('D', 0, 12);
-        STerminal.getInstance().putCharAtPosition('E', 0, 15);
-        STerminal.getInstance().putCharAtPosition('F', 0, 18);
-        STerminal.getInstance().putCharAtPosition('G', 0, 21);
-        STerminal.getInstance().putCharAtPosition('H', 0, 24);
-        STerminal.getInstance().putCharAtPosition('A', 59, 3);
-        STerminal.getInstance().putCharAtPosition('B', 59, 6);
-        STerminal.getInstance().putCharAtPosition('C', 59, 9);
-        STerminal.getInstance().putCharAtPosition('D', 59, 12);
-        STerminal.getInstance().putCharAtPosition('E', 59, 15);
-        STerminal.getInstance().putCharAtPosition('F', 59, 18);
-        STerminal.getInstance().putCharAtPosition('G', 59, 21);
-        STerminal.getInstance().putCharAtPosition('H', 59, 24);
-        printRightMenu();
-        printBottomMenu();
-        printRulesTable();
-        STerminal.getInstance().update();
+//        STerminal.getInstance().putCharAtPosition('╔', 1, 1);
+//        STerminal.getInstance().putCharMultiplied('═', 56);
+//        STerminal.getInstance().putCharacter('╗');
+//        STerminal.getInstance().putCharAtPosition('╚', 1, 26);
+//        STerminal.getInstance().putCharMultiplied('═', 56);
+//        STerminal.getInstance().putCharacter('╝');
+//
+//        for (int i = 2; i < 26; i++) {
+//            STerminal.getInstance().putCharAtPosition('║', 1, i);
+//        }
+//        for (int i = 2; i < 26; i++) {
+//            STerminal.getInstance().putCharAtPosition('║', 58, i);
+//        }
+//        for (int i = 0; i < 8; i++) {
+//            STerminal.getInstance().putCharAtPosition((char) (i + 49), (i * 7) + 5, 0);
+//            STerminal.getInstance().putCharAtPosition((char) (i + 49), (i * 7) + 5, 27);
+//        }
+//
+//        STerminal.getInstance().putCharAtPosition('A', 0, 3);
+//        STerminal.getInstance().putCharAtPosition('B', 0, 6);
+//        STerminal.getInstance().putCharAtPosition('C', 0, 9);
+//        STerminal.getInstance().putCharAtPosition('D', 0, 12);
+//        STerminal.getInstance().putCharAtPosition('E', 0, 15);
+//        STerminal.getInstance().putCharAtPosition('F', 0, 18);
+//        STerminal.getInstance().putCharAtPosition('G', 0, 21);
+//        STerminal.getInstance().putCharAtPosition('H', 0, 24);
+//        STerminal.getInstance().putCharAtPosition('A', 59, 3);
+//        STerminal.getInstance().putCharAtPosition('B', 59, 6);
+//        STerminal.getInstance().putCharAtPosition('C', 59, 9);
+//        STerminal.getInstance().putCharAtPosition('D', 59, 12);
+//        STerminal.getInstance().putCharAtPosition('E', 59, 15);
+//        STerminal.getInstance().putCharAtPosition('F', 59, 18);
+//        STerminal.getInstance().putCharAtPosition('G', 59, 21);
+//        STerminal.getInstance().putCharAtPosition('H', 59, 24);
+//        printRightMenu();
+//        printBottomMenu();
+//        printRulesTable();
+//        STerminal.getInstance().update();
     }
 
     private void printRulesTable() {
@@ -337,6 +376,10 @@ public class Board implements Serializable {
         STerminal.getInstance().putCharAtPosition('╚', 1, 32);
         STerminal.getInstance().putCharAtPosition('╝', 97, 32);
         STerminal.getInstance().putStringAtPosition("Active player:", 3, 29);
+    }
+
+    public Map<Character, ImageView[]> getFiguresOnBoard() {
+        return figuresOnBoard;
     }
 
 }

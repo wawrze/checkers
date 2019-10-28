@@ -283,11 +283,7 @@ public class Menu {
             Button loadGameButton = new Button("LOAD");
             loadGameButton.setOnAction(e -> {
                 try {
-                    if (game.getValue().play(inGameUI)) {
-                        games.remove(game.getKey());
-                        games.put(game.getKey(), game.getValue());
-                    }
-                    start();
+                    game.getValue().play(inGameUI);
                 } catch (IncorrectMoveException | IncorrectMoveFormat ignored) {
                 }
             });
@@ -645,12 +641,9 @@ public class Menu {
                     break;
                 }
             }
-            Game game = new Game(gameName, chosenRulesSet, isBlackAIPlayer, isWhiteAIPlayer);
+            Game game = new Game(gameName, chosenRulesSet, isBlackAIPlayer, isWhiteAIPlayer, this);
             try {
-                if (game.play(inGameUI)) {
-                    games.put(game.getName(), game);
-                }
-                start();
+                game.play(inGameUI);
             } catch (IncorrectMoveException | IncorrectMoveFormat ignored) {
             }
         });
@@ -677,6 +670,10 @@ public class Menu {
         Scene newGame = new Scene(newGameLayout, 900, 600);
         Window.getWindow().setTitle("Checkers - create new game");
         Window.getWindow().setScene(newGame);
+    }
+
+    public Map<String, Game> getGames() {
+        return games;
     }
 
     private void exit() throws IOException {

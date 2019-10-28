@@ -10,13 +10,7 @@ import java.util.List;
 
 public class InGameUI implements Serializable {
 
-    private final String[] options;
-
-    InGameUI() {
-        options = new String[]{"h", "s", "x"};
-    }
-
-    public void switchToMovesHistory(List<String> moves) {
+    public void switchToMovesHistory(List<String> moves) {//TODO
         if (moves.size() == 0) return;
         int movesToPrintTo = moves.size() - 1;
         int actualPosition = 0;
@@ -32,10 +26,8 @@ public class InGameUI implements Serializable {
                 STerminal.getInstance().putStringAtPosition(move, 95, i + 17);
             }
             STerminal.getInstance().update();
-            KeyStroke key;
-            do {
-                key = STerminal.getInstance().readInput();
-            } while (key == null);
+            KeyStroke key = new KeyStroke(KeyType.Escape);
+
             if (key.getKeyType() == KeyType.ArrowDown) {
                 if (actualPosition == 9 && movesToPrintTo > 9) {
                     movesToPrintTo--;
@@ -110,18 +102,18 @@ public class InGameUI implements Serializable {
     }
 
     private void waitForKey() {
-        STerminal.getInstance().replaceStringAtPosition("Press any key.", 60, 37, 29);
-        STerminal.getInstance().update();
-        KeyStroke key;
-        do {
-            key = STerminal.getInstance().readInput();
-        } while (key == null);
-        STerminal.getInstance().replaceStringAtPosition("", 60, 37, 29);
-        STerminal.getInstance().replaceStringAtPosition("", 94, 3, 31);
-        STerminal.getInstance().update();
+//        STerminal.getInstance().replaceStringAtPosition("Press any key.", 60, 37, 29);
+//        STerminal.getInstance().update();
+//        KeyStroke key;
+//        do {
+//            key = STerminal.getInstance().readInput();
+//        } while (key == null);
+//        STerminal.getInstance().replaceStringAtPosition("", 60, 37, 29);
+//        STerminal.getInstance().replaceStringAtPosition("", 94, 3, 31);
+//        STerminal.getInstance().update();
     }
 
-    public void printBoard(boolean player, List<String> moves, boolean isItAITurn) {
+    public void printBoard(boolean player, List<String> moves, boolean isItAITurn) {//TODO
         printMovesAndActivePlayer(moves, player, isItAITurn);
         if (isItAITurn) {
             STerminal.getInstance().replaceStringAtPosition("Please wait for move.", 60, 37, 29);
@@ -131,30 +123,30 @@ public class InGameUI implements Serializable {
         STerminal.getInstance().update();
     }
 
-    public void printMakingMove(char x1, int y1, char x2, int y2, boolean isItAITurn, boolean wasCapture) {
+    public void printMakingMove(char x1, int y1, char x2, int y2, boolean isItAITurn, boolean wasCapture) {//TODO
         if (!isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Computer made " + (wasCapture ? "capture" : "move") + ": " + x1 + y1 + "-" + x2 + y2, 94, 3, 31);
-        setCursor(x2 - 64, y2, x1 - 64, y1);
+//        setCursor(x2 - 64, y2, x1 - 64, y1);
         STerminal.getInstance().update();
         waitForKey();
     }
 
-    public void printMoveDone(boolean isItAITurn) {
+    public void printMoveDone(boolean isItAITurn) {//TODO
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Move done.", 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    public void printCaptureDone(boolean isItAITurn) {
+    public void printCaptureDone(boolean isItAITurn) {//TODO
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Capture done.", 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    public void printIncorrectMove(String s, boolean isItAITurn) {
+    public void printIncorrectMove(String s, boolean isItAITurn) {//TODO
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Incorrect move: " + s, 94, 3, 31);
@@ -162,21 +154,21 @@ public class InGameUI implements Serializable {
         waitForKey();
     }
 
-    public void printCapture(String captures, boolean isItAITurn) {
+    public void printCapture(String captures, boolean isItAITurn) {//TODO
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("You have to capture: " + captures, 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    public void printMultiCapture(String captures, boolean isItAITurn) {
+    public void printMultiCapture(String captures, boolean isItAITurn) {//TODO
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Possible captures: " + captures, 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    private void printCaptureObligatory(boolean isItAITurn) {
+    public void printCaptureObligatory(boolean isItAITurn) {//TODO
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Move not done - capture is obligatory!", 94, 3, 31);
@@ -184,154 +176,14 @@ public class InGameUI implements Serializable {
         waitForKey();
     }
 
-    public void printIncorrectMoveFormat(boolean isItAITurn) {
+    public void printIncorrectMoveFormat(boolean isItAITurn) {//TODO
         if (isItAITurn)
             return;
         STerminal.getInstance().replaceStringAtPosition("Incorrect move format! Proper format example: E4-D5", 94, 3, 31);
         STerminal.getInstance().update();
     }
 
-    private void setCursor(int row, int col, int chosenRow, int chosenCol) {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) {
-                    STerminal.getInstance().putCharAtPosition(' ', (i * 7) + 2, (j * 3) + 2);
-                    STerminal.getInstance().putCharAtPosition(' ', (i * 7) + 2, (j * 3) + 3);
-                    STerminal.getInstance().putCharAtPosition(' ', (i * 7) + 2, (j * 3) + 4);
-                    STerminal.getInstance().putCharAtPosition(' ', (i * 7) + 8, (j * 3) + 2);
-                    STerminal.getInstance().putCharAtPosition(' ', (i * 7) + 8, (j * 3) + 3);
-                    STerminal.getInstance().putCharAtPosition(' ', (i * 7) + 8, (j * 3) + 4);
-                } else {
-                    STerminal.getInstance().putCharAtPosition('█', (i * 7) + 2, (j * 3) + 2);
-                    STerminal.getInstance().putCharAtPosition('█', (i * 7) + 2, (j * 3) + 3);
-                    STerminal.getInstance().putCharAtPosition('█', (i * 7) + 2, (j * 3) + 4);
-                    STerminal.getInstance().putCharAtPosition('█', (i * 7) + 8, (j * 3) + 2);
-                    STerminal.getInstance().putCharAtPosition('█', (i * 7) + 8, (j * 3) + 3);
-                    STerminal.getInstance().putCharAtPosition('█', (i * 7) + 8, (j * 3) + 4);
-                }
-            }
-        }
-        if (row != 0 && col != 0) {
-            col--;
-            row--;
-            if ((col % 2 == 0 && row % 2 == 1) || (col % 2 == 1 && row % 2 == 0)) {
-                STerminal.getInstance().putCharAtPosition('▐', (col * 7) + 2, (row * 3) + 2);
-                STerminal.getInstance().putCharAtPosition('▐', (col * 7) + 2, (row * 3) + 3);
-                STerminal.getInstance().putCharAtPosition('▐', (col * 7) + 2, (row * 3) + 4);
-                STerminal.getInstance().putCharAtPosition('▌', (col * 7) + 8, (row * 3) + 2);
-                STerminal.getInstance().putCharAtPosition('▌', (col * 7) + 8, (row * 3) + 3);
-                STerminal.getInstance().putCharAtPosition('▌', (col * 7) + 8, (row * 3) + 4);
-            } else {
-                STerminal.getInstance().putCharAtPosition('▌', (col * 7) + 2, (row * 3) + 2);
-                STerminal.getInstance().putCharAtPosition('▌', (col * 7) + 2, (row * 3) + 3);
-                STerminal.getInstance().putCharAtPosition('▌', (col * 7) + 2, (row * 3) + 4);
-                STerminal.getInstance().putCharAtPosition('▐', (col * 7) + 8, (row * 3) + 2);
-                STerminal.getInstance().putCharAtPosition('▐', (col * 7) + 8, (row * 3) + 3);
-                STerminal.getInstance().putCharAtPosition('▐', (col * 7) + 8, (row * 3) + 4);
-            }
-            if (chosenRow != 0 && chosenCol != 0) {
-                chosenCol--;
-                chosenRow--;
-                if ((chosenCol % 2 == 0 && chosenRow % 2 == 1) || (chosenCol % 2 == 1 && chosenRow % 2 == 0)) {
-                    STerminal.getInstance().putCharAtPosition('▐', (chosenCol * 7) + 2, (chosenRow * 3) + 2);
-                    STerminal.getInstance().putCharAtPosition('▐', (chosenCol * 7) + 2, (chosenRow * 3) + 3);
-                    STerminal.getInstance().putCharAtPosition('▐', (chosenCol * 7) + 2, (chosenRow * 3) + 4);
-                    STerminal.getInstance().putCharAtPosition('▌', (chosenCol * 7) + 8, (chosenRow * 3) + 2);
-                    STerminal.getInstance().putCharAtPosition('▌', (chosenCol * 7) + 8, (chosenRow * 3) + 3);
-                    STerminal.getInstance().putCharAtPosition('▌', (chosenCol * 7) + 8, (chosenRow * 3) + 4);
-                } else {
-                    STerminal.getInstance().putCharAtPosition('▌', (chosenCol * 7) + 2, (chosenRow * 3) + 2);
-                    STerminal.getInstance().putCharAtPosition('▌', (chosenCol * 7) + 2, (chosenRow * 3) + 3);
-                    STerminal.getInstance().putCharAtPosition('▌', (chosenCol * 7) + 2, (chosenRow * 3) + 4);
-                    STerminal.getInstance().putCharAtPosition('▐', (chosenCol * 7) + 8, (chosenRow * 3) + 2);
-                    STerminal.getInstance().putCharAtPosition('▐', (chosenCol * 7) + 8, (chosenRow * 3) + 3);
-                    STerminal.getInstance().putCharAtPosition('▐', (chosenCol * 7) + 8, (chosenRow * 3) + 4);
-                }
-            }
-        }
-        STerminal.getInstance().update();
-    }
-
-    public String[] getMoveOrOption(String captures, boolean isItAITurn, boolean player) {
-        int cursorRow = 0;
-        int cursorCol = 0;
-        if (!isItAITurn) {
-            if (player) {
-                cursorCol = 1;
-                cursorRow = 1;
-            } else {
-                cursorCol = 8;
-                cursorRow = 8;
-            }
-        }
-        String[] result = new String[4];
-        do {
-            int chosenRow = 0;
-            int chosenCol = 0;
-            if (result[0] != null && result[1] != null) {
-                chosenRow = result[0].charAt(0) - 64;
-                chosenCol = Integer.valueOf(result[1]);
-            }
-            String s;
-            setCursor(cursorRow, cursorCol, chosenRow, chosenCol);
-            KeyStroke key;
-            do {
-                key = STerminal.getInstance().readInput();
-            } while (key == null);
-            if (key.getKeyType() == KeyType.Character) {
-                s = key.getCharacter().toString();
-                for (String o : options) {
-                    if (s.equals(o)) {
-                        result = new String[1];
-                        result[0] = s;
-                        return result;
-                    }
-                }
-            } else if (key.getKeyType() == KeyType.ArrowDown && cursorRow < 8) {
-                cursorRow++;
-                setCursor(cursorRow, cursorCol, chosenRow, chosenCol);
-            } else if (key.getKeyType() == KeyType.ArrowUp && cursorRow > 1) {
-                cursorRow--;
-                setCursor(cursorRow, cursorCol, chosenRow, chosenCol);
-            } else if (key.getKeyType() == KeyType.ArrowLeft && cursorCol > 1) {
-                cursorCol--;
-                setCursor(cursorRow, cursorCol, chosenRow, chosenCol);
-            } else if (key.getKeyType() == KeyType.ArrowRight && cursorCol < 8) {
-                cursorCol++;
-                setCursor(cursorRow, cursorCol, chosenRow, chosenCol);
-            } else if (key.getKeyType() == KeyType.Escape) {
-                result[0] = null;
-                result[1] = null;
-            } else if (key.getKeyType() == KeyType.Enter) {
-                if (result[0] == null && result[1] == null) {
-                    result[0] = Character.toString((char) (cursorRow + 64));
-                    result[1] = Integer.toString(cursorCol);
-                } else {
-                    result[2] = Character.toString((char) (cursorRow + 64));
-                    result[3] = Integer.toString(cursorCol);
-                    String moveToValidate = result[0] +
-                            result[1] +
-                            "-" +
-                            result[2] +
-                            result[3];
-                    try {
-                        validate(moveToValidate);
-                        if (!captures.isEmpty() && !captures.contains(moveToValidate)) {
-                            printCaptureObligatory(isItAITurn);
-                            return null;
-                        }
-                    } catch (IncorrectMoveFormat e) {
-                        printIncorrectMoveFormat(isItAITurn);
-                        return null;
-                    }
-                    return result;
-                }
-            }
-        }
-        while (true);
-    }
-
-    private void validate(String s) throws IncorrectMoveFormat {
+    public void validate(String s) throws IncorrectMoveFormat {//TODO
         String[] sArray = s.split("-");
         if (sArray.length != 2)
             throw new IncorrectMoveFormat();
@@ -340,7 +192,7 @@ public class InGameUI implements Serializable {
                 throw new IncorrectMoveFormat();
     }
 
-    public boolean endOfGame(List<String> moves) {
+    public void endOfGame(List<String> moves) {//TODO
         STerminal.getInstance().clear();
         STerminal.getInstance().putStringAtPosition("╔═════════════════════", 6, 4);
         STerminal.getInstance().putStringAtPosition("║███████       ▓▓▓▓▓░░", 6, 5);
@@ -415,7 +267,6 @@ public class InGameUI implements Serializable {
         STerminal.getInstance().putStringAtPosition("║ x - exit without saving, s - save game and exit ║", 6, 32);
         STerminal.getInstance().putStringAtPosition("╚═════════════════════════════════════════════════╝", 6, 33);
 
-        if (moves.size() == 0) return false;
         int movesToPrintTo = moves.size() - 1;
         int actualPosition = 0;
         do {
@@ -430,10 +281,10 @@ public class InGameUI implements Serializable {
                 STerminal.getInstance().putStringAtPosition(move, 95, i + 3);
             }
             STerminal.getInstance().update();
-            KeyStroke key;
-            do {
-                key = STerminal.getInstance().readInput();
-            } while (key == null);
+            KeyStroke key = new KeyStroke(KeyType.Escape);
+//            do {
+//                key = STerminal.getInstance().readInput();
+//            } while (key == null);
             if (key.getKeyType() == KeyType.ArrowDown) {
                 if (actualPosition == 9 && movesToPrintTo > 9) {
                     movesToPrintTo--;
@@ -447,9 +298,9 @@ public class InGameUI implements Serializable {
                     actualPosition--;
                 }
             } else if (key.getKeyType() == KeyType.Character && key.getCharacter() == 's') {
-                return true;
+                // TODO: menu.games.put, menu.start
             } else if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'x') {
-                return false;
+                // TODO: menu.start
             }
         } while (true);
     }

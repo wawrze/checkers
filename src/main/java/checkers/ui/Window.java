@@ -1,10 +1,12 @@
 package checkers.ui;
 
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Window {
 
     private static Stage window;
+    private static Pane gameLayout;
 
     public static Stage getWindow() {
         return window;
@@ -12,6 +14,11 @@ public class Window {
 
     public void setWindow(Stage window) {
         Window.window = window;
+    }
+
+    public static Pane getGameLayout() {
+        if (gameLayout == null) gameLayout = new Pane();
+        return gameLayout;
     }
 
 }

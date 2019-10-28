@@ -1,23 +1,31 @@
 package checkers.gameplay;
 
 import checkers.board.Board;
+import checkers.figures.Figure;
 import checkers.figures.Pawn;
 import checkers.figures.Queen;
 import checkers.moves.CapturePossibilityValidator;
 import checkers.moves.Move;
 import checkers.moves.MoveValidator;
 import checkers.ui.InGameUI;
-import checkers.ui.STerminal;
+import checkers.ui.Menu;
+import checkers.ui.Window;
 import exceptions.CaptureException;
 import exceptions.CapturePossibleException;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Game implements Serializable {
 
@@ -37,6 +45,11 @@ public class Game implements Serializable {
     private LocalDate date;
     private LocalTime time;
     private InGameUI inGameUI;
+    private Menu menu;
+    private char clickedFigureRow = 0;
+    private int clickedFigureCol = 0;
+    private char targetRow = 0;
+    private int targetCol = 0;
 
     public Game(Game game) {
         this.board = new Board(game.getBoard());
@@ -57,9 +70,10 @@ public class Game implements Serializable {
         this.inGameUI = game.getInGameUI();
     }
 
-    public Game(String name, RulesSet rulesSet, boolean isBlackAIPlayer, boolean isWhiteAIPlayer) {
+    public Game(String name, RulesSet rulesSet, boolean isBlackAIPlayer, boolean isWhiteAIPlayer, Menu menu) {
         board = new Board();
         moves = new LinkedList<>();
+        this.menu = menu;
         activePlayer = false;
         whiteQueenMoves = 0;
         blackQueenMoves = 0;
@@ -74,73 +88,60 @@ public class Game implements Serializable {
     }
 
     private void initFigures() {
-        board.setAndPrintFigure('A', 2, new Pawn(true));
-        board.setAndPrintFigure('A', 4, new Pawn(true));
-        board.setAndPrintFigure('A', 6, new Pawn(true));
-        board.setAndPrintFigure('A', 8, new Pawn(true));
-        board.setAndPrintFigure('B', 1, new Pawn(true));
-        board.setAndPrintFigure('B', 3, new Pawn(true));
-        board.setAndPrintFigure('B', 5, new Pawn(true));
-        board.setAndPrintFigure('B', 7, new Pawn(true));
-        board.setAndPrintFigure('C', 2, new Pawn(true));
-        board.setAndPrintFigure('C', 4, new Pawn(true));
-        board.setAndPrintFigure('C', 6, new Pawn(true));
-        board.setAndPrintFigure('C', 8, new Pawn(true));
+        board.setFigure('A', 2, new Pawn(true));
+        board.setFigure('A', 4, new Pawn(true));
+        board.setFigure('A', 6, new Pawn(true));
+        board.setFigure('A', 8, new Pawn(true));
+        board.setFigure('B', 1, new Pawn(true));
+        board.setFigure('B', 3, new Pawn(true));
+        board.setFigure('B', 5, new Pawn(true));
+        board.setFigure('B', 7, new Pawn(true));
+        board.setFigure('C', 2, new Pawn(true));
+        board.setFigure('C', 4, new Pawn(true));
+        board.setFigure('C', 6, new Pawn(true));
+        board.setFigure('C', 8, new Pawn(true));
 
-        board.setAndPrintFigure('F', 1, new Pawn(false));
-        board.setAndPrintFigure('F', 3, new Pawn(false));
-        board.setAndPrintFigure('F', 5, new Pawn(false));
-        board.setAndPrintFigure('F', 7, new Pawn(false));
-        board.setAndPrintFigure('G', 2, new Pawn(false));
-        board.setAndPrintFigure('G', 4, new Pawn(false));
-        board.setAndPrintFigure('G', 6, new Pawn(false));
-        board.setAndPrintFigure('G', 8, new Pawn(false));
-        board.setAndPrintFigure('H', 1, new Pawn(false));
-        board.setAndPrintFigure('H', 3, new Pawn(false));
-        board.setAndPrintFigure('H', 5, new Pawn(false));
-        board.setAndPrintFigure('H', 7, new Pawn(false));
+        board.setFigure('F', 1, new Pawn(false));
+        board.setFigure('F', 3, new Pawn(false));
+        board.setFigure('F', 5, new Pawn(false));
+        board.setFigure('F', 7, new Pawn(false));
+        board.setFigure('G', 2, new Pawn(false));
+        board.setFigure('G', 4, new Pawn(false));
+        board.setFigure('G', 6, new Pawn(false));
+        board.setFigure('G', 8, new Pawn(false));
+        board.setFigure('H', 1, new Pawn(false));
+        board.setFigure('H', 3, new Pawn(false));
+        board.setFigure('H', 5, new Pawn(false));
+        board.setFigure('H', 7, new Pawn(false));
     }
 
-    public boolean play(InGameUI inGameUI) throws IncorrectMoveFormat, IncorrectMoveException {
+    public void play(InGameUI inGameUI) throws IncorrectMoveFormat, IncorrectMoveException {
         this.inGameUI = inGameUI;
         board.printEmptyBoardAndSideMenu();
         board.refreshFigures();
-        printRules();
-
-        boolean b;
-        do {
-            isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, activePlayer, rulesSet);
-            if (isFinished) {
-                save = inGameUI.endOfGame(moves);
-                isDraw = VictoryValidator.isDraw();
-                winner = VictoryValidator.getWinner();
-                break;
-            }
-            b = this.waitForMove();
-        } while (b);
+//        printRules(); //TODO
+        waitForMove();
         date = LocalDate.now();
         time = LocalTime.now();
-        return save;
     }
 
-    private void printRules() {
-        STerminal.getInstance().putStringAtPosition("\"" + rulesSet.getName() + "\" rules", 63, 1);
-        STerminal.getInstance().putStringAtPosition(rulesSet.isVictoryConditionsReversed() ? "reversed" : "standard", 63, 4);
-        STerminal.getInstance().putStringAtPosition(rulesSet.isCaptureAny() ? "any" : "longest", 63, 7);
-        STerminal.getInstance().putStringAtPosition(rulesSet.isPawnMoveBackward() ? "yes" : "no", 63, 10);
-        STerminal.getInstance().putStringAtPosition(rulesSet.isPawnCaptureBackward() ? "yes" : "no", 63, 13);
-        STerminal.getInstance().putStringAtPosition(rulesSet.isQueenRangeOne() ? "one field" : "any", 63, 16);
-        STerminal.getInstance().putStringAtPosition(rulesSet.isQueenRangeOneAfterCapture() ? "next field" : "any", 63, 19);
+    private void saveAndExit() {
+        menu.getGames().put(name, this);
+        menu.start();
     }
 
-    private boolean waitForMove() throws IncorrectMoveFormat, IncorrectMoveException {
+    private void exitWithoutSaving() {
+        menu.start();
+    }
+
+    private void waitForMove() throws IncorrectMoveFormat, IncorrectMoveException {
         String captures = "";
         boolean isItAITurn = false;
         if (isBlackAIPlayer && activePlayer)
             isItAITurn = true;
         if (isWhiteAIPlayer && !activePlayer)
             isItAITurn = true;
-        inGameUI.printBoard(activePlayer, moves, isItAITurn);
+//        inGameUI.printBoard(activePlayer, moves, isItAITurn);
         try {
             (new CapturePossibilityValidator(board, activePlayer, rulesSet)).validateCapturePossibility();
         } catch (CapturePossibleException e) {
@@ -148,25 +149,22 @@ public class Game implements Serializable {
             inGameUI.printCapture(captures, isItAITurn);
         }
         String[] s;
-        if (isBlackAIPlayer && activePlayer)
+        if (isBlackAIPlayer && activePlayer) {
             s = (new AIPlayer1(board, true, rulesSet, whiteQueenMoves, blackQueenMoves)).getAIMove();
-        else if (isWhiteAIPlayer && !activePlayer)
-            s = (new AIPlayer2(board, false, rulesSet, whiteQueenMoves, blackQueenMoves)).getAIMove();
-        else {
-            s = inGameUI.getMoveOrOption(captures, isItAITurn, activePlayer);
-        }
-        if (s == null)
-            return true;
-        else if (s.length == 1 && inGameMenu(s[0])) {
-            return !s[0].equals("x") && !s[0].equals("s");
-        } else {
             try {
                 this.makeMove(s);
-                return true;
             } catch (IncorrectMoveFormat e) {
                 inGameUI.printIncorrectMoveFormat(isItAITurn);
-                return true;
             }
+        } else if (isWhiteAIPlayer && !activePlayer) {
+            s = (new AIPlayer2(board, false, rulesSet, whiteQueenMoves, blackQueenMoves)).getAIMove();
+            try {
+                this.makeMove(s);
+            } catch (IncorrectMoveFormat e) {
+                inGameUI.printIncorrectMoveFormat(isItAITurn);
+            }
+        } else {
+            getMoveOrOption(captures, isItAITurn, board, false);
         }
     }
 
@@ -222,6 +220,14 @@ public class Game implements Serializable {
                     && (move.getRow2()) == 'A')
                 board.setAndPrintFigure('A', move.getCol2(), new Queen(false));
         }
+        isFinished = VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, activePlayer, rulesSet);
+        if (isFinished) {
+            isDraw = VictoryValidator.isDraw();
+            winner = VictoryValidator.getWinner();
+            inGameUI.endOfGame(moves);
+        } else {
+            waitForMove();
+        }
     }
 
     private void multiCapture(Move move) throws IncorrectMoveFormat, IncorrectMoveException {
@@ -236,31 +242,45 @@ public class Game implements Serializable {
                     isItAITurn = true;
                 if (isWhiteAIPlayer && !activePlayer)
                     isItAITurn = true;
-                inGameUI.printBoard(activePlayer, moves, isItAITurn);
+//                inGameUI.printBoard(activePlayer, moves, isItAITurn); TODO
                 inGameUI.printMultiCapture(e.getMessage(), isItAITurn);
                 String[] s;
                 if (isBlackAIPlayer && activePlayer) {
                     s = (new AIPlayer1(board, true, rulesSet, whiteQueenMoves, blackQueenMoves,
                             move.getRow2(), move.getCol2())).getAIMove();
+                    if (s != null) {
+                        char x1 = s[0].charAt(0);
+                        int y1 = Character.getNumericValue(s[1].charAt(0));
+                        char x2 = s[2].charAt(0);
+                        int y2 = Character.getNumericValue(s[3].charAt(0));
+                        move = new Move(x1, y1, x2, y2);
+                        try {
+                            MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
+                        } catch (CaptureException e1) {
+                            moves.add((activePlayer ? "black: " : "white: ") + move);
+                            move.makeCapture(board, e1.getRow(), e1.getCol(), true);
+                            inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, true);
+                        }
+                    }
                 } else if (isWhiteAIPlayer && !activePlayer) {
                     s = (new AIPlayer2(board, false, rulesSet, whiteQueenMoves, blackQueenMoves,
                             move.getRow2(), move.getCol2())).getAIMove();
-                } else {
-                    s = inGameUI.getMoveOrOption(e.getMessage(), isItAITurn, activePlayer);
-                }
-                if (s != null && (s.length != 1 || !inGameMenu(s[0]))) {
-                    char x1 = s[0].charAt(0);
-                    int y1 = Character.getNumericValue(s[1].charAt(0));
-                    char x2 = s[2].charAt(0);
-                    int y2 = Character.getNumericValue(s[3].charAt(0));
-                    move = new Move(x1, y1, x2, y2);
-                    try {
-                        MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
-                    } catch (CaptureException e1) {
-                        moves.add((activePlayer ? "black: " : "white: ") + move);
-                        move.makeCapture(board, e1.getRow(), e1.getCol(), true);
-                        inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, true);
+                    if (s != null) {
+                        char x1 = s[0].charAt(0);
+                        int y1 = Character.getNumericValue(s[1].charAt(0));
+                        char x2 = s[2].charAt(0);
+                        int y2 = Character.getNumericValue(s[3].charAt(0));
+                        move = new Move(x1, y1, x2, y2);
+                        try {
+                            MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
+                        } catch (CaptureException e1) {
+                            moves.add((activePlayer ? "black: " : "white: ") + move);
+                            move.makeCapture(board, e1.getRow(), e1.getCol(), true);
+                            inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, true);
+                        }
                     }
+                } else {
+                    getMoveOrOption(e.getMessage(), isItAITurn, board, true);
                 }
             }
         } while (true);
@@ -274,22 +294,161 @@ public class Game implements Serializable {
             board.setAndPrintFigure('A', move.getCol2(), new Queen(false));
     }
 
-    private boolean inGameMenu(String s) {
-        switch (s) {
-            case "h":
-                inGameUI.switchToMovesHistory(moves);
-                return true;
-            case "s":
-                save = true;
-                return true;
-            default:
-                save = false;
-                return true;
-        }
-    }
-
     public String getName() {
         return name;
+    }
+
+    private void getMoveOrOption(String captures, boolean isItAITurn, Board board, boolean isMultiCapture) {
+        AnchorPane boardLayout = (AnchorPane) Window.getGameLayout().getChildren().get(0);
+
+        boardLayout.setOnMouseClicked(e -> {
+            if (clickedFigureRow != 0 && clickedFigureCol != 0) {
+                if (e.getSceneX() > 38 && e.getSceneX() < 114) {
+                    targetCol = 1;
+                } else if (e.getSceneX() > 114 && e.getSceneX() < 189) {
+                    targetCol = 2;
+                } else if (e.getSceneX() > 189 && e.getSceneX() < 264) {
+                    targetCol = 3;
+                } else if (e.getSceneX() > 264 && e.getSceneX() < 344) {
+                    targetCol = 4;
+                } else if (e.getSceneX() > 344 && e.getSceneX() < 419) {
+                    targetCol = 5;
+                } else if (e.getSceneX() > 419 && e.getSceneX() < 494) {
+                    targetCol = 6;
+                } else if (e.getSceneX() > 494 && e.getSceneX() < 569) {
+                    targetCol = 7;
+                } else if (e.getSceneX() > 569 && e.getSceneX() < 644) {
+                    targetCol = 8;
+                }
+                if (e.getSceneY() > 38 && e.getSceneY() < 114) {
+                    targetRow = 'A';
+                } else if (e.getSceneY() > 114 && e.getSceneY() < 189) {
+                    targetRow = 'B';
+                } else if (e.getSceneY() > 189 && e.getSceneY() < 264) {
+                    targetRow = 'C';
+                } else if (e.getSceneY() > 264 && e.getSceneY() < 344) {
+                    targetRow = 'D';
+                } else if (e.getSceneY() > 344 && e.getSceneY() < 419) {
+                    targetRow = 'E';
+                } else if (e.getSceneY() > 419 && e.getSceneY() < 494) {
+                    targetRow = 'F';
+                } else if (e.getSceneY() > 494 && e.getSceneY() < 569) {
+                    targetRow = 'G';
+                } else if (e.getSceneY() > 569 && e.getSceneY() < 644) {
+                    targetRow = 'H';
+                }
+                if (board.getFiguresOnBoard().get(targetRow)[targetCol - 1] != null) {
+                    targetRow = 0;
+                    targetCol = 0;
+                }
+
+                if (targetCol != 0 && targetRow != 0) {
+                    System.out.println("BOARD CLICKED: " + targetRow + targetCol);
+                    String[] result = new String[4];
+                    result[0] = "" + clickedFigureRow;
+                    result[1] = "" + clickedFigureCol;
+                    result[2] = "" + targetRow;
+                    result[3] = "" + targetCol;
+                    clickedFigureRow = 0;
+                    clickedFigureCol = 0;
+                    targetRow = 0;
+                    targetCol = 0;
+
+                    String moveString = "" + result[0] + result[1] + "-" + result[2] + result[3];
+                    if (isMultiCapture) {
+                        try {
+                            char x1 = result[0].charAt(0);
+                            int y1 = Character.getNumericValue(result[1].charAt(0));
+                            char x2 = result[2].charAt(0);
+                            int y2 = Character.getNumericValue(result[3].charAt(0));
+                            Move move = new Move(x1, y1, x2, y2);
+                            try {
+                                MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
+                            } catch (CaptureException e1) {
+                                moves.add((activePlayer ? "black: " : "white: ") + move);
+                                move.makeCapture(board, e1.getRow(), e1.getCol(), true);
+                                inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, true);
+                            } catch (IncorrectMoveException ignored) {
+                            }
+                        } catch (IncorrectMoveFormat ignored) {
+                        }
+                    } else {
+                        try {
+                            inGameUI.validate(moveString);
+                            if (!captures.isEmpty() && !captures.contains(moveString)) {
+                                inGameUI.printCaptureObligatory(isItAITurn);
+                            }
+                        } catch (IncorrectMoveFormat exception) {
+                            inGameUI.printIncorrectMoveFormat(isItAITurn);
+                            exception.printStackTrace();
+                        }
+                        try {
+                            this.makeMove(result);
+                        } catch (IncorrectMoveFormat exception) {
+                            inGameUI.printIncorrectMoveFormat(isItAITurn);
+                            exception.printStackTrace();
+                        } catch (IncorrectMoveException exception) {
+                            exception.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        Map<Character, ImageView[]> figuresOnBoard = board.getFiguresOnBoard();
+        for (Map.Entry<Character, ImageView[]> row : figuresOnBoard.entrySet()) {
+            for (ImageView figure : row.getValue()) {
+                if (figure == null) continue;
+                figure.setOnMouseClicked(e -> {
+                    char newClickedFigureRow = (char) ((figure.getY() / 75) + 65);
+                    int newClickedFigureCol = (int) ((figure.getX() / 75) + 1);
+                    if (newClickedFigureCol == clickedFigureCol && newClickedFigureRow == clickedFigureRow) {
+                        clickedFigureRow = 0;
+                        clickedFigureCol = 0;
+                    } else if (clickedFigureCol == 0 && clickedFigureRow == 0) {
+                        clickedFigureRow = newClickedFigureRow;
+                        clickedFigureCol = newClickedFigureCol;
+                    } else {
+                        return;
+                    }
+                    Figure fig = board.getFigure(newClickedFigureRow, newClickedFigureCol);
+                    String imagePath;
+                    if (fig instanceof Pawn && fig.getColor()) {
+                        if (clickedFigureRow == 0 && clickedFigureCol == 0) {
+                            imagePath = "images/black_pawn.png";
+                        } else {
+                            imagePath = "images/black_pawn_clicked.png";
+                        }
+                    } else if (fig instanceof Pawn && !fig.getColor()) {
+                        if (clickedFigureRow == 0 && clickedFigureCol == 0) {
+                            imagePath = "images/white_pawn.png";
+                        } else {
+                            imagePath = "images/white_pawn_clicked.png";
+                        }
+                    } else if (fig instanceof Queen && fig.getColor()) {
+                        if (clickedFigureRow == 0 && clickedFigureCol == 0) {
+                            imagePath = "images/black_queen.png";
+                        } else {
+                            imagePath = "images/black_queen_clicked.png";
+                        }
+                    } else if (fig instanceof Queen && !fig.getColor()) {
+                        if (clickedFigureRow == 0 && clickedFigureCol == 0) {
+                            imagePath = "images/white_queen.png";
+                        } else {
+                            imagePath = "images/white_queen_clicked.png";
+                        }
+                    } else {
+                        return;
+                    }
+                    try {
+                        FileInputStream input = new FileInputStream(imagePath);
+                        Image img = new Image(input);
+                        figure.setImage(img);
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                });
+            }
+        }
     }
 
     @Override
