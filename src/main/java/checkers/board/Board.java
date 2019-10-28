@@ -114,6 +114,15 @@ public class Board implements Serializable {
     }
 
     public void printEmptyBoardAndSideMenu() {
+//        try {
+//            ImageView image = new ImageView();
+//            FileInputStream input = new FileInputStream("board.png");
+//            Image img = new Image(input);
+//            image.setImage(img);
+//            mainMenuLayout.getChildren().add(image);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         STerminal.getInstance().clear();
         for (int k = 0; k < 4; k++) {
             STerminal.getInstance().setCursorPosition(2, (6 * k) + 2);
