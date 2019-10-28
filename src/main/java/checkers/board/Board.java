@@ -4,9 +4,11 @@ import checkers.figures.Figure;
 import checkers.figures.None;
 import checkers.figures.Pawn;
 import checkers.figures.Queen;
-import checkers.ui.STerminal;
 import checkers.ui.Window;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -35,6 +37,7 @@ public class Board implements Serializable {
         rows.put('H', new BoardRow(false));
     }
 
+    @SuppressWarnings("CopyConstructorMissesField")
     public Board(Board board) {
         rows = new HashMap<>();
         rows.put('A', new BoardRow(true));
@@ -118,7 +121,6 @@ public class Board implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void refreshFigures() {
@@ -160,222 +162,251 @@ public class Board implements Serializable {
         figuresOnBoard.put('F', new ImageView[8]);
         figuresOnBoard.put('G', new ImageView[8]);
         figuresOnBoard.put('H', new ImageView[8]);
-
-
-//        STerminal.getInstance().clear();
-//        for (int k = 0; k < 4; k++) {
-//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 2);
-//            for (int i = 0; i < 4; i++) {
-//                STerminal.getInstance().putCharMultiplied('█', 7);
-//                STerminal.getInstance().putCharMultiplied(' ', 7);
-//            }
-//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 3);
-//            for (int i = 0; i < 4; i++) {
-//                STerminal.getInstance().putCharMultiplied('█', 7);
-//                STerminal.getInstance().putCharMultiplied(' ', 7);
-//            }
-//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 4);
-//            for (int i = 0; i < 4; i++) {
-//                STerminal.getInstance().putCharMultiplied('█', 7);
-//                STerminal.getInstance().putCharMultiplied(' ', 7);
-//            }
-//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 5);
-//            for (int i = 0; i < 4; i++) {
-//                STerminal.getInstance().putCharMultiplied(' ', 7);
-//                STerminal.getInstance().putCharMultiplied('█', 7);
-//            }
-//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 6);
-//            for (int i = 0; i < 4; i++) {
-//                STerminal.getInstance().putCharMultiplied(' ', 7);
-//                STerminal.getInstance().putCharMultiplied('█', 7);
-//            }
-//            STerminal.getInstance().setCursorPosition(2, (6 * k) + 7);
-//            for (int i = 0; i < 4; i++) {
-//                STerminal.getInstance().putCharMultiplied(' ', 7);
-//                STerminal.getInstance().putCharMultiplied('█', 7);
-//            }
-//        }
-//        STerminal.getInstance().putCharAtPosition('╔', 1, 1);
-//        STerminal.getInstance().putCharMultiplied('═', 56);
-//        STerminal.getInstance().putCharacter('╗');
-//        STerminal.getInstance().putCharAtPosition('╚', 1, 26);
-//        STerminal.getInstance().putCharMultiplied('═', 56);
-//        STerminal.getInstance().putCharacter('╝');
-//
-//        for (int i = 2; i < 26; i++) {
-//            STerminal.getInstance().putCharAtPosition('║', 1, i);
-//        }
-//        for (int i = 2; i < 26; i++) {
-//            STerminal.getInstance().putCharAtPosition('║', 58, i);
-//        }
-//        for (int i = 0; i < 8; i++) {
-//            STerminal.getInstance().putCharAtPosition((char) (i + 49), (i * 7) + 5, 0);
-//            STerminal.getInstance().putCharAtPosition((char) (i + 49), (i * 7) + 5, 27);
-//        }
-//
-//        STerminal.getInstance().putCharAtPosition('A', 0, 3);
-//        STerminal.getInstance().putCharAtPosition('B', 0, 6);
-//        STerminal.getInstance().putCharAtPosition('C', 0, 9);
-//        STerminal.getInstance().putCharAtPosition('D', 0, 12);
-//        STerminal.getInstance().putCharAtPosition('E', 0, 15);
-//        STerminal.getInstance().putCharAtPosition('F', 0, 18);
-//        STerminal.getInstance().putCharAtPosition('G', 0, 21);
-//        STerminal.getInstance().putCharAtPosition('H', 0, 24);
-//        STerminal.getInstance().putCharAtPosition('A', 59, 3);
-//        STerminal.getInstance().putCharAtPosition('B', 59, 6);
-//        STerminal.getInstance().putCharAtPosition('C', 59, 9);
-//        STerminal.getInstance().putCharAtPosition('D', 59, 12);
-//        STerminal.getInstance().putCharAtPosition('E', 59, 15);
-//        STerminal.getInstance().putCharAtPosition('F', 59, 18);
-//        STerminal.getInstance().putCharAtPosition('G', 59, 21);
-//        STerminal.getInstance().putCharAtPosition('H', 59, 24);
-//        printRightMenu();
-//        printBottomMenu();
-//        printRulesTable();
-//        STerminal.getInstance().update();
+        printRightMenu();
+        printRulesTable();
     }
 
     private void printRulesTable() {
-        STerminal.getInstance().putCharAtPosition('╦', 88, 0);
-        STerminal.getInstance().putCharAtPosition('╬', 88, 2);
-        STerminal.getInstance().putCharAtPosition('╣', 88, 5);
-        STerminal.getInstance().putCharAtPosition('╣', 88, 8);
-        STerminal.getInstance().putCharAtPosition('╣', 88, 11);
-        STerminal.getInstance().putCharAtPosition('╣', 88, 14);
-        STerminal.getInstance().putCharAtPosition('╣', 88, 17);
-        STerminal.getInstance().putCharAtPosition('╣', 88, 20);
-        STerminal.getInstance().putCharAtPosition('║', 61, 1);
-        STerminal.getInstance().putCharAtPosition('╔', 61, 0);
-        STerminal.getInstance().putCharMultiplied('═', 26);
-        for (int i = 0; i < 6; i++) {
-            STerminal.getInstance().putCharAtPosition('╠', 61, (i * 3) + 2);
-            STerminal.getInstance().putCharMultiplied('═', 26);
-            STerminal.getInstance().putCharAtPosition('║', 61, (i * 3) + 3);
-            STerminal.getInstance().putCharAtPosition('║', 61, (i * 3) + 4);
-        }
-        STerminal.getInstance().putCharAtPosition('╚', 61, 20);
-        STerminal.getInstance().putCharMultiplied('═', 26);
-        STerminal.getInstance().putStringAtPosition("Victory conditions:", 63, 3);
-        STerminal.getInstance().putStringAtPosition("Capture:", 63, 6);
-        STerminal.getInstance().putStringAtPosition("Men move backward:", 63, 9);
-        STerminal.getInstance().putStringAtPosition("Men capture backward:", 63, 12);
-        STerminal.getInstance().putStringAtPosition("King range:", 63, 15);
-        STerminal.getInstance().putStringAtPosition("King move after capture:", 63, 18);
+        AnchorPane boardContainer = (AnchorPane) Window.getGameLayout().getChildren().get(0);
+
+        Separator separator1 = new Separator();
+        separator1.setOrientation(Orientation.VERTICAL);
+        separator1.setLayoutX(660);
+        separator1.setLayoutY(20);
+        separator1.setPrefHeight(245);
+        boardContainer.getChildren().add(separator1);
+
+        Separator separator2 = new Separator();
+        separator2.setOrientation(Orientation.HORIZONTAL);
+        separator2.setLayoutX(662);
+        separator2.setLayoutY(20);
+        separator2.setPrefWidth(220);
+        boardContainer.getChildren().add(separator2);
+
+        Separator separator3 = new Separator();
+        separator3.setOrientation(Orientation.HORIZONTAL);
+        separator3.setLayoutX(662);
+        separator3.setLayoutY(55);
+        separator3.setPrefWidth(220);
+        boardContainer.getChildren().add(separator3);
+
+        Separator separator4 = new Separator();
+        separator4.setOrientation(Orientation.VERTICAL);
+        separator4.setLayoutX(880);
+        separator4.setLayoutY(20);
+        separator4.setPrefHeight(245);
+        boardContainer.getChildren().add(separator4);
+
+        Separator separator5 = new Separator();
+        separator5.setOrientation(Orientation.HORIZONTAL);
+        separator5.setLayoutX(662);
+        separator5.setLayoutY(90);
+        separator5.setPrefWidth(220);
+        boardContainer.getChildren().add(separator5);
+
+        Separator separator6 = new Separator();
+        separator6.setOrientation(Orientation.HORIZONTAL);
+        separator6.setLayoutX(662);
+        separator6.setLayoutY(125);
+        separator6.setPrefWidth(220);
+        boardContainer.getChildren().add(separator6);
+
+        Separator separator7 = new Separator();
+        separator7.setOrientation(Orientation.HORIZONTAL);
+        separator7.setLayoutX(662);
+        separator7.setLayoutY(160);
+        separator7.setPrefWidth(220);
+        boardContainer.getChildren().add(separator7);
+
+        Separator separator8 = new Separator();
+        separator8.setOrientation(Orientation.HORIZONTAL);
+        separator8.setLayoutX(662);
+        separator8.setLayoutY(195);
+        separator8.setPrefWidth(220);
+        boardContainer.getChildren().add(separator8);
+
+        Separator separator9 = new Separator();
+        separator9.setOrientation(Orientation.HORIZONTAL);
+        separator9.setLayoutX(662);
+        separator9.setLayoutY(230);
+        separator9.setPrefWidth(220);
+        boardContainer.getChildren().add(separator9);
+
+        Separator separator10 = new Separator();
+        separator10.setOrientation(Orientation.HORIZONTAL);
+        separator10.setLayoutX(662);
+        separator10.setLayoutY(265);
+        separator10.setPrefWidth(220);
+        boardContainer.getChildren().add(separator10);
+
+        Label victoryConditions = new Label("Victory conditions:");
+        victoryConditions.setLayoutX(670);
+        victoryConditions.setLayoutY(65);
+        boardContainer.getChildren().add(victoryConditions);
+
+        Label capture = new Label("Capture:");
+        capture.setLayoutX(670);
+        capture.setLayoutY(100);
+        boardContainer.getChildren().add(capture);
+
+        Label menMoveBackward = new Label("Men move backward:");
+        menMoveBackward.setLayoutX(670);
+        menMoveBackward.setLayoutY(135);
+        boardContainer.getChildren().add(menMoveBackward);
+
+        Label menCaptureBackward = new Label("Men capture backward:");
+        menCaptureBackward.setLayoutX(670);
+        menCaptureBackward.setLayoutY(170);
+        boardContainer.getChildren().add(menCaptureBackward);
+
+        Label kingRange = new Label("King range:");
+        kingRange.setLayoutX(670);
+        kingRange.setLayoutY(205);
+        boardContainer.getChildren().add(kingRange);
+
+        Label kingMoveAfterCapture = new Label("King move after capture:");
+        kingMoveAfterCapture.setLayoutX(670);
+        kingMoveAfterCapture.setLayoutY(240);
+        boardContainer.getChildren().add(kingMoveAfterCapture);
     }
 
     private void printRightMenu() {
-        STerminal.getInstance().putCharAtPosition('╔', 88, 0);
-        STerminal.getInstance().putCharAtPosition('╗', 113, 0);
-        STerminal.getInstance().putCharAtPosition('╚', 88, 27);
-        STerminal.getInstance().putCharAtPosition('╝', 113, 27);
-        for (int i = 1; i < 27; i++) {
-            STerminal.getInstance().putCharAtPosition('║', 88, i);
-            STerminal.getInstance().putCharAtPosition('║', 113, i);
+        AnchorPane boardContainer = (AnchorPane) Window.getGameLayout().getChildren().get(0);
+
+        Separator separator1 = new Separator();
+        separator1.setOrientation(Orientation.VERTICAL);
+        separator1.setLayoutX(660);
+        separator1.setLayoutY(275);
+        separator1.setPrefHeight(381);
+        boardContainer.getChildren().add(separator1);
+
+        Separator separator2 = new Separator();
+        separator2.setOrientation(Orientation.VERTICAL);
+        separator2.setLayoutX(734);
+        separator2.setLayoutY(275);
+        separator2.setPrefHeight(177);
+        boardContainer.getChildren().add(separator2);
+
+        Separator separator6 = new Separator();
+        separator6.setOrientation(Orientation.VERTICAL);
+        separator6.setLayoutX(808);
+        separator6.setLayoutY(275);
+        separator6.setPrefHeight(177);
+        boardContainer.getChildren().add(separator6);
+
+        Separator separator7 = new Separator();
+        separator7.setOrientation(Orientation.VERTICAL);
+        separator7.setLayoutX(880);
+        separator7.setLayoutY(275);
+        separator7.setPrefHeight(381);
+        boardContainer.getChildren().add(separator7);
+
+        Separator separator11 = new Separator();
+        separator11.setOrientation(Orientation.VERTICAL);
+        separator11.setLayoutX(770);
+        separator11.setLayoutY(452);
+        separator11.setPrefHeight(204);
+        boardContainer.getChildren().add(separator11);
+
+        Separator separator3 = new Separator();
+        separator3.setOrientation(Orientation.HORIZONTAL);
+        separator3.setLayoutX(662);
+        separator3.setLayoutY(275);
+        separator3.setPrefWidth(220);
+        boardContainer.getChildren().add(separator3);
+
+        Separator separator4 = new Separator();
+        separator4.setOrientation(Orientation.HORIZONTAL);
+        separator4.setLayoutX(662);
+        separator4.setLayoutY(310);
+        separator4.setPrefWidth(220);
+        boardContainer.getChildren().add(separator4);
+
+        Separator separator5 = new Separator();
+        separator5.setOrientation(Orientation.HORIZONTAL);
+        separator5.setLayoutX(662);
+        separator5.setLayoutY(380);
+        separator5.setPrefWidth(220);
+        boardContainer.getChildren().add(separator5);
+
+        Separator separator8 = new Separator();
+        separator8.setOrientation(Orientation.HORIZONTAL);
+        separator8.setLayoutX(662);
+        separator8.setLayoutY(452);
+        separator8.setPrefWidth(220);
+        boardContainer.getChildren().add(separator8);
+
+        Separator separator9 = new Separator();
+        separator9.setOrientation(Orientation.HORIZONTAL);
+        separator9.setLayoutX(662);
+        separator9.setLayoutY(656);
+        separator9.setPrefWidth(220);
+        boardContainer.getChildren().add(separator9);
+
+        Separator separator10 = new Separator();
+        separator10.setOrientation(Orientation.HORIZONTAL);
+        separator10.setLayoutX(662);
+        separator10.setLayoutY(487);
+        separator10.setPrefWidth(110);
+        boardContainer.getChildren().add(separator10);
+
+        Label menLabel = new Label("MEN");
+        menLabel.setLayoutX(685);
+        menLabel.setLayoutY(285);
+        boardContainer.getChildren().add(menLabel);
+
+        Label kingLabel = new Label("KING");
+        kingLabel.setLayoutX(755);
+        kingLabel.setLayoutY(285);
+        boardContainer.getChildren().add(kingLabel);
+        try {
+            ImageView image = new ImageView();
+            FileInputStream input = new FileInputStream("images/black_pawn.png");
+            Image img = new Image(input);
+            image.setImage(img);
+            image.setX(664);
+            image.setY(312);
+            boardContainer.getChildren().add(image);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        STerminal.getInstance().setCursorPosition(89, 0);
-        STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().setCursorPosition(89, 2);
-        STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().setCursorPosition(89, 6);
-        STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().setCursorPosition(89, 10);
-        STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().setCursorPosition(89, 15);
-        STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().setCursorPosition(89, 27);
-        STerminal.getInstance().putCharMultiplied('═', 24);
-
-        STerminal.getInstance().putCharAtPosition('╠', 88, 2);
-        STerminal.getInstance().putCharAtPosition('╠', 88, 6);
-        STerminal.getInstance().putCharAtPosition('╠', 88, 10);
-        STerminal.getInstance().putCharAtPosition('╠', 88, 15);
-        STerminal.getInstance().putCharAtPosition('╣', 113, 2);
-        STerminal.getInstance().putCharAtPosition('╣', 113, 6);
-        STerminal.getInstance().putCharAtPosition('╣', 113, 10);
-        STerminal.getInstance().putCharAtPosition('╣', 113, 15);
-        STerminal.getInstance().putCharAtPosition('╦', 96, 0);
-        STerminal.getInstance().putCharAtPosition('╦', 104, 0);
-
-        for (int i = 1; i < 10; i++) {
-            STerminal.getInstance().putCharAtPosition('║', 96, i);
-            STerminal.getInstance().putCharAtPosition('║', 104, i);
+        try {
+            ImageView image = new ImageView();
+            FileInputStream input = new FileInputStream("images/white_pawn.png");
+            Image img = new Image(input);
+            image.setImage(img);
+            image.setX(664);
+            image.setY(384);
+            boardContainer.getChildren().add(image);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        STerminal.getInstance().putCharAtPosition('╬', 96, 2);
-        STerminal.getInstance().putCharAtPosition('╬', 96, 6);
-        STerminal.getInstance().putCharAtPosition('╬', 104, 2);
-        STerminal.getInstance().putCharAtPosition('╬', 104, 6);
-        STerminal.getInstance().putCharAtPosition('╩', 96, 10);
-        STerminal.getInstance().putCharAtPosition('╩', 104, 10);
-
-        STerminal.getInstance().putStringAtPosition("MEN", 90, 1);
-        STerminal.getInstance().putStringAtPosition("KING", 98, 1);
-
-        STerminal.getInstance().putCharAtPosition('┌', 90, 3);
-        STerminal.getInstance().putCharMultiplied('─', 3);
-        STerminal.getInstance().putCharacter('┐');
-        STerminal.getInstance().putCharAtPosition('╔', 98, 3);
-        STerminal.getInstance().putCharMultiplied('═', 3);
-        STerminal.getInstance().putCharacter('╗');
-        STerminal.getInstance().putCharAtPosition('│', 90, 4);
-        STerminal.getInstance().putCharAtPosition('│', 94, 4);
-        STerminal.getInstance().putCharAtPosition('║', 98, 4);
-        STerminal.getInstance().putCharAtPosition('║', 102, 4);
-        STerminal.getInstance().putStringAtPosition("BLACK", 106, 4);
-        STerminal.getInstance().putCharAtPosition('└', 90, 5);
-        STerminal.getInstance().putCharMultiplied('─', 3);
-        STerminal.getInstance().putCharacter('┘');
-        STerminal.getInstance().putCharAtPosition('╚', 98, 5);
-        STerminal.getInstance().putCharMultiplied('═', 3);
-        STerminal.getInstance().putCharacter('╝');
-
-        STerminal.getInstance().putCharAtPosition('┌', 90, 7);
-        STerminal.getInstance().putCharMultiplied('─', 3);
-        STerminal.getInstance().putCharacter('┐');
-        STerminal.getInstance().putCharAtPosition('╔', 98, 7);
-        STerminal.getInstance().putCharMultiplied('═', 3);
-        STerminal.getInstance().putCharacter('╗');
-        STerminal.getInstance().putCharAtPosition('│', 90, 8);
-        STerminal.getInstance().putCharAtPosition('█', 92, 8);
-        STerminal.getInstance().putCharAtPosition('│', 94, 8);
-        STerminal.getInstance().putCharAtPosition('║', 98, 8);
-        STerminal.getInstance().putCharAtPosition('█', 100, 8);
-        STerminal.getInstance().putCharAtPosition('║', 102, 8);
-        STerminal.getInstance().putStringAtPosition("WHITE", 106, 8);
-        STerminal.getInstance().putCharAtPosition('└', 90, 9);
-        STerminal.getInstance().putCharMultiplied('─', 3);
-        STerminal.getInstance().putCharacter('┘');
-        STerminal.getInstance().putCharAtPosition('╚', 98, 9);
-        STerminal.getInstance().putCharMultiplied('═', 3);
-        STerminal.getInstance().putCharacter('╝');
-
-        STerminal.getInstance().putStringAtPosition("MENU", 90, 11);
-        STerminal.getInstance().putStringAtPosition("(h) scroll moves history", 89, 12);
-        STerminal.getInstance().putStringAtPosition("(s) save and exit", 89, 13);
-        STerminal.getInstance().putStringAtPosition("(x) exit without saving", 89, 14);
-        STerminal.getInstance().putStringAtPosition("MOVES HISTORY", 94, 16);
-    }
-
-    private void printBottomMenu() {
-        STerminal.getInstance().setCursorPosition(2, 28);
-        STerminal.getInstance().putCharMultiplied('═', 95);
-        STerminal.getInstance().setCursorPosition(2, 30);
-        STerminal.getInstance().putCharMultiplied('═', 95);
-        STerminal.getInstance().setCursorPosition(2, 32);
-        STerminal.getInstance().putCharMultiplied('═', 95);
-        STerminal.getInstance().putCharAtPosition('║', 1, 29);
-        STerminal.getInstance().putCharAtPosition('║', 35, 29);
-        STerminal.getInstance().putCharAtPosition('║', 97, 29);
-        STerminal.getInstance().putCharAtPosition('║', 1, 31);
-        STerminal.getInstance().putCharAtPosition('║', 97, 31);
-        STerminal.getInstance().putCharAtPosition('╔', 1, 28);
-        STerminal.getInstance().putCharAtPosition('╗', 97, 28);
-        STerminal.getInstance().putCharAtPosition('╠', 1, 30);
-        STerminal.getInstance().putCharAtPosition('╣', 97, 30);
-        STerminal.getInstance().putCharAtPosition('╦', 35, 28);
-        STerminal.getInstance().putCharAtPosition('╩', 35, 30);
-        STerminal.getInstance().putCharAtPosition('╚', 1, 32);
-        STerminal.getInstance().putCharAtPosition('╝', 97, 32);
-        STerminal.getInstance().putStringAtPosition("Active player:", 3, 29);
+        try {
+            ImageView image = new ImageView();
+            FileInputStream input = new FileInputStream("images/black_queen.png");
+            Image img = new Image(input);
+            image.setImage(img);
+            image.setX(738);
+            image.setY(312);
+            boardContainer.getChildren().add(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            ImageView image = new ImageView();
+            FileInputStream input = new FileInputStream("images/white_queen.png");
+            Image img = new Image(input);
+            image.setImage(img);
+            image.setX(738);
+            image.setY(384);
+            boardContainer.getChildren().add(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Label victoryConditions = new Label("MOVES HISTORY:");
+        victoryConditions.setLayoutX(670);
+        victoryConditions.setLayoutY(462);
+        boardContainer.getChildren().add(victoryConditions);
     }
 
     public Map<Character, ImageView[]> getFiguresOnBoard() {

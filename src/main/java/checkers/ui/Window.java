@@ -17,8 +17,15 @@ public class Window {
     }
 
     public static Pane getGameLayout() {
-        if (gameLayout == null) gameLayout = new Pane();
+        if (gameLayout == null) {
+            gameLayout = new Pane();
+            gameLayout.setStyle("-fx-background-color: #829eae;");
+        }
         return gameLayout;
+    }
+
+    public static void clearGameLayout() {
+        gameLayout = null;
     }
 
 }

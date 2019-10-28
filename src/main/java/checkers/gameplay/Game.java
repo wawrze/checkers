@@ -14,6 +14,7 @@ import exceptions.CaptureException;
 import exceptions.CapturePossibleException;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -119,18 +120,41 @@ public class Game implements Serializable {
         this.inGameUI = inGameUI;
         board.printEmptyBoardAndSideMenu();
         board.refreshFigures();
-//        printRules(); //TODO
+        prepareButtons();
+        inGameUI.showInGameInfos(rulesSet);
         waitForMove();
         date = LocalDate.now();
         time = LocalTime.now();
     }
 
+    private void prepareButtons() {
+        AnchorPane boardContainer = (AnchorPane) Window.getGameLayout().getChildren().get(0);
+
+        Button saveAndExitButton = new Button("SAVE\nAND\nEXIT");
+        saveAndExitButton.setLayoutX(775);
+        saveAndExitButton.setLayoutY(480);
+        saveAndExitButton.setPrefHeight(60);
+        saveAndExitButton.setPrefWidth(103);
+        saveAndExitButton.setOnAction(e -> saveAndExit());
+        boardContainer.getChildren().add(saveAndExitButton);
+
+        Button exitWithoutSaveButton = new Button("    EXIT\nWITHOUT\n SAVING");
+        exitWithoutSaveButton.setLayoutX(775);
+        exitWithoutSaveButton.setLayoutY(571);
+        exitWithoutSaveButton.setPrefHeight(60);
+        exitWithoutSaveButton.setPrefWidth(103);
+        exitWithoutSaveButton.setOnAction(e -> exitWithoutSaving());
+        boardContainer.getChildren().add(exitWithoutSaveButton);
+    }
+
     private void saveAndExit() {
         menu.getGames().put(name, this);
+        Window.clearGameLayout();
         menu.start();
     }
 
     private void exitWithoutSaving() {
+        Window.clearGameLayout();
         menu.start();
     }
 
@@ -141,7 +165,7 @@ public class Game implements Serializable {
             isItAITurn = true;
         if (isWhiteAIPlayer && !activePlayer)
             isItAITurn = true;
-//        inGameUI.printBoard(activePlayer, moves, isItAITurn);
+        inGameUI.printMovesAndActivePlayer(moves, activePlayer);
         try {
             (new CapturePossibilityValidator(board, activePlayer, rulesSet)).validateCapturePossibility();
         } catch (CapturePossibleException e) {
@@ -343,7 +367,6 @@ public class Game implements Serializable {
                 }
 
                 if (targetCol != 0 && targetRow != 0) {
-                    System.out.println("BOARD CLICKED: " + targetRow + targetCol);
                     String[] result = new String[4];
                     result[0] = "" + clickedFigureRow;
                     result[1] = "" + clickedFigureCol;
