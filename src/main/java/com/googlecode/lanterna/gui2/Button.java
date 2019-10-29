@@ -41,6 +41,7 @@ public class Button extends AbstractInteractableComponent<Button> {
 
     private final List<Listener> listeners;
     private String label;
+
     /**
      * Creates a new button with a specific label and no initially attached action.
      *

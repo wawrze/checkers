@@ -307,6 +307,7 @@ public class Symbols {
      * ╢
      */
     public static final char DOUBLE_LINE_T_SINGLE_LEFT = 0x2562;
+
     private Symbols() {
     }
 }

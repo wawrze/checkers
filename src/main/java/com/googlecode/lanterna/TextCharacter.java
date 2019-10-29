@@ -34,6 +34,7 @@ public class TextCharacter {
     private final TextColor foregroundColor;
     private final TextColor backgroundColor;
     private final EnumSet<SGR> modifiers;  //This isn't immutable, but we should treat it as such and not expose it!
+
     /**
      * Creates a {@code ScreenCharacter} based on a supplied character, with default colors and no extra modifiers.
      *

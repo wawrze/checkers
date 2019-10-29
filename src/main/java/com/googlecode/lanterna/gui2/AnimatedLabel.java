@@ -34,6 +34,7 @@ public class AnimatedLabel extends Label {
     private final List<String[]> frames;
     private TerminalSize combinedMaximumPreferredSize;
     private int currentFrame;
+
     /**
      * Creates a new animated label, initially set to one frame. You will need to add more frames and call
      * {@code startAnimation()} for this to start moving.

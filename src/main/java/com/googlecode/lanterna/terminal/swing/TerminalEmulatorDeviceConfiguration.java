@@ -35,6 +35,7 @@ public class TerminalEmulatorDeviceConfiguration {
     private final TextColor cursorColor;
     private final boolean cursorBlinking;
     private final boolean clipboardAvailable;
+
     /**
      * Creates a new terminal device configuration object with all the defaults set
      */

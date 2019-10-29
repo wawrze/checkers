@@ -35,6 +35,7 @@ public abstract class UnixLikeTerminal extends ANSITerminal {
     private final boolean catchSpecialCharacters;
     private final Thread shutdownHook;
     private boolean acquired;
+
     protected UnixLikeTerminal(InputStream terminalInput,
                                OutputStream terminalOutput,
                                Charset terminalCharset,

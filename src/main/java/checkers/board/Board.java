@@ -259,7 +259,7 @@ public class Board implements Serializable {
         STerminal.getInstance().putCharAtPosition('╩', 96, 10);
         STerminal.getInstance().putCharAtPosition('╩', 104, 10);
 
-        STerminal.getInstance().putStringAtPosition("MEN", 90, 1);
+        STerminal.getInstance().putStringAtPosition("MEN", 91, 1);
         STerminal.getInstance().putStringAtPosition("KING", 98, 1);
 
         STerminal.getInstance().putCharAtPosition('┌', 90, 3);

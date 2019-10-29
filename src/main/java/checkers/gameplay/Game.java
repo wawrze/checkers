@@ -296,7 +296,20 @@ public class Game implements Serializable {
     public String toString() {
         if (date == null || time == null)
             return "";
-        String s = new StringBuilder()
+        String rules = "\"" + rulesSet.getName() + "\" rules";
+        String gameType = "human-computer game";
+        if (isBlackAIPlayer && isWhiteAIPlayer) {
+            gameType = "computer-computer game";
+        } else if (!isBlackAIPlayer && !isWhiteAIPlayer) {
+            gameType = "human-human game";
+        }
+        String finished = "not finished";
+        if (isFinished) {
+            finished = "finished";
+        }
+        return new StringBuilder()
+                .append(name)
+                .append(" (")
                 .append(date.getDayOfMonth() < 10 ? ("0" + date.getDayOfMonth()) : date.getDayOfMonth())
                 .append(".")
                 .append(date.getMonthValue() < 10 ? ("0" + date.getMonthValue()) : date.getMonthValue())
@@ -306,8 +319,14 @@ public class Game implements Serializable {
                 .append(time.getHour() < 10 ? ("0" + time.getHour()) : time.getHour())
                 .append(":")
                 .append(time.getMinute() < 10 ? ("0" + time.getMinute()) : time.getMinute())
+                .append(", ")
+                .append(rules)
+                .append(", ")
+                .append(gameType)
+                .append(", ")
+                .append(finished)
+                .append(")")
                 .toString();
-        return name + " (" + s + ")";
     }
 
     private Board getBoard() {

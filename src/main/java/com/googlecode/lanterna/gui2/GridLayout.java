@@ -50,6 +50,7 @@ public class GridLayout implements LayoutManager {
     private int leftMarginSize;
     private int rightMarginSize;
     private boolean changed;
+
     /**
      * Creates a new {@code GridLayout} with the specified number of columns. Initially, this layout will have a
      * horizontal spacing of 1 and vertical spacing of 0, with a left and right margin of 1.

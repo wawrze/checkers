@@ -39,6 +39,7 @@ public class CheckBox extends AbstractInteractableComponent<CheckBox> {
     private final List<Listener> listeners;
     private String label;
     private boolean checked;
+
     /**
      * Creates a new checkbox with no label, initially set to un-checked
      */

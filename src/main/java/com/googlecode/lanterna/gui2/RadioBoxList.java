@@ -38,6 +38,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class RadioBoxList<V> extends AbstractListBox<V, RadioBoxList<V>> {
     private final List<Listener> listeners;
     private int checkedIndex;
+
     /**
      * Creates a new RadioCheckBoxList with no items. The size of the {@code RadioBoxList} will be as big as is required
      * to display all items.

@@ -300,6 +300,7 @@ public class Menu {
         for (int i = 0; i < gameList.size(); i++) {
             STerminal.getInstance().putStringAtPosition("( ) " + gameList.get(i), 6, i + 18);
         }
+        if (games.isEmpty()) STerminal.getInstance().putStringAtPosition("    You have no saved games.", 6, 18);
 
         int actualPosition = 0;
         KeyStroke key;
