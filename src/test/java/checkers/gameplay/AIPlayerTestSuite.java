@@ -60,7 +60,7 @@ public class AIPlayerTestSuite {
     }
 
     @Test
-    public void testGameAIvsAIstandardVictoryConditions() throws IncorrectMoveException, IncorrectMoveFormat {
+    public void testGameAIvsAIStandardVictoryConditions() throws IncorrectMoveException, IncorrectMoveFormat {
         //Given
         RulesSet rulesSet = new RulesSet(false, false, false,
                 false, true, false,
@@ -75,7 +75,7 @@ public class AIPlayerTestSuite {
     }
 
     @Test
-    public void testGameAIvsAIreversedVictoryConditions() throws IncorrectMoveException, IncorrectMoveFormat {
+    public void testGameAIvsAIReversedVictoryConditions() throws IncorrectMoveException, IncorrectMoveFormat {
         //Given
         RulesSet rulesSet = new RulesSet(true, false, false,
                 false, true, false,

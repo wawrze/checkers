@@ -275,7 +275,7 @@ public class VictoryValidatorTestSuite {
     }
 
     @Test
-    public void testNoMovesBlackrev() {
+    public void testNoMovesBlackRev() {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -313,7 +313,7 @@ public class VictoryValidatorTestSuite {
     }
 
     @Test
-    public void testNoMovesWhiterev() {
+    public void testNoMovesWhiteRev() {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(false);
@@ -670,7 +670,7 @@ public class VictoryValidatorTestSuite {
     }
 
     @Test
-    public void testNoMovesBlackstd() {
+    public void testNoMovesBlackStd() {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -708,7 +708,7 @@ public class VictoryValidatorTestSuite {
     }
 
     @Test
-    public void testNoMovesWhitestd() {
+    public void testNoMovesWhiteStd() {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(false);
@@ -748,7 +748,7 @@ public class VictoryValidatorTestSuite {
     }
 
     @Test
-    public void testQueens15Movesstd() {
+    public void testQueens15MovesStd() {
         //Given
         Board board = new Board();
         Queen queen1 = new Queen(true);
@@ -767,7 +767,7 @@ public class VictoryValidatorTestSuite {
     }
 
     @Test
-    public void testNoFiguresBlackstd() {
+    public void testNoFiguresBlackStd() {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(true);
@@ -794,7 +794,7 @@ public class VictoryValidatorTestSuite {
     }
 
     @Test
-    public void testNoFiguresWhitestd() {
+    public void testNoFiguresWhiteStd() {
         //Given
         Board board = new Board();
         Pawn pawn1 = new Pawn(false);

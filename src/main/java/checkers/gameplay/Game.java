@@ -276,8 +276,7 @@ public class Game implements Serializable {
                 save = true;
                 return true;
             default:
-                save = false;
-                return true;
+                return false;
         }
     }
 

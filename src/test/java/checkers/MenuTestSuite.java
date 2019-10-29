@@ -59,8 +59,8 @@ public class MenuTestSuite {
                 "...................................................................................................");
         RulesSet rulesSet5 = new RulesSet(true, true, true,
                 true, false, true,
-                "Sample rules set", "Sample description long forthree lines of text" +
-                "...................................................................................................");
+                "Sample rules set", "Sample description long for three lines of text" +
+                "..................................................................................................");
         RulesSet rulesSet6 = new RulesSet(true, true, true,
                 true, true, false,
                 "Sample rules set name longer than forty six characters", "Sample description");
