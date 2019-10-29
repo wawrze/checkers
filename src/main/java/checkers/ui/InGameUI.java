@@ -1,9 +1,6 @@
 package checkers.ui;
 
 import checkers.gameplay.RulesSet;
-import checkers.gameplay.VictoryValidator;
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import exceptions.IncorrectMoveFormat;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,10 +16,10 @@ import java.util.List;
 
 public class InGameUI implements Serializable {
 
-    private ListView movesListView = new ListView();
-    private Label blackPlayerLabel = new Label("BLACK");
-    private Label whitePlayerLabel = new Label("WHITE");
-    private Label messageLabel = new Label();//TODO
+    private transient ListView movesListView = new ListView();
+    private transient Label blackPlayerLabel = new Label("BLACK");
+    private transient Label whitePlayerLabel = new Label("WHITE");
+    private transient Label messageLabel = new Label();
 
     public void printMovesAndActivePlayer(List<String> moves, boolean player) {
         if (player) {
@@ -39,11 +36,6 @@ public class InGameUI implements Serializable {
         for (String s : moves) {
             //noinspection unchecked
             movesListView.getItems().add(0, new Label(s));
-        }
-        for (int i = 0; i < 10; i++) {
-            if (i == moves.size()) break;
-            String move = moves.get(moves.size() - 1 - i);
-            STerminal.getInstance().putStringAtPosition(move, 95, i + 17);
         }
     }
 
@@ -151,6 +143,7 @@ public class InGameUI implements Serializable {
         alert.setY(300);
         alert.setTitle("Incorrect move");
         alert.setHeaderText(message);
+        alert.showAndWait();
     }
 
     public void printCapture(String captures, boolean isItAITurn) {
@@ -163,7 +156,6 @@ public class InGameUI implements Serializable {
     public void printMultiCapture(String captures, boolean isItAITurn) {
         if (isItAITurn)
             return;
-        STerminal.getInstance().replaceStringAtPosition("Possible captures: " + captures, 94, 3, 31);
         messageLabel.setTextFill(Color.web("#FF0000"));
         messageLabel.setText("Possible captures: " + captures);
     }
@@ -177,6 +169,7 @@ public class InGameUI implements Serializable {
         alert.setY(300);
         alert.setTitle("Capture");
         alert.setHeaderText(message);
+        alert.showAndWait();
     }
 
     public void printIncorrectMoveFormat(boolean isItAITurn) {
@@ -196,115 +189,110 @@ public class InGameUI implements Serializable {
     }
 
     public void endOfGame(List<String> moves) {//TODO
-        STerminal.getInstance().clear();
-        STerminal.getInstance().putStringAtPosition("╔═════════════════════", 6, 4);
-        STerminal.getInstance().putStringAtPosition("║███████       ▓▓▓▓▓░░", 6, 5);
-        STerminal.getInstance().putStringAtPosition("║███████       ▓▓░░░░░", 6, 6);
-        STerminal.getInstance().putStringAtPosition("║███████       ░░░░░░░", 6, 7);
-        STerminal.getInstance().putStringAtPosition("║       ▓▓▓▓▓░░", 6, 8);
-        STerminal.getInstance().putStringAtPosition("║       ▓▓░░░   ██  █ █ ███  ██  █  █ ███ ███    ███", 6, 9);
-        STerminal.getInstance().putStringAtPosition("║       ░░     █  █ █ █ █   █  █ █ █  █   █  █  █   █", 6, 10);
-        STerminal.getInstance().putStringAtPosition("║▓▓▓▓▓░░       █    ███ ██  █    ██   ██  ███    ██", 6, 11);
-        STerminal.getInstance().putStringAtPosition("║▓▓░░░░░       █  █ █ █ █   █  █ █ █  █   █ █  █   █", 6, 12);
-        STerminal.getInstance().putStringAtPosition("║░░░░░░░        ██  █ █ ███  ██  █  █ ███ █  █  ███", 6, 13);
-
-        if (VictoryValidator.isDraw()) {
-            STerminal.getInstance().putStringAtPosition("╔═══════════════════════════════════════════════════════════════════════════════════════════════╗", 6, 15);
-            STerminal.getInstance().putStringAtPosition("║ ███    █   █     █ ████                                                                       ║", 6, 16);
-            STerminal.getInstance().putStringAtPosition("║█   █  █ █  ██   ██ █                                                                          ║", 6, 17);
-            STerminal.getInstance().putStringAtPosition("║█     █   █ █ █ █ █ █                                                                          ║", 6, 18);
-            STerminal.getInstance().putStringAtPosition("║█     █   █ █  █  █ ███                                        ███   ████    █   █     █       ║", 6, 19);
-            STerminal.getInstance().putStringAtPosition("║█  ██ █   █ █     █ █                                          █  █  █   █  █ █  █     █       ║", 6, 20);
-            STerminal.getInstance().putStringAtPosition("║█   █ █████ █     █ █       ███  █     █ ████ ████   ██        █   █ █   █ █   █ █     █       ║", 6, 21);
-            STerminal.getInstance().putStringAtPosition("║ ███  █   █ █     █ ████   █   █  █   █  █    █   █  ██        █   █ ████  █   █ █  █  █       ║", 6, 22);
-            STerminal.getInstance().putStringAtPosition("║                           █   █  █   █  █    █   █  ██        █  █  █  █  █████ █ █ █ █       ║", 6, 23);
-            STerminal.getInstance().putStringAtPosition("║                           █   █   █ █   ███  ████   ██        ███   █   █ █   █ ██   ██       ║", 6, 24);
-            STerminal.getInstance().putStringAtPosition("║                           █   █   █ █   █    █  █                                             ║", 6, 25);
-            STerminal.getInstance().putStringAtPosition("║                            ███     █    ████ █   █  ██                                        ║", 6, 26);
-            STerminal.getInstance().putStringAtPosition("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝", 6, 27);
-        } else if (VictoryValidator.getWinner()) {
-            STerminal.getInstance().putStringAtPosition("╔═══════════════════════════════════════════════════════════════════════════════════════════════╗", 6, 15);
-            STerminal.getInstance().putStringAtPosition("║ ███    █   █     █ ████                                       ██  █    ██   ██ █  █           ║", 6, 16);
-            STerminal.getInstance().putStringAtPosition("║█   █  █ █  ██   ██ █                                          █ █ █   █  █ █   █ █            ║", 6, 17);
-            STerminal.getInstance().putStringAtPosition("║█     █   █ █ █ █ █ █                                          ██  █   █  █ █   ██             ║", 6, 18);
-            STerminal.getInstance().putStringAtPosition("║█     █   █ █  █  █ ███                                        █ █ █   ████ █   █ █            ║", 6, 19);
-            STerminal.getInstance().putStringAtPosition("║█  ██ █   █ █     █ █                                          ██   ██ █  █  ██ █  █           ║", 6, 20);
-            STerminal.getInstance().putStringAtPosition("║█   █ █████ █     █ █           ███  █     █ ████ ████   ██                                    ║", 6, 21);
-            STerminal.getInstance().putStringAtPosition("║ ███  █   █ █     █ ████       █   █  █   █  █    █   █  ██            █   █ █ █   █  ███      ║", 6, 22);
-            STerminal.getInstance().putStringAtPosition("║                               █   █  █   █  █    █   █  ██            █   █ █ ██  █ █         ║", 6, 23);
-            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   ███  ████   ██            █ █ █ █ █ █ █  ██       ║", 6, 24);
-            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   █    █  █                 ██ ██ █ █  ██    █      ║", 6, 25);
-            STerminal.getInstance().putStringAtPosition("║                                ███     █    ████ █   █  ██            █   █ █ █   █ ███       ║", 6, 26);
-            STerminal.getInstance().putStringAtPosition("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝", 6, 27);
-        } else {
-            STerminal.getInstance().putStringAtPosition("╔═══════════════════════════════════════════════════════════════════════════════════════════════╗", 6, 15);
-            STerminal.getInstance().putStringAtPosition("║ ███    █   █     █ ████                                       █   █ █ █ █ ███ ███             ║", 6, 16);
-            STerminal.getInstance().putStringAtPosition("║█   █  █ █  ██   ██ █                                          █   █ █ █ █  █  █               ║", 6, 17);
-            STerminal.getInstance().putStringAtPosition("║█     █   █ █ █ █ █ █                                          █   █ ███ █  █  ██              ║", 6, 18);
-            STerminal.getInstance().putStringAtPosition("║█     █   █ █  █  █ ███                                        █ █ █ █ █ █  █  █               ║", 6, 19);
-            STerminal.getInstance().putStringAtPosition("║█  ██ █   █ █     █ █                                          ██ ██ █ █ █  █  ███             ║", 6, 20);
-            STerminal.getInstance().putStringAtPosition("║█   █ █████ █     █ █           ███  █     █ ████ ████   ██                                    ║", 6, 21);
-            STerminal.getInstance().putStringAtPosition("║ ███  █   █ █     █ ████       █   █  █   █  █    █   █  ██            █   █ █ █   █  ███      ║", 6, 22);
-            STerminal.getInstance().putStringAtPosition("║                               █   █  █   █  █    █   █  ██            █   █ █ ██  █ █         ║", 6, 23);
-            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   ███  ████   ██            █ █ █ █ █ █ █  ██       ║", 6, 24);
-            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   █    █  █                 ██ ██ █ █  ██    █      ║", 6, 25);
-            STerminal.getInstance().putStringAtPosition("║                                ███     █    ████ █   █  ██            █   █ █ █   █ ███       ║", 6, 26);
-            STerminal.getInstance().putStringAtPosition("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝", 6, 27);
-        }
-
-        STerminal.getInstance().putCharAtPosition('╔', 88, 1);
-        STerminal.getInstance().putCharAtPosition('╗', 113, 1);
-        STerminal.getInstance().putCharAtPosition('╚', 88, 13);
-        STerminal.getInstance().putCharAtPosition('╝', 113, 13);
-        for (int i = 2; i < 13; i++) {
-            STerminal.getInstance().putCharAtPosition('║', 88, i);
-            STerminal.getInstance().putCharAtPosition('║', 113, i);
-        }
-        STerminal.getInstance().setCursorPosition(89, 1);
-        STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().setCursorPosition(89, 13);
-        STerminal.getInstance().putCharMultiplied('═', 24);
-        STerminal.getInstance().putStringAtPosition("MOVES HISTORY", 94, 2);
-
-        STerminal.getInstance().putStringAtPosition("╔═════════════════════════════════════════════════╗", 6, 31);
-        STerminal.getInstance().putStringAtPosition("║ x - exit without saving, s - save game and exit ║", 6, 32);
-        STerminal.getInstance().putStringAtPosition("╚═════════════════════════════════════════════════╝", 6, 33);
+//        STerminal.getInstance().clear();
+//        STerminal.getInstance().putStringAtPosition("╔═════════════════════", 6, 4);
+//        STerminal.getInstance().putStringAtPosition("║███████       ▓▓▓▓▓░░", 6, 5);
+//        STerminal.getInstance().putStringAtPosition("║███████       ▓▓░░░░░", 6, 6);
+//        STerminal.getInstance().putStringAtPosition("║███████       ░░░░░░░", 6, 7);
+//        STerminal.getInstance().putStringAtPosition("║       ▓▓▓▓▓░░", 6, 8);
+//        STerminal.getInstance().putStringAtPosition("║       ▓▓░░░   ██  █ █ ███  ██  █  █ ███ ███    ███", 6, 9);
+//        STerminal.getInstance().putStringAtPosition("║       ░░     █  █ █ █ █   █  █ █ █  █   █  █  █   █", 6, 10);
+//        STerminal.getInstance().putStringAtPosition("║▓▓▓▓▓░░       █    ███ ██  █    ██   ██  ███    ██", 6, 11);
+//        STerminal.getInstance().putStringAtPosition("║▓▓░░░░░       █  █ █ █ █   █  █ █ █  █   █ █  █   █", 6, 12);
+//        STerminal.getInstance().putStringAtPosition("║░░░░░░░        ██  █ █ ███  ██  █  █ ███ █  █  ███", 6, 13);
+//
+//        if (VictoryValidator.isDraw()) {
+//            STerminal.getInstance().putStringAtPosition("╔═══════════════════════════════════════════════════════════════════════════════════════════════╗", 6, 15);
+//            STerminal.getInstance().putStringAtPosition("║ ███    █   █     █ ████                                                                       ║", 6, 16);
+//            STerminal.getInstance().putStringAtPosition("║█   █  █ █  ██   ██ █                                                                          ║", 6, 17);
+//            STerminal.getInstance().putStringAtPosition("║█     █   █ █ █ █ █ █                                                                          ║", 6, 18);
+//            STerminal.getInstance().putStringAtPosition("║█     █   █ █  █  █ ███                                        ███   ████    █   █     █       ║", 6, 19);
+//            STerminal.getInstance().putStringAtPosition("║█  ██ █   █ █     █ █                                          █  █  █   █  █ █  █     █       ║", 6, 20);
+//            STerminal.getInstance().putStringAtPosition("║█   █ █████ █     █ █       ███  █     █ ████ ████   ██        █   █ █   █ █   █ █     █       ║", 6, 21);
+//            STerminal.getInstance().putStringAtPosition("║ ███  █   █ █     █ ████   █   █  █   █  █    █   █  ██        █   █ ████  █   █ █  █  █       ║", 6, 22);
+//            STerminal.getInstance().putStringAtPosition("║                           █   █  █   █  █    █   █  ██        █  █  █  █  █████ █ █ █ █       ║", 6, 23);
+//            STerminal.getInstance().putStringAtPosition("║                           █   █   █ █   ███  ████   ██        ███   █   █ █   █ ██   ██       ║", 6, 24);
+//            STerminal.getInstance().putStringAtPosition("║                           █   █   █ █   █    █  █                                             ║", 6, 25);
+//            STerminal.getInstance().putStringAtPosition("║                            ███     █    ████ █   █  ██                                        ║", 6, 26);
+//            STerminal.getInstance().putStringAtPosition("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝", 6, 27);
+//        } else if (VictoryValidator.getWinner()) {
+//            STerminal.getInstance().putStringAtPosition("╔═══════════════════════════════════════════════════════════════════════════════════════════════╗", 6, 15);
+//            STerminal.getInstance().putStringAtPosition("║ ███    █   █     █ ████                                       ██  █    ██   ██ █  █           ║", 6, 16);
+//            STerminal.getInstance().putStringAtPosition("║█   █  █ █  ██   ██ █                                          █ █ █   █  █ █   █ █            ║", 6, 17);
+//            STerminal.getInstance().putStringAtPosition("║█     █   █ █ █ █ █ █                                          ██  █   █  █ █   ██             ║", 6, 18);
+//            STerminal.getInstance().putStringAtPosition("║█     █   █ █  █  █ ███                                        █ █ █   ████ █   █ █            ║", 6, 19);
+//            STerminal.getInstance().putStringAtPosition("║█  ██ █   █ █     █ █                                          ██   ██ █  █  ██ █  █           ║", 6, 20);
+//            STerminal.getInstance().putStringAtPosition("║█   █ █████ █     █ █           ███  █     █ ████ ████   ██                                    ║", 6, 21);
+//            STerminal.getInstance().putStringAtPosition("║ ███  █   █ █     █ ████       █   █  █   █  █    █   █  ██            █   █ █ █   █  ███      ║", 6, 22);
+//            STerminal.getInstance().putStringAtPosition("║                               █   █  █   █  █    █   █  ██            █   █ █ ██  █ █         ║", 6, 23);
+//            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   ███  ████   ██            █ █ █ █ █ █ █  ██       ║", 6, 24);
+//            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   █    █  █                 ██ ██ █ █  ██    █      ║", 6, 25);
+//            STerminal.getInstance().putStringAtPosition("║                                ███     █    ████ █   █  ██            █   █ █ █   █ ███       ║", 6, 26);
+//            STerminal.getInstance().putStringAtPosition("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝", 6, 27);
+//        } else {
+//            STerminal.getInstance().putStringAtPosition("╔═══════════════════════════════════════════════════════════════════════════════════════════════╗", 6, 15);
+//            STerminal.getInstance().putStringAtPosition("║ ███    █   █     █ ████                                       █   █ █ █ █ ███ ███             ║", 6, 16);
+//            STerminal.getInstance().putStringAtPosition("║█   █  █ █  ██   ██ █                                          █   █ █ █ █  █  █               ║", 6, 17);
+//            STerminal.getInstance().putStringAtPosition("║█     █   █ █ █ █ █ █                                          █   █ ███ █  █  ██              ║", 6, 18);
+//            STerminal.getInstance().putStringAtPosition("║█     █   █ █  █  █ ███                                        █ █ █ █ █ █  █  █               ║", 6, 19);
+//            STerminal.getInstance().putStringAtPosition("║█  ██ █   █ █     █ █                                          ██ ██ █ █ █  █  ███             ║", 6, 20);
+//            STerminal.getInstance().putStringAtPosition("║█   █ █████ █     █ █           ███  █     █ ████ ████   ██                                    ║", 6, 21);
+//            STerminal.getInstance().putStringAtPosition("║ ███  █   █ █     █ ████       █   █  █   █  █    █   █  ██            █   █ █ █   █  ███      ║", 6, 22);
+//            STerminal.getInstance().putStringAtPosition("║                               █   █  █   █  █    █   █  ██            █   █ █ ██  █ █         ║", 6, 23);
+//            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   ███  ████   ██            █ █ █ █ █ █ █  ██       ║", 6, 24);
+//            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   █    █  █                 ██ ██ █ █  ██    █      ║", 6, 25);
+//            STerminal.getInstance().putStringAtPosition("║                                ███     █    ████ █   █  ██            █   █ █ █   █ ███       ║", 6, 26);
+//            STerminal.getInstance().putStringAtPosition("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝", 6, 27);
+//        }
+//
+//        STerminal.getInstance().putCharAtPosition('╔', 88, 1);
+//        STerminal.getInstance().putCharAtPosition('╗', 113, 1);
+//        STerminal.getInstance().putCharAtPosition('╚', 88, 13);
+//        STerminal.getInstance().putCharAtPosition('╝', 113, 13);
+//        for (int i = 2; i < 13; i++) {
+//            STerminal.getInstance().putCharAtPosition('║', 88, i);
+//            STerminal.getInstance().putCharAtPosition('║', 113, i);
+//        }
+//        STerminal.getInstance().setCursorPosition(89, 1);
+//        STerminal.getInstance().putCharMultiplied('═', 24);
+//        STerminal.getInstance().setCursorPosition(89, 13);
+//        STerminal.getInstance().putCharMultiplied('═', 24);
+//        STerminal.getInstance().putStringAtPosition("MOVES HISTORY", 94, 2);
+//
+//        STerminal.getInstance().putStringAtPosition("╔═════════════════════════════════════════════════╗", 6, 31);
+//        STerminal.getInstance().putStringAtPosition("║ x - exit without saving, s - save game and exit ║", 6, 32);
+//        STerminal.getInstance().putStringAtPosition("╚═════════════════════════════════════════════════╝", 6, 33);
 
         int movesToPrintTo = moves.size() - 1;
         int actualPosition = 0;
         do {
             for (int i = 0; i < 10; i++) {
-                STerminal.getInstance().putStringAtPosition("       ", 93, i + 3);
-            }
-            STerminal.getInstance().putCharAtPosition('●', 93, actualPosition + 3);
-            for (int i = 0; i < 10; i++) {
                 int moveToPrintIndex = movesToPrintTo - i;
                 if (moveToPrintIndex == moves.size() || moveToPrintIndex < 0) break;
                 String move = moves.get(moveToPrintIndex);
-                STerminal.getInstance().putStringAtPosition(move, 95, i + 3);
+//                STerminal.getInstance().putStringAtPosition(move, 95, i + 3);
             }
-            STerminal.getInstance().update();
-            KeyStroke key = new KeyStroke(KeyType.Escape);
+//            KeyStroke key = new KeyStroke(KeyType.Escape);
 //            do {
 //                key = STerminal.getInstance().readInput();
 //            } while (key == null);
-            if (key.getKeyType() == KeyType.ArrowDown) {
-                if (actualPosition == 9 && movesToPrintTo > 9) {
-                    movesToPrintTo--;
-                } else if (actualPosition < 9) {
-                    actualPosition++;
-                }
-            } else if (key.getKeyType() == KeyType.ArrowUp) {
-                if (actualPosition == 0 && movesToPrintTo < moves.size() - 1) {
-                    movesToPrintTo++;
-                } else if (actualPosition > 0) {
-                    actualPosition--;
-                }
-            } else if (key.getKeyType() == KeyType.Character && key.getCharacter() == 's') {
-                // TODO: menu.games.put, menu.start
-            } else if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'x') {
-                // TODO: menu.start
+//            if (key.getKeyType() == KeyType.ArrowDown) {
+            if (actualPosition == 9 && movesToPrintTo > 9) {
+                movesToPrintTo--;
+            } else if (actualPosition < 9) {
+                actualPosition++;
             }
+//            } else if (key.getKeyType() == KeyType.ArrowUp) {
+            if (actualPosition == 0 && movesToPrintTo < moves.size() - 1) {
+                movesToPrintTo++;
+            } else if (actualPosition > 0) {
+                actualPosition--;
+            }
+//            } else if (key.getKeyType() == KeyType.Character && key.getCharacter() == 's') {
+            // TODO: menu.games.put, menu.start
+//            } else if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'x') {
+            // TODO: menu.start
+//            }
         } while (true);
     }
 

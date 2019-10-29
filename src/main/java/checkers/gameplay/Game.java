@@ -46,13 +46,13 @@ public class Game implements Serializable {
     private LocalDate date;
     private LocalTime time;
     private InGameUI inGameUI;
-    private Menu menu;
+    private transient Menu menu;
     private char clickedFigureRow = 0;
     private int clickedFigureCol = 0;
     private char targetRow = 0;
     private int targetCol = 0;
 
-    public Game(Game game) {
+    public Game(Game game, Menu menu) {
         this.board = new Board(game.getBoard());
         this.moves = new LinkedList<>(game.getMoves());
         this.activePlayer = game.isActivePlayer();
@@ -69,6 +69,7 @@ public class Game implements Serializable {
         this.isBlackAIPlayer = game.isBlackAIPlayer();
         this.isWhiteAIPlayer = game.isWhiteAIPlayer();
         this.inGameUI = game.getInGameUI();
+        this.menu = menu;
     }
 
     public Game(String name, RulesSet rulesSet, boolean isBlackAIPlayer, boolean isWhiteAIPlayer, Menu menu) {
@@ -255,67 +256,71 @@ public class Game implements Serializable {
     }
 
     private void multiCapture(Move move) throws IncorrectMoveFormat, IncorrectMoveException {
-        do {
-            try {
-                (new CapturePossibilityValidator(board, activePlayer, rulesSet))
-                        .validateCapturePossibilityForOneFigure(move.getRow2(), move.getCol2());
-                break;
-            } catch (CapturePossibleException e) {
-                boolean isItAITurn = false;
-                if (isBlackAIPlayer && activePlayer)
-                    isItAITurn = true;
-                if (isWhiteAIPlayer && !activePlayer)
-                    isItAITurn = true;
+        try {
+            (new CapturePossibilityValidator(board, activePlayer, rulesSet))
+                    .validateCapturePossibilityForOneFigure(move.getRow2(), move.getCol2());
+            return;
+        } catch (CapturePossibleException e) {
+            boolean isItAITurn = false;
+            if (isBlackAIPlayer && activePlayer)
+                isItAITurn = true;
+            if (isWhiteAIPlayer && !activePlayer)
+                isItAITurn = true;
 //                inGameUI.printBoard(activePlayer, moves, isItAITurn); TODO
-                inGameUI.printMultiCapture(e.getMessage(), isItAITurn);
-                String[] s;
-                if (isBlackAIPlayer && activePlayer) {
-                    s = (new AIPlayer1(board, true, rulesSet, whiteQueenMoves, blackQueenMoves,
-                            move.getRow2(), move.getCol2())).getAIMove();
-                    if (s != null) {
-                        char x1 = s[0].charAt(0);
-                        int y1 = Character.getNumericValue(s[1].charAt(0));
-                        char x2 = s[2].charAt(0);
-                        int y2 = Character.getNumericValue(s[3].charAt(0));
-                        move = new Move(x1, y1, x2, y2);
-                        try {
-                            MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
-                        } catch (CaptureException e1) {
-                            moves.add((activePlayer ? "black: " : "white: ") + move);
-                            move.makeCapture(board, e1.getRow(), e1.getCol(), true);
-                            inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, true);
-                        }
+            inGameUI.printMultiCapture(e.getMessage(), isItAITurn);
+            String[] s;
+            if (isBlackAIPlayer && activePlayer) {
+                s = (new AIPlayer1(board, true, rulesSet, whiteQueenMoves, blackQueenMoves,
+                        move.getRow2(), move.getCol2())).getAIMove();
+                if (s != null) {
+                    char x1 = s[0].charAt(0);
+                    int y1 = Character.getNumericValue(s[1].charAt(0));
+                    char x2 = s[2].charAt(0);
+                    int y2 = Character.getNumericValue(s[3].charAt(0));
+                    move = new Move(x1, y1, x2, y2);
+                    try {
+                        MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
+                    } catch (CaptureException e1) {
+                        moves.add((activePlayer ? "black: " : "white: ") + move);
+                        move.makeCapture(board, e1.getRow(), e1.getCol(), true);
+                        inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, true);
                     }
-                } else if (isWhiteAIPlayer && !activePlayer) {
-                    s = (new AIPlayer2(board, false, rulesSet, whiteQueenMoves, blackQueenMoves,
-                            move.getRow2(), move.getCol2())).getAIMove();
-                    if (s != null) {
-                        char x1 = s[0].charAt(0);
-                        int y1 = Character.getNumericValue(s[1].charAt(0));
-                        char x2 = s[2].charAt(0);
-                        int y2 = Character.getNumericValue(s[3].charAt(0));
-                        move = new Move(x1, y1, x2, y2);
-                        try {
-                            MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
-                        } catch (CaptureException e1) {
-                            moves.add((activePlayer ? "black: " : "white: ") + move);
-                            move.makeCapture(board, e1.getRow(), e1.getCol(), true);
-                            inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, true);
-                        }
-                    }
-                } else {
-                    getMoveOrOption(e.getMessage(), isItAITurn, board, true);
                 }
+            } else if (isWhiteAIPlayer && !activePlayer) {
+                s = (new AIPlayer2(board, false, rulesSet, whiteQueenMoves, blackQueenMoves,
+                        move.getRow2(), move.getCol2())).getAIMove();
+                if (s != null) {
+                    char x1 = s[0].charAt(0);
+                    int y1 = Character.getNumericValue(s[1].charAt(0));
+                    char x2 = s[2].charAt(0);
+                    int y2 = Character.getNumericValue(s[3].charAt(0));
+                    move = new Move(x1, y1, x2, y2);
+                    try {
+                        MoveValidator.validateMove(move, this.board, this.activePlayer, rulesSet);
+                    } catch (CaptureException e1) {
+                        moves.add((activePlayer ? "black: " : "white: ") + move);
+                        move.makeCapture(board, e1.getRow(), e1.getCol(), true);
+                        inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, true);
+                    }
+                }
+            } else {
+                activePlayer = !activePlayer;
+                getMoveOrOption(e.getMessage(), isItAITurn, board, true);
             }
-        } while (true);
-        if ((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
-                && board.getFigure(move.getRow2(), move.getCol2()).getColor()
-                && (move.getRow2()) == 'H')
+        }
+        if (
+                (board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
+                        && board.getFigure(move.getRow2(), move.getCol2()).getColor()
+                        && (move.getRow2()) == 'H'
+        ) {
             board.setAndPrintFigure('H', move.getCol2(), new Queen(true));
-        if ((board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
-                && !board.getFigure(move.getRow2(), move.getCol2()).getColor()
-                && (move.getRow2()) == 'A')
+        } else if (
+                (board.getFigure(move.getRow2(), move.getCol2()) instanceof Pawn)
+                        && !board.getFigure(move.getRow2(), move.getCol2()).getColor()
+                        && (move.getRow2()) == 'A'
+        ) {
             board.setAndPrintFigure('A', move.getCol2(), new Queen(false));
+        }
     }
 
     public String getName() {
@@ -324,6 +329,7 @@ public class Game implements Serializable {
 
     private void getMoveOrOption(String captures, boolean isItAITurn, Board board, boolean isMultiCapture) {
         AnchorPane boardLayout = (AnchorPane) Window.getGameLayout().getChildren().get(0);
+        Map<Character, ImageView[]> figuresOnBoard = board.getFiguresOnBoard();
 
         boardLayout.setOnMouseClicked(e -> {
             if (clickedFigureRow != 0 && clickedFigureCol != 0) {
@@ -372,11 +378,31 @@ public class Game implements Serializable {
                     result[1] = "" + clickedFigureCol;
                     result[2] = "" + targetRow;
                     result[3] = "" + targetCol;
+                    ImageView markedFigure = figuresOnBoard.get(clickedFigureRow)[clickedFigureCol - 1];
+                    if (markedFigure != null) {
+                        Figure fig = board.getFigure(clickedFigureRow, clickedFigureCol);
+                        String imagePath = "";
+                        if (fig instanceof Pawn && fig.getColor()) {
+                            imagePath = "images/black_pawn.png";
+                        } else if (fig instanceof Pawn && !fig.getColor()) {
+                            imagePath = "images/white_pawn.png";
+                        } else if (fig instanceof Queen && fig.getColor()) {
+                            imagePath = "images/black_queen.png";
+                        } else if (fig instanceof Queen && !fig.getColor()) {
+                            imagePath = "images/white_queen.png";
+                        }
+                        try {
+                            FileInputStream input = new FileInputStream(imagePath);
+                            Image img = new Image(input);
+                            markedFigure.setImage(img);
+                        } catch (IOException exception) {
+                            exception.printStackTrace();
+                        }
+                    }
                     clickedFigureRow = 0;
                     clickedFigureCol = 0;
                     targetRow = 0;
                     targetCol = 0;
-
                     String moveString = "" + result[0] + result[1] + "-" + result[2] + result[3];
                     if (isMultiCapture) {
                         try {
@@ -391,19 +417,23 @@ public class Game implements Serializable {
                                 moves.add((activePlayer ? "black: " : "white: ") + move);
                                 move.makeCapture(board, e1.getRow(), e1.getCol(), true);
                                 inGameUI.printMakingMove(x1, y1, x2, y2, isItAITurn, true);
-                            } catch (IncorrectMoveException ignored) {
+                            } catch (IncorrectMoveException exception) {
+                                exception.printStackTrace();
                             }
-                        } catch (IncorrectMoveFormat ignored) {
+                        } catch (IncorrectMoveFormat exception) {
+                            exception.printStackTrace();
                         }
                     } else {
                         try {
                             inGameUI.validate(moveString);
                             if (!captures.isEmpty() && !captures.contains(moveString)) {
                                 inGameUI.printCaptureObligatory(isItAITurn);
+                                return;
                             }
                         } catch (IncorrectMoveFormat exception) {
                             inGameUI.printIncorrectMoveFormat(isItAITurn);
                             exception.printStackTrace();
+                            return;
                         }
                         try {
                             this.makeMove(result);
@@ -417,7 +447,6 @@ public class Game implements Serializable {
                 }
             }
         });
-        Map<Character, ImageView[]> figuresOnBoard = board.getFiguresOnBoard();
         for (Map.Entry<Character, ImageView[]> row : figuresOnBoard.entrySet()) {
             for (ImageView figure : row.getValue()) {
                 if (figure == null) continue;
@@ -436,24 +465,44 @@ public class Game implements Serializable {
                     Figure fig = board.getFigure(newClickedFigureRow, newClickedFigureCol);
                     String imagePath;
                     if (fig instanceof Pawn && fig.getColor()) {
+                        if (!activePlayer) {
+                            clickedFigureRow = 0;
+                            clickedFigureCol = 0;
+                            return;
+                        }
                         if (clickedFigureRow == 0 && clickedFigureCol == 0) {
                             imagePath = "images/black_pawn.png";
                         } else {
                             imagePath = "images/black_pawn_clicked.png";
                         }
                     } else if (fig instanceof Pawn && !fig.getColor()) {
+                        if (activePlayer) {
+                            clickedFigureRow = 0;
+                            clickedFigureCol = 0;
+                            return;
+                        }
                         if (clickedFigureRow == 0 && clickedFigureCol == 0) {
                             imagePath = "images/white_pawn.png";
                         } else {
                             imagePath = "images/white_pawn_clicked.png";
                         }
                     } else if (fig instanceof Queen && fig.getColor()) {
+                        if (!activePlayer) {
+                            clickedFigureRow = 0;
+                            clickedFigureCol = 0;
+                            return;
+                        }
                         if (clickedFigureRow == 0 && clickedFigureCol == 0) {
                             imagePath = "images/black_queen.png";
                         } else {
                             imagePath = "images/black_queen_clicked.png";
                         }
                     } else if (fig instanceof Queen && !fig.getColor()) {
+                        if (activePlayer) {
+                            clickedFigureRow = 0;
+                            clickedFigureCol = 0;
+                            return;
+                        }
                         if (clickedFigureRow == 0 && clickedFigureCol == 0) {
                             imagePath = "images/white_queen.png";
                         } else {

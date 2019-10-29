@@ -23,7 +23,8 @@ import java.util.Map;
 public class Board implements Serializable {
 
     private final HashMap<Character, BoardRow> rows;
-    private Map<Character, ImageView[]> figuresOnBoard;
+
+    private transient Map<Character, ImageView[]> figuresOnBoard;
 
     public Board() {
         this.rows = new HashMap<>();

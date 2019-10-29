@@ -246,7 +246,8 @@ public class Menu {
         exitButton.setOnAction(e -> {
             try {
                 exit();
-            } catch (IOException ignored) {
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
         });
         exitButtonContainer.getChildren().add(exitButton);
@@ -261,7 +262,8 @@ public class Menu {
         Window.getWindow().setOnCloseRequest(e -> {
             try {
                 exit();
-            } catch (IOException ignored) {
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
         });
     }
@@ -283,7 +285,8 @@ public class Menu {
             Button loadGameButton = new Button("LOAD");
             loadGameButton.setOnAction(e -> {
                 try {
-                    game.getValue().play(inGameUI);
+                    Game gameToLoad = new Game(game.getValue(), this);
+                    gameToLoad.play(inGameUI);
                 } catch (IncorrectMoveException | IncorrectMoveFormat ignored) {
                 }
             });
@@ -305,7 +308,6 @@ public class Menu {
         Scene rulesSetsMenu = new Scene(loadGameMenu, 300, 1000);
         Window.getWindow().setTitle("Checkers - load game");
         Window.getWindow().setScene(rulesSetsMenu);
-        System.out.println("LOAD GAME CLICKED");
     }
 
     private void newGame() {
