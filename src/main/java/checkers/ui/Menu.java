@@ -5,10 +5,15 @@ import checkers.gameplay.RulesSet;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -94,155 +99,263 @@ public class Menu {
     }
 
     private void printRulesSets() {
-        BorderPane ruleSetsMenu = new BorderPane();
+        Pane ruleSetsMenu = new Pane();
+        ruleSetsMenu.setStyle("-fx-background-color: #829eae;");
+
+        try {
+            ImageView image = new ImageView();
+            FileInputStream input = new FileInputStream("images/menu_image.png");
+            Image img = new Image(input);
+            image.setImage(img);
+            image.setX(20);
+            image.setY(20);
+            ruleSetsMenu.getChildren().add(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Label rulesLabel = new Label("RULES SETS");
-        StackPane rulesLabelContainer = new StackPane();
-        rulesLabelContainer.getChildren().add(rulesLabel);
-        rulesLabelContainer.setPadding(new Insets(20, 20, 20, 20));
-        ruleSetsMenu.setTop(rulesLabelContainer);
+        rulesLabel.setAlignment(Pos.CENTER);
+        rulesLabel.setFont(Font.font(30));
+        rulesLabel.setStyle("-fx-font-weight: bold;");
+        rulesLabel.setLayoutX(230);
+        rulesLabel.setLayoutY(265);
+        rulesLabel.setPrefHeight(60);
+        rulesLabel.setPrefWidth(200);
+        ruleSetsMenu.getChildren().add(rulesLabel);
 
-        VBox ruleSetsContainer = new VBox(20);
 
         for (int i = 0; i < 3; i++) {
-            VBox ruleSetContainer = new VBox(20);
+            Separator separator1 = new Separator();
+            separator1.setOrientation(Orientation.VERTICAL);
+            separator1.setLayoutX(10 + (i * 212));
+            separator1.setLayoutY(345);
+            separator1.setPrefHeight(280);
+            ruleSetsMenu.getChildren().add(separator1);
 
-            HBox rulesNameContainer = new HBox(20);
-            Label rulesNameLabel = new Label("Rules name:");
-            Label rulesNameValue = new Label(rules.get(i).getName());
-            rulesNameContainer.getChildren().addAll(rulesNameLabel, rulesNameValue);
-            HBox rulesDescriptionContainer = new HBox(20);
-            Label rulesDescriptionLabel = new Label("Description:");
+            Separator separator11 = new Separator();
+            separator11.setOrientation(Orientation.HORIZONTAL);
+            separator11.setLayoutX(12 + (i * 212));
+            separator11.setLayoutY(345);
+            separator11.setPrefWidth(210);
+            ruleSetsMenu.getChildren().add(separator11);
+
+            Separator separator2 = new Separator();
+            separator2.setOrientation(Orientation.HORIZONTAL);
+            separator2.setLayoutX(12 + (i * 212));
+            separator2.setLayoutY(380);
+            separator2.setPrefWidth(210);
+            ruleSetsMenu.getChildren().add(separator2);
+
+            Separator separator3 = new Separator();
+            separator3.setOrientation(Orientation.HORIZONTAL);
+            separator3.setLayoutX(12 + (i * 212));
+            separator3.setLayoutY(415);
+            separator3.setPrefWidth(210);
+            ruleSetsMenu.getChildren().add(separator3);
+
+            Separator separator4 = new Separator();
+            separator4.setOrientation(Orientation.VERTICAL);
+            separator4.setLayoutX(222 + (i * 212));
+            separator4.setLayoutY(345);
+            separator4.setPrefHeight(280);
+            ruleSetsMenu.getChildren().add(separator4);
+
+            Separator separator5 = new Separator();
+            separator5.setOrientation(Orientation.HORIZONTAL);
+            separator5.setLayoutX(12 + (i * 212));
+            separator5.setLayoutY(450);
+            separator5.setPrefWidth(210);
+            ruleSetsMenu.getChildren().add(separator5);
+
+            Separator separator6 = new Separator();
+            separator6.setOrientation(Orientation.HORIZONTAL);
+            separator6.setLayoutX(12 + (i * 212));
+            separator6.setLayoutY(485);
+            separator6.setPrefWidth(210);
+            ruleSetsMenu.getChildren().add(separator6);
+
+            Separator separator7 = new Separator();
+            separator7.setOrientation(Orientation.HORIZONTAL);
+            separator7.setLayoutX(12 + (i * 212));
+            separator7.setLayoutY(520);
+            separator7.setPrefWidth(210);
+            ruleSetsMenu.getChildren().add(separator7);
+
+            Separator separator8 = new Separator();
+            separator8.setOrientation(Orientation.HORIZONTAL);
+            separator8.setLayoutX(12 + (i * 212));
+            separator8.setLayoutY(555);
+            separator8.setPrefWidth(210);
+            ruleSetsMenu.getChildren().add(separator8);
+
+            Separator separator9 = new Separator();
+            separator9.setOrientation(Orientation.HORIZONTAL);
+            separator9.setLayoutX(12 + (i * 212));
+            separator9.setLayoutY(590);
+            separator9.setPrefWidth(210);
+            ruleSetsMenu.getChildren().add(separator9);
+
+            Separator separator10 = new Separator();
+            separator10.setOrientation(Orientation.HORIZONTAL);
+            separator10.setLayoutX(12 + (i * 212));
+            separator10.setLayoutY(625);
+            separator10.setPrefWidth(210);
+            ruleSetsMenu.getChildren().add(separator10);
+
+            Label victoryConditions = new Label("Victory conditions:");
+            victoryConditions.setLayoutX(20 + (i * 212));
+            victoryConditions.setLayoutY(425);
+            victoryConditions.setStyle("-fx-font-weight: bold;");
+            ruleSetsMenu.getChildren().add(victoryConditions);
+
+            Label capture = new Label("Capture:");
+            capture.setLayoutX(20 + (i * 212));
+            capture.setLayoutY(460);
+            capture.setStyle("-fx-font-weight: bold;");
+            ruleSetsMenu.getChildren().add(capture);
+
+            Label menMoveBackward = new Label("Men move backward:");
+            menMoveBackward.setLayoutX(20 + (i * 212));
+            menMoveBackward.setLayoutY(495);
+            menMoveBackward.setStyle("-fx-font-weight: bold;");
+            ruleSetsMenu.getChildren().add(menMoveBackward);
+
+            Label menCaptureBackward = new Label("Men capture backward:");
+            menCaptureBackward.setLayoutX(20 + (i * 212));
+            menCaptureBackward.setLayoutY(530);
+            menCaptureBackward.setStyle("-fx-font-weight: bold;");
+            ruleSetsMenu.getChildren().add(menCaptureBackward);
+
+            Label kingRange = new Label("King range:");
+            kingRange.setLayoutX(20 + (i * 212));
+            kingRange.setLayoutY(565);
+            kingRange.setStyle("-fx-font-weight: bold;");
+            ruleSetsMenu.getChildren().add(kingRange);
+
+            Label kingMoveAfterCapture = new Label("King move after capture:");
+            kingMoveAfterCapture.setLayoutX(20 + (i * 212));
+            kingMoveAfterCapture.setLayoutY(600);
+            kingMoveAfterCapture.setStyle("-fx-font-weight: bold;");
+            ruleSetsMenu.getChildren().add(kingMoveAfterCapture);
+
+
+            Label rulesNameValue = new Label("\"" + rules.get(i).getName() + "\" rules");
+            rulesNameValue.setLayoutX(20 + (i * 212));
+            rulesNameValue.setLayoutY(355);
+            rulesNameValue.setStyle("-fx-font-weight: bold;");
+            rulesNameValue.setTextFill(Color.web("#595959"));
+            ruleSetsMenu.getChildren().add(rulesNameValue);
+
             Label rulesDescriptionValue = new Label(rules.get(i).getDescription());
-            rulesDescriptionContainer.getChildren().addAll(rulesDescriptionLabel, rulesDescriptionValue);
-            HBox rulesVictoryContainer = new HBox(20);
-            Label rulesVictoryLabel = new Label("Victory conditions:");
-            Label rulesVictoryValue = new Label(rules.get(i).isVictoryConditionsReversed() ? "reversed" : "standard");
-            rulesVictoryContainer.getChildren().addAll(rulesVictoryLabel, rulesVictoryValue);
-            HBox rulesCaptureContainer = new HBox(20);
-            Label rulesCaptureLabel = new Label("Capture:");
-            Label rulesCaptureValue = new Label(rules.get(i).isCaptureAny() ? "any" : "longest");
-            rulesCaptureContainer.getChildren().addAll(rulesCaptureLabel, rulesCaptureValue);
-            HBox rulesMenMoveBackwardContainer = new HBox(20);
-            Label rulesMenMoveBackwardLabel = new Label("Men move backward:");
-            Label rulesMenMoveBackwardValue = new Label(rules.get(i).isPawnMoveBackward() ? "yes" : "no");
-            rulesMenMoveBackwardContainer.getChildren().addAll(rulesMenMoveBackwardLabel, rulesMenMoveBackwardValue);
-            HBox rulesMenCaptureBackwardContainer = new HBox(20);
-            Label rulesMenCaptureBackwardLabel = new Label("Men capture backward:");
-            Label rulesMenCaptureBackwardValue = new Label(rules.get(i).isPawnCaptureBackward() ? "yes" : "no");
-            rulesMenCaptureBackwardContainer.getChildren().addAll(rulesMenCaptureBackwardLabel, rulesMenCaptureBackwardValue);
-            HBox rulesKingRangeContainer = new HBox(20);
-            Label rulesKingRangeLabel = new Label("King range:");
-            Label rulesKingRangeValue = new Label(rules.get(i).isQueenRangeOne() ? "one field" : "any");
-            rulesKingRangeContainer.getChildren().addAll(rulesKingRangeLabel, rulesKingRangeValue);
-            HBox rulesKingMoveAfterCaptureContainer = new HBox(20);
-            Label rulesKingMoveAfterCaptureLabel = new Label("King move after capture:");
-            Label rulesKingMoveAfterCaptureValue = new Label(rules.get(i).isQueenRangeOneAfterCapture() ? "next field" : "any");
-            rulesKingMoveAfterCaptureContainer.getChildren().addAll(rulesKingMoveAfterCaptureLabel, rulesKingMoveAfterCaptureValue);
+            rulesDescriptionValue.setLayoutX(20 + (i * 212));
+            rulesDescriptionValue.setLayoutY(390);
+            rulesDescriptionValue.setStyle("-fx-font-weight: bold;");
+            rulesDescriptionValue.setTextFill(Color.web("#595959"));
+            ruleSetsMenu.getChildren().add(rulesDescriptionValue);
 
-            ruleSetContainer.getChildren().addAll(
-                    rulesNameContainer,
-                    rulesDescriptionContainer,
-                    rulesVictoryContainer,
-                    rulesCaptureContainer,
-                    rulesMenMoveBackwardContainer,
-                    rulesMenCaptureBackwardContainer,
-                    rulesKingRangeContainer,
-                    rulesKingMoveAfterCaptureContainer
-            );
-            ruleSetsContainer.getChildren().add(ruleSetContainer);
+            Label rulesVictoryValue = new Label(rules.get(i).isVictoryConditionsReversed() ? "reversed" : "standard");
+            rulesVictoryValue.setLayoutX(165 + (i * 212));
+            rulesVictoryValue.setLayoutY(425);
+            rulesVictoryValue.setStyle("-fx-font-weight: bold;");
+            rulesVictoryValue.setTextFill(Color.web("#595959"));
+            ruleSetsMenu.getChildren().add(rulesVictoryValue);
+
+            Label rulesCaptureValue = new Label(rules.get(i).isCaptureAny() ? "any" : "longest");
+            rulesCaptureValue.setLayoutX(165 + (i * 212));
+            rulesCaptureValue.setLayoutY(460);
+            rulesCaptureValue.setStyle("-fx-font-weight: bold;");
+            rulesCaptureValue.setTextFill(Color.web("#595959"));
+            ruleSetsMenu.getChildren().add(rulesCaptureValue);
+
+            Label rulesMenMoveBackwardValue = new Label(rules.get(i).isPawnMoveBackward() ? "yes" : "no");
+            rulesMenMoveBackwardValue.setLayoutX(165 + (i * 212));
+            rulesMenMoveBackwardValue.setLayoutY(495);
+            rulesMenMoveBackwardValue.setStyle("-fx-font-weight: bold;");
+            rulesMenMoveBackwardValue.setTextFill(Color.web("#595959"));
+            ruleSetsMenu.getChildren().add(rulesMenMoveBackwardValue);
+
+            Label rulesMenCaptureBackwardValue = new Label(rules.get(i).isPawnCaptureBackward() ? "yes" : "no");
+            rulesMenCaptureBackwardValue.setLayoutX(165 + (i * 212));
+            rulesMenCaptureBackwardValue.setLayoutY(530);
+            rulesMenCaptureBackwardValue.setStyle("-fx-font-weight: bold;");
+            rulesMenCaptureBackwardValue.setTextFill(Color.web("#595959"));
+            ruleSetsMenu.getChildren().add(rulesMenCaptureBackwardValue);
+
+            Label rulesKingRangeValue = new Label(rules.get(i).isQueenRangeOne() ? "one field" : "any");
+            rulesKingRangeValue.setLayoutX(165 + (i * 212));
+            rulesKingRangeValue.setLayoutY(565);
+            rulesKingRangeValue.setStyle("-fx-font-weight: bold;");
+            rulesKingRangeValue.setTextFill(Color.web("#595959"));
+            ruleSetsMenu.getChildren().add(rulesKingRangeValue);
+
+            Label rulesKingMoveAfterCaptureValue = new Label(rules.get(i).isQueenRangeOneAfterCapture() ? "next field" : "any");
+            rulesKingMoveAfterCaptureValue.setLayoutX(165 + (i * 212));
+            rulesKingMoveAfterCaptureValue.setLayoutY(600);
+            rulesKingMoveAfterCaptureValue.setStyle("-fx-font-weight: bold;");
+            rulesKingMoveAfterCaptureValue.setTextFill(Color.web("#595959"));
+            ruleSetsMenu.getChildren().add(rulesKingMoveAfterCaptureValue);
         }
-        ruleSetsMenu.setCenter(ruleSetsContainer);
+
 
         Button backButton = new Button("BACK TO MAIN MENU");
         backButton.setOnAction(e -> start());
-        ruleSetsMenu.setBottom(backButton);
+        backButton.setLayoutX(230);
+        backButton.setLayoutY(660);
+        backButton.setPrefHeight(60);
+        backButton.setPrefWidth(200);
+        ruleSetsMenu.getChildren().add(backButton);
 
-        Scene rulesSetsMenu = new Scene(ruleSetsMenu, 300, 1000);
+        Scene rulesSetsMenu = new Scene(ruleSetsMenu, 660, 740);
         Window.getWindow().setTitle("Checkers - rule sets");
         Window.getWindow().setScene(rulesSetsMenu);
     }
 
     public void start() {
-        VBox mainMenuLayout = new VBox();
+        Pane mainMenuLayout = new Pane();
+        mainMenuLayout.setStyle("-fx-background-color: #829eae;");
 
-        AnchorPane menuLabelContainer = new AnchorPane();
-        menuLabelContainer.setMinHeight(10.0);
-        menuLabelContainer.setPrefHeight(100.0);
-        menuLabelContainer.setMinWidth(0);
-        menuLabelContainer.setPrefWidth(160.0);
-        Label menuLabel = new Label("MENU");
-        menuLabel.setAlignment(Pos.CENTER);
-        menuLabel.setContentDisplay(ContentDisplay.CENTER);
-        menuLabelContainer.getChildren().add(menuLabel);
-        AnchorPane.setBottomAnchor(menuLabel, 20.0);
-        AnchorPane.setTopAnchor(menuLabel, 20.0);
-        AnchorPane.setLeftAnchor(menuLabel, 20.0);
-        AnchorPane.setRightAnchor(menuLabel, 20.0);
+        try {
+            ImageView image = new ImageView();
+            FileInputStream input = new FileInputStream("images/menu_image.png");
+            Image img = new Image(input);
+            image.setImage(img);
+            image.setX(20);
+            image.setY(20);
+            mainMenuLayout.getChildren().add(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        AnchorPane menuButtonsSection = new AnchorPane();
-        VBox buttonsSection = new VBox();
-        buttonsSection.setPrefHeight(0.0);
-        buttonsSection.setPrefWidth(280.0);
-        buttonsSection.setSpacing(50.0);
-        buttonsSection.setPadding(new Insets(50.0));
-        AnchorPane.setBottomAnchor(buttonsSection, 0.0);
-        AnchorPane.setTopAnchor(buttonsSection, 0.0);
-        AnchorPane.setLeftAnchor(buttonsSection, 0.0);
-        AnchorPane.setRightAnchor(buttonsSection, 0.0);
-
-        AnchorPane startGameButtonContainer = new AnchorPane();
-        startGameButtonContainer.setPrefHeight(50.0);
-        startGameButtonContainer.setPrefWidth(300.0);
         Button startGameButton = new Button("Start new game");
-        startGameButton.setAlignment(Pos.CENTER);
-        startGameButton.setContentDisplay(ContentDisplay.CENTER);
-        AnchorPane.setBottomAnchor(startGameButton, 0.0);
-        AnchorPane.setTopAnchor(startGameButton, 0.0);
-        AnchorPane.setLeftAnchor(startGameButton, 0.0);
-        AnchorPane.setRightAnchor(startGameButton, 0.0);
+        startGameButton.setLayoutX(230);
+        startGameButton.setLayoutY(300);
+        startGameButton.setPrefHeight(60);
+        startGameButton.setPrefWidth(200);
         startGameButton.setOnAction(e -> newGame());
-        startGameButtonContainer.getChildren().add(startGameButton);
-        buttonsSection.getChildren().add(startGameButtonContainer);
+        mainMenuLayout.getChildren().add(startGameButton);
 
-        AnchorPane loadGameButtonContainer = new AnchorPane();
-        loadGameButtonContainer.setPrefHeight(50.0);
-        loadGameButtonContainer.setPrefWidth(300.0);
         Button loadGameButton = new Button("Load game");
-        loadGameButton.setAlignment(Pos.CENTER);
-        loadGameButton.setContentDisplay(ContentDisplay.CENTER);
-        AnchorPane.setBottomAnchor(loadGameButton, 0.0);
-        AnchorPane.setTopAnchor(loadGameButton, 0.0);
-        AnchorPane.setLeftAnchor(loadGameButton, 0.0);
-        AnchorPane.setRightAnchor(loadGameButton, 0.0);
+        loadGameButton.setLayoutX(230);
+        loadGameButton.setLayoutY(420);
+        loadGameButton.setPrefHeight(60);
+        loadGameButton.setPrefWidth(200);
         loadGameButton.setOnAction(e -> loadGame());
-        loadGameButtonContainer.getChildren().add(loadGameButton);
-        buttonsSection.getChildren().add(loadGameButtonContainer);
+        mainMenuLayout.getChildren().add(loadGameButton);
 
-        AnchorPane showRulesButtonContainer = new AnchorPane();
-        showRulesButtonContainer.setPrefHeight(50.0);
-        showRulesButtonContainer.setPrefWidth(300.0);
         Button showRulesButton = new Button("Show rules sets");
-        showRulesButton.setAlignment(Pos.CENTER);
-        showRulesButton.setContentDisplay(ContentDisplay.CENTER);
-        AnchorPane.setBottomAnchor(showRulesButton, 0.0);
-        AnchorPane.setTopAnchor(showRulesButton, 0.0);
-        AnchorPane.setLeftAnchor(showRulesButton, 0.0);
-        AnchorPane.setRightAnchor(showRulesButton, 0.0);
+        showRulesButton.setLayoutX(230);
+        showRulesButton.setLayoutY(540);
+        showRulesButton.setPrefHeight(60);
+        showRulesButton.setPrefWidth(200);
         showRulesButton.setOnAction(e -> printRulesSets());
-        showRulesButtonContainer.getChildren().add(showRulesButton);
-        buttonsSection.getChildren().add(showRulesButtonContainer);
+        mainMenuLayout.getChildren().add(showRulesButton);
 
-        AnchorPane exitButtonContainer = new AnchorPane();
-        exitButtonContainer.setPrefHeight(50.0);
-        exitButtonContainer.setPrefWidth(300.0);
         Button exitButton = new Button("Exit");
-        exitButton.setAlignment(Pos.CENTER);
-        exitButton.setContentDisplay(ContentDisplay.CENTER);
-        AnchorPane.setBottomAnchor(exitButton, 0.0);
-        AnchorPane.setTopAnchor(exitButton, 0.0);
-        AnchorPane.setLeftAnchor(exitButton, 0.0);
-        AnchorPane.setRightAnchor(exitButton, 0.0);
+        exitButton.setLayoutX(230);
+        exitButton.setLayoutY(660);
+        exitButton.setPrefHeight(60);
+        exitButton.setPrefWidth(200);
         exitButton.setOnAction(e -> {
             try {
                 exit();
@@ -250,13 +363,9 @@ public class Menu {
                 exception.printStackTrace();
             }
         });
-        exitButtonContainer.getChildren().add(exitButton);
-        buttonsSection.getChildren().add(exitButtonContainer);
+        mainMenuLayout.getChildren().add(exitButton);
 
-        menuButtonsSection.getChildren().add(buttonsSection);
-        mainMenuLayout.getChildren().addAll(menuLabelContainer, menuButtonsSection);
-
-        Scene mainMenu = new Scene(mainMenuLayout, 300, 600);
+        Scene mainMenu = new Scene(mainMenuLayout, 660, 740);
         Window.getWindow().setTitle("Checkers - main menu");
         Window.getWindow().setScene(mainMenu);
         Window.getWindow().setOnCloseRequest(e -> {
@@ -269,15 +378,40 @@ public class Menu {
     }
 
     private void loadGame() {
-        BorderPane loadGameMenu = new BorderPane();
+        Pane loadGameMenu = new Pane();
+        loadGameMenu.setStyle("-fx-background-color: #829eae;");
 
-        Label loadGameLabel = new Label("SAVED GAMES");
-        StackPane loadGameLabelContainer = new StackPane();
-        loadGameLabelContainer.getChildren().add(loadGameLabel);
-        loadGameLabelContainer.setPadding(new Insets(20, 20, 20, 20));
-        loadGameMenu.setTop(loadGameLabelContainer);
+        try {
+            ImageView image = new ImageView();
+            FileInputStream input = new FileInputStream("images/menu_image.png");
+            Image img = new Image(input);
+            image.setImage(img);
+            image.setX(20);
+            image.setY(20);
+            loadGameMenu.getChildren().add(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        VBox savedGamesContainer = new VBox(20);
+        Label savedGamesLabel = new Label("SAVED GAMES");
+        savedGamesLabel.setAlignment(Pos.CENTER);
+        savedGamesLabel.setFont(Font.font(30));
+        savedGamesLabel.setStyle("-fx-font-weight: bold;");
+        savedGamesLabel.setLayoutX(210);
+        savedGamesLabel.setLayoutY(265);
+        savedGamesLabel.setPrefHeight(60);
+        savedGamesLabel.setPrefWidth(240);
+        loadGameMenu.getChildren().add(savedGamesLabel);
+
+        ScrollPane gamesContainer = new ScrollPane();
+        gamesContainer.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        gamesContainer.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        gamesContainer.setLayoutX(10);
+        gamesContainer.setLayoutY(345);
+        gamesContainer.setPrefWidth(640);
+        gamesContainer.setPrefHeight(280);
+        ListView<HBox> gameList = new ListView<>();
+        gameList.setPrefWidth(640);
 
         for (Map.Entry<String, Game> game : games.entrySet()) {
             HBox gameContainer = new HBox(20);
@@ -295,347 +429,340 @@ public class Menu {
                 games.remove(game.getKey());
                 loadGame();
             });
-            gameContainer.getChildren().addAll(gameLabel, loadGameButton, deleteGameButton);
-
-            savedGamesContainer.getChildren().add(gameContainer);
+            gameContainer.getChildren().addAll(loadGameButton, deleteGameButton, gameLabel);
+            gameList.getItems().add(gameContainer);
         }
-        loadGameMenu.setCenter(savedGamesContainer);
+        gamesContainer.setContent(gameList);
+        loadGameMenu.getChildren().add(gamesContainer);
 
         Button backButton = new Button("BACK TO MAIN MENU");
         backButton.setOnAction(e -> start());
-        loadGameMenu.setBottom(backButton);
+        backButton.setLayoutX(230);
+        backButton.setLayoutY(660);
+        backButton.setPrefHeight(60);
+        backButton.setPrefWidth(200);
+        loadGameMenu.getChildren().add(backButton);
 
-        Scene rulesSetsMenu = new Scene(loadGameMenu, 300, 1000);
+        Scene rulesSetsMenu = new Scene(loadGameMenu, 660, 740);
         Window.getWindow().setTitle("Checkers - load game");
         Window.getWindow().setScene(rulesSetsMenu);
     }
 
     private void newGame() {
-        VBox newGameLayout = new VBox();
+        Pane newGameLayout = new Pane();
+        newGameLayout.setStyle("-fx-background-color: #829eae;");
 
-        AnchorPane chosenRulesSection = new AnchorPane();
-        VBox selectedRulesDetailsSection = new VBox();
-        AnchorPane.setBottomAnchor(selectedRulesDetailsSection, 0.0);
-        AnchorPane.setTopAnchor(selectedRulesDetailsSection, 0.0);
-        AnchorPane.setLeftAnchor(selectedRulesDetailsSection, 0.0);
-        AnchorPane.setRightAnchor(selectedRulesDetailsSection, 0.0);
-        AnchorPane chosenRulesLabelContainer = new AnchorPane();
-        Label chosenRulesLabel = new Label("CHOSEN RULES SET");
-        chosenRulesLabel.setAlignment(Pos.CENTER);
-        chosenRulesLabel.setContentDisplay(ContentDisplay.CENTER);
-        chosenRulesLabelContainer.getChildren().add(chosenRulesLabel);
-        AnchorPane.setLeftAnchor(chosenRulesLabel, 20.0);
-        AnchorPane.setRightAnchor(chosenRulesLabel, 20.0);
-        AnchorPane.setTopAnchor(chosenRulesLabel, 20.0);
-        AnchorPane.setBottomAnchor(chosenRulesLabel, 20.0);
-        AnchorPane rulesDetailsSection = new AnchorPane();
-        VBox rulesDetailsContainer = new VBox(20);
-        AnchorPane.setBottomAnchor(rulesDetailsContainer, 0.0);
-        AnchorPane.setTopAnchor(rulesDetailsContainer, 0.0);
-        AnchorPane.setLeftAnchor(rulesDetailsContainer, 0.0);
-        AnchorPane.setRightAnchor(rulesDetailsContainer, 0.0);
-        rulesDetailsSection.getChildren().add(rulesDetailsContainer);
+        try {
+            ImageView image = new ImageView();
+            FileInputStream input = new FileInputStream("images/menu_image.png");
+            Image img = new Image(input);
+            image.setImage(img);
+            image.setX(20);
+            image.setY(20);
+            newGameLayout.getChildren().add(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        HBox rulesRow1 = new HBox();
-        AnchorPane rulesRow1Col1LabelContainer = new AnchorPane();
-        rulesRow1Col1LabelContainer.setPadding(new Insets(0, 20, 0, 0));
-        Label rulesRow1Col1Label = new Label("Rules name:");
-        rulesRow1Col1Label.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(rulesRow1Col1Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow1Col1Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow1Col1Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow1Col1Label, 0.0);
-        rulesRow1Col1LabelContainer.getChildren().add(rulesRow1Col1Label);
-        AnchorPane rulesRow1Col2LabelContainer = new AnchorPane();
-        Label rulesRow1Col2Label = new Label("no rules selected");
-        rulesRow1Col2Label.setAlignment(Pos.CENTER_LEFT);
-        AnchorPane.setBottomAnchor(rulesRow1Col2Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow1Col2Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow1Col2Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow1Col2Label, 0.0);
-        rulesRow1Col2LabelContainer.getChildren().add(rulesRow1Col2Label);
-        rulesRow1.getChildren().addAll(rulesRow1Col1LabelContainer, rulesRow1Col2LabelContainer);
+        Label savedGamesLabel = new Label("CREATE NEW GAME");
+        savedGamesLabel.setAlignment(Pos.CENTER);
+        savedGamesLabel.setFont(Font.font(30));
+        savedGamesLabel.setStyle("-fx-font-weight: bold;");
+        savedGamesLabel.setLayoutX(180);
+        savedGamesLabel.setLayoutY(265);
+        savedGamesLabel.setPrefHeight(60);
+        savedGamesLabel.setPrefWidth(300);
+        newGameLayout.getChildren().add(savedGamesLabel);
 
-        HBox rulesRow2 = new HBox();
-        AnchorPane rulesRow2Col1LabelContainer = new AnchorPane();
-        rulesRow2Col1LabelContainer.setPadding(new Insets(0, 20, 0, 0));
-        Label rulesRow2Col1Label = new Label("Rules description:");
-        rulesRow2Col1Label.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(rulesRow2Col1Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow2Col1Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow2Col1Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow2Col1Label, 0.0);
-        rulesRow2Col1LabelContainer.getChildren().add(rulesRow2Col1Label);
-        AnchorPane rulesRow2Col2LabelContainer = new AnchorPane();
-        Label rulesRow2Col2Label = new Label("no rules selected");
-        rulesRow2Col2Label.setAlignment(Pos.CENTER_LEFT);
-        AnchorPane.setBottomAnchor(rulesRow2Col2Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow2Col2Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow2Col2Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow2Col2Label, 0.0);
-        rulesRow2Col2LabelContainer.getChildren().add(rulesRow2Col2Label);
-        rulesRow2.getChildren().addAll(rulesRow2Col1LabelContainer, rulesRow2Col2LabelContainer);
+        Separator separator1 = new Separator();
+        separator1.setOrientation(Orientation.VERTICAL);
+        separator1.setLayoutX(434);
+        separator1.setLayoutY(345);
+        separator1.setPrefHeight(280);
+        newGameLayout.getChildren().add(separator1);
 
-        HBox rulesRow3 = new HBox();
-        AnchorPane rulesRow3Col1LabelContainer = new AnchorPane();
-        rulesRow3Col1LabelContainer.setPadding(new Insets(0, 20, 0, 0));
-        Label rulesRow3Col1Label = new Label("Victory conditions:");
-        rulesRow3Col1Label.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(rulesRow3Col1Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow3Col1Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow3Col1Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow3Col1Label, 0.0);
-        rulesRow3Col1LabelContainer.getChildren().add(rulesRow3Col1Label);
-        AnchorPane rulesRow3Col2LabelContainer = new AnchorPane();
-        Label rulesRow3Col2Label = new Label("no rules selected");
-        rulesRow3Col2Label.setAlignment(Pos.CENTER_LEFT);
-        AnchorPane.setBottomAnchor(rulesRow3Col2Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow3Col2Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow3Col2Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow3Col2Label, 0.0);
-        rulesRow3Col2LabelContainer.getChildren().add(rulesRow3Col2Label);
-        rulesRow3.getChildren().addAll(rulesRow3Col1LabelContainer, rulesRow3Col2LabelContainer);
+        Separator separator11 = new Separator();
+        separator11.setOrientation(Orientation.HORIZONTAL);
+        separator11.setLayoutX(436);
+        separator11.setLayoutY(345);
+        separator11.setPrefWidth(210);
+        newGameLayout.getChildren().add(separator11);
 
-        HBox rulesRow4 = new HBox();
-        AnchorPane rulesRow4Col1LabelContainer = new AnchorPane();
-        rulesRow4Col1LabelContainer.setPadding(new Insets(0, 20, 0, 0));
-        Label rulesRow4Col1Label = new Label("Capture:");
-        rulesRow4Col1Label.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(rulesRow4Col1Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow4Col1Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow4Col1Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow4Col1Label, 0.0);
-        rulesRow4Col1LabelContainer.getChildren().add(rulesRow4Col1Label);
-        AnchorPane rulesRow4Col2LabelContainer = new AnchorPane();
-        Label rulesRow4Col2Label = new Label("no rules selected");
-        rulesRow4Col2Label.setAlignment(Pos.CENTER_LEFT);
-        AnchorPane.setBottomAnchor(rulesRow4Col2Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow4Col2Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow4Col2Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow4Col2Label, 0.0);
-        rulesRow4Col2LabelContainer.getChildren().add(rulesRow4Col2Label);
-        rulesRow4.getChildren().addAll(rulesRow4Col1LabelContainer, rulesRow4Col2LabelContainer);
+        Separator separator2 = new Separator();
+        separator2.setOrientation(Orientation.HORIZONTAL);
+        separator2.setLayoutX(436);
+        separator2.setLayoutY(380);
+        separator2.setPrefWidth(210);
+        newGameLayout.getChildren().add(separator2);
 
-        HBox rulesRow5 = new HBox();
-        AnchorPane rulesRow5Col1LabelContainer = new AnchorPane();
-        rulesRow5Col1LabelContainer.setPadding(new Insets(0, 20, 0, 0));
-        Label rulesRow5Col1Label = new Label("Men move backward:");
-        rulesRow5Col1Label.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(rulesRow5Col1Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow5Col1Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow5Col1Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow5Col1Label, 0.0);
-        rulesRow5Col1LabelContainer.getChildren().add(rulesRow5Col1Label);
-        AnchorPane rulesRow5Col2LabelContainer = new AnchorPane();
-        Label rulesRow5Col2Label = new Label("no rules selected");
-        rulesRow5Col2Label.setAlignment(Pos.CENTER_LEFT);
-        AnchorPane.setBottomAnchor(rulesRow5Col2Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow5Col2Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow5Col2Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow5Col2Label, 0.0);
-        rulesRow5Col2LabelContainer.getChildren().add(rulesRow5Col2Label);
-        rulesRow5.getChildren().addAll(rulesRow5Col1LabelContainer, rulesRow5Col2LabelContainer);
+        Separator separator3 = new Separator();
+        separator3.setOrientation(Orientation.HORIZONTAL);
+        separator3.setLayoutX(436);
+        separator3.setLayoutY(415);
+        separator3.setPrefWidth(210);
+        newGameLayout.getChildren().add(separator3);
 
-        HBox rulesRow6 = new HBox();
-        AnchorPane rulesRow6Col1LabelContainer = new AnchorPane();
-        rulesRow6Col1LabelContainer.setPadding(new Insets(0, 20, 0, 0));
-        Label rulesRow6Col1Label = new Label("Men capture backward:");
-        rulesRow6Col1Label.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(rulesRow6Col1Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow6Col1Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow6Col1Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow6Col1Label, 0.0);
-        rulesRow6Col1LabelContainer.getChildren().add(rulesRow6Col1Label);
-        AnchorPane rulesRow6Col2LabelContainer = new AnchorPane();
-        Label rulesRow6Col2Label = new Label("no rules selected");
-        rulesRow6Col2Label.setAlignment(Pos.CENTER_LEFT);
-        AnchorPane.setBottomAnchor(rulesRow6Col2Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow6Col2Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow6Col2Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow6Col2Label, 0.0);
-        rulesRow6Col2LabelContainer.getChildren().add(rulesRow6Col2Label);
-        rulesRow6.getChildren().addAll(rulesRow6Col1LabelContainer, rulesRow6Col2LabelContainer);
+        Separator separator4 = new Separator();
+        separator4.setOrientation(Orientation.VERTICAL);
+        separator4.setLayoutX(646);
+        separator4.setLayoutY(345);
+        separator4.setPrefHeight(280);
+        newGameLayout.getChildren().add(separator4);
 
-        HBox rulesRow7 = new HBox();
-        AnchorPane rulesRow7Col1LabelContainer = new AnchorPane();
-        rulesRow7Col1LabelContainer.setPadding(new Insets(0, 20, 0, 0));
-        Label rulesRow7Col1Label = new Label("King range:");
-        rulesRow7Col1Label.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(rulesRow7Col1Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow7Col1Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow7Col1Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow7Col1Label, 0.0);
-        rulesRow7Col1LabelContainer.getChildren().add(rulesRow7Col1Label);
-        AnchorPane rulesRow7Col2LabelContainer = new AnchorPane();
-        Label rulesRow7Col2Label = new Label("no rules selected");
-        rulesRow7Col2Label.setAlignment(Pos.CENTER_LEFT);
-        AnchorPane.setBottomAnchor(rulesRow7Col2Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow7Col2Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow7Col2Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow7Col2Label, 0.0);
-        rulesRow7Col2LabelContainer.getChildren().add(rulesRow7Col2Label);
-        rulesRow7.getChildren().addAll(rulesRow7Col1LabelContainer, rulesRow7Col2LabelContainer);
+        Separator separator5 = new Separator();
+        separator5.setOrientation(Orientation.HORIZONTAL);
+        separator5.setLayoutX(436);
+        separator5.setLayoutY(450);
+        separator5.setPrefWidth(210);
+        newGameLayout.getChildren().add(separator5);
 
-        HBox rulesRow8 = new HBox();
-        AnchorPane rulesRow8Col1LabelContainer = new AnchorPane();
-        rulesRow8Col1LabelContainer.setPadding(new Insets(0, 20, 0, 0));
-        Label rulesRow8Col1Label = new Label("King move after capture:");
-        rulesRow8Col1Label.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(rulesRow8Col1Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow8Col1Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow8Col1Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow8Col1Label, 0.0);
-        rulesRow8Col1LabelContainer.getChildren().add(rulesRow8Col1Label);
-        AnchorPane rulesRow8Col2LabelContainer = new AnchorPane();
-        Label rulesRow8Col2Label = new Label("no rules selected");
-        rulesRow8Col2Label.setAlignment(Pos.CENTER_LEFT);
-        AnchorPane.setBottomAnchor(rulesRow8Col2Label, 0.0);
-        AnchorPane.setTopAnchor(rulesRow8Col2Label, 0.0);
-        AnchorPane.setLeftAnchor(rulesRow8Col2Label, 0.0);
-        AnchorPane.setRightAnchor(rulesRow8Col2Label, 0.0);
-        rulesRow8Col2LabelContainer.getChildren().add(rulesRow8Col2Label);
-        rulesRow8.getChildren().addAll(rulesRow8Col1LabelContainer, rulesRow8Col2LabelContainer);
+        Separator separator6 = new Separator();
+        separator6.setOrientation(Orientation.HORIZONTAL);
+        separator6.setLayoutX(436);
+        separator6.setLayoutY(485);
+        separator6.setPrefWidth(210);
+        newGameLayout.getChildren().add(separator6);
 
-        rulesDetailsContainer.getChildren().addAll(
-                rulesRow1,
-                rulesRow2,
-                rulesRow3,
-                rulesRow4,
-                rulesRow5,
-                rulesRow6,
-                rulesRow7,
-                rulesRow8
-        );
-        selectedRulesDetailsSection.getChildren().addAll(chosenRulesLabelContainer, rulesDetailsSection);
+        Separator separator7 = new Separator();
+        separator7.setOrientation(Orientation.HORIZONTAL);
+        separator7.setLayoutX(436);
+        separator7.setLayoutY(520);
+        separator7.setPrefWidth(210);
+        newGameLayout.getChildren().add(separator7);
 
-        AnchorPane createNewGameLabelContainer = new AnchorPane();
-        Label createNewGameLabel = new Label("CREATE NEW GAME");
-        createNewGameLabel.setAlignment(Pos.CENTER);
-        createNewGameLabel.setContentDisplay(ContentDisplay.CENTER);
-        createNewGameLabelContainer.getChildren().add(createNewGameLabel);
-        AnchorPane.setBottomAnchor(createNewGameLabel, 20.0);
-        AnchorPane.setTopAnchor(createNewGameLabel, 20.0);
-        AnchorPane.setLeftAnchor(createNewGameLabel, 20.0);
-        AnchorPane.setRightAnchor(createNewGameLabel, 20.0);
+        Separator separator8 = new Separator();
+        separator8.setOrientation(Orientation.HORIZONTAL);
+        separator8.setLayoutX(436);
+        separator8.setLayoutY(555);
+        separator8.setPrefWidth(210);
+        newGameLayout.getChildren().add(separator8);
 
-        HBox createNewGamePanel = new HBox();
+        Separator separator9 = new Separator();
+        separator9.setOrientation(Orientation.HORIZONTAL);
+        separator9.setLayoutX(436);
+        separator9.setLayoutY(590);
+        separator9.setPrefWidth(210);
+        newGameLayout.getChildren().add(separator9);
 
-        AnchorPane newGameSettingsSection = new AnchorPane();
-        VBox newGameSettingsContainer = new VBox(20);
-        AnchorPane.setBottomAnchor(newGameSettingsContainer, 0.0);
-        AnchorPane.setTopAnchor(newGameSettingsContainer, 0.0);
-        AnchorPane.setLeftAnchor(newGameSettingsContainer, 0.0);
-        AnchorPane.setRightAnchor(newGameSettingsContainer, 0.0);
+        Separator separator10 = new Separator();
+        separator10.setOrientation(Orientation.HORIZONTAL);
+        separator10.setLayoutX(436);
+        separator10.setLayoutY(625);
+        separator10.setPrefWidth(210);
+        newGameLayout.getChildren().add(separator10);
 
-        HBox gameNameSection = new HBox();
-        AnchorPane gameNameLabelContainer = new AnchorPane();
-        gameNameLabelContainer.setPadding(new Insets(0, 20, 0, 0));
+        Label victoryConditions = new Label("Victory conditions:");
+        victoryConditions.setLayoutX(444);
+        victoryConditions.setLayoutY(425);
+        victoryConditions.setStyle("-fx-font-weight: bold;");
+        newGameLayout.getChildren().add(victoryConditions);
+
+        Label capture = new Label("Capture:");
+        capture.setLayoutX(444);
+        capture.setLayoutY(460);
+        capture.setStyle("-fx-font-weight: bold;");
+        newGameLayout.getChildren().add(capture);
+
+        Label menMoveBackward = new Label("Men move backward:");
+        menMoveBackward.setLayoutX(444);
+        menMoveBackward.setLayoutY(495);
+        menMoveBackward.setStyle("-fx-font-weight: bold;");
+        newGameLayout.getChildren().add(menMoveBackward);
+
+        Label menCaptureBackward = new Label("Men capture backward:");
+        menCaptureBackward.setLayoutX(444);
+        menCaptureBackward.setLayoutY(530);
+        menCaptureBackward.setStyle("-fx-font-weight: bold;");
+        newGameLayout.getChildren().add(menCaptureBackward);
+
+        Label kingRange = new Label("King range:");
+        kingRange.setLayoutX(444);
+        kingRange.setLayoutY(565);
+        kingRange.setStyle("-fx-font-weight: bold;");
+        newGameLayout.getChildren().add(kingRange);
+
+        Label kingMoveAfterCapture = new Label("King move after capture:");
+        kingMoveAfterCapture.setLayoutX(444);
+        kingMoveAfterCapture.setLayoutY(600);
+        kingMoveAfterCapture.setStyle("-fx-font-weight: bold;");
+        newGameLayout.getChildren().add(kingMoveAfterCapture);
+
+        Label rulesNameValue = new Label("\"" + rules.get(0).getName() + "\" rules");
+        rulesNameValue.setLayoutX(444);
+        rulesNameValue.setLayoutY(355);
+        rulesNameValue.setStyle("-fx-font-weight: bold;");
+        rulesNameValue.setTextFill(Color.web("#595959"));
+        newGameLayout.getChildren().add(rulesNameValue);
+
+        Label rulesDescriptionValue = new Label(rules.get(0).getDescription());
+        rulesDescriptionValue.setLayoutX(444);
+        rulesDescriptionValue.setLayoutY(390);
+        rulesDescriptionValue.setStyle("-fx-font-weight: bold;");
+        rulesDescriptionValue.setTextFill(Color.web("#595959"));
+        newGameLayout.getChildren().add(rulesDescriptionValue);
+
+        Label rulesVictoryValue = new Label(rules.get(0).isVictoryConditionsReversed() ? "reversed" : "standard");
+        rulesVictoryValue.setLayoutX(589);
+        rulesVictoryValue.setLayoutY(425);
+        rulesVictoryValue.setStyle("-fx-font-weight: bold;");
+        rulesVictoryValue.setTextFill(Color.web("#595959"));
+        newGameLayout.getChildren().add(rulesVictoryValue);
+
+        Label rulesCaptureValue = new Label(rules.get(0).isCaptureAny() ? "any" : "longest");
+        rulesCaptureValue.setLayoutX(589);
+        rulesCaptureValue.setLayoutY(460);
+        rulesCaptureValue.setStyle("-fx-font-weight: bold;");
+        rulesCaptureValue.setTextFill(Color.web("#595959"));
+        newGameLayout.getChildren().add(rulesCaptureValue);
+
+        Label rulesMenMoveBackwardValue = new Label(rules.get(0).isPawnMoveBackward() ? "yes" : "no");
+        rulesMenMoveBackwardValue.setLayoutX(589);
+        rulesMenMoveBackwardValue.setLayoutY(495);
+        rulesMenMoveBackwardValue.setStyle("-fx-font-weight: bold;");
+        rulesMenMoveBackwardValue.setTextFill(Color.web("#595959"));
+        newGameLayout.getChildren().add(rulesMenMoveBackwardValue);
+
+        Label rulesMenCaptureBackwardValue = new Label(rules.get(0).isPawnCaptureBackward() ? "yes" : "no");
+        rulesMenCaptureBackwardValue.setLayoutX(589);
+        rulesMenCaptureBackwardValue.setLayoutY(530);
+        rulesMenCaptureBackwardValue.setStyle("-fx-font-weight: bold;");
+        rulesMenCaptureBackwardValue.setTextFill(Color.web("#595959"));
+        newGameLayout.getChildren().add(rulesMenCaptureBackwardValue);
+
+        Label rulesKingRangeValue = new Label(rules.get(0).isQueenRangeOne() ? "one field" : "any");
+        rulesKingRangeValue.setLayoutX(589);
+        rulesKingRangeValue.setLayoutY(565);
+        rulesKingRangeValue.setStyle("-fx-font-weight: bold;");
+        rulesKingRangeValue.setTextFill(Color.web("#595959"));
+        newGameLayout.getChildren().add(rulesKingRangeValue);
+
+        Label rulesKingMoveAfterCaptureValue = new Label(rules.get(0).isQueenRangeOneAfterCapture() ? "next field" : "any");
+        rulesKingMoveAfterCaptureValue.setLayoutX(589);
+        rulesKingMoveAfterCaptureValue.setLayoutY(600);
+        rulesKingMoveAfterCaptureValue.setStyle("-fx-font-weight: bold;");
+        rulesKingMoveAfterCaptureValue.setTextFill(Color.web("#595959"));
+        newGameLayout.getChildren().add(rulesKingMoveAfterCaptureValue);
+
         Label gameNameLabel = new Label("Game name:");
+        gameNameLabel.setStyle("-fx-font-weight: bold;");
         gameNameLabel.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(gameNameLabel, 0.0);
-        AnchorPane.setTopAnchor(gameNameLabel, 0.0);
-        AnchorPane.setLeftAnchor(gameNameLabel, 0.0);
-        AnchorPane.setRightAnchor(gameNameLabel, 0.0);
-        gameNameLabelContainer.getChildren().add(gameNameLabel);
-        AnchorPane gameNameValueContainer = new AnchorPane();
-        TextField gameNameInput = new TextField();
-        AnchorPane.setBottomAnchor(gameNameInput, 0.0);
-        AnchorPane.setTopAnchor(gameNameInput, 0.0);
-        AnchorPane.setLeftAnchor(gameNameInput, 0.0);
-        AnchorPane.setRightAnchor(gameNameInput, 0.0);
-        gameNameValueContainer.getChildren().add(gameNameInput);
-        gameNameSection.getChildren().addAll(gameNameLabelContainer, gameNameValueContainer);
+        gameNameLabel.setLayoutX(20);
+        gameNameLabel.setLayoutY(345);
+        gameNameLabel.setPrefHeight(35);
+        gameNameLabel.setPrefWidth(100);
+        newGameLayout.getChildren().add(gameNameLabel);
 
-        HBox rulesSection = new HBox();
-        AnchorPane rulesLabelContainer = new AnchorPane();
-        rulesLabelContainer.setPadding(new Insets(0, 20, 0, 0));
+        TextField gameNameInput = new TextField();
+        gameNameInput.setLayoutX(140);
+        gameNameInput.setLayoutY(345);
+        gameNameInput.setPrefHeight(35);
+        gameNameInput.setPrefWidth(250);
+        newGameLayout.getChildren().add(gameNameInput);
+
         Label rulesLabel = new Label("Rules set:");
+        rulesLabel.setStyle("-fx-font-weight: bold;");
         rulesLabel.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(rulesLabel, 0.0);
-        AnchorPane.setTopAnchor(rulesLabel, 0.0);
-        AnchorPane.setLeftAnchor(rulesLabel, 0.0);
-        AnchorPane.setRightAnchor(rulesLabel, 0.0);
-        rulesLabelContainer.getChildren().add(rulesLabel);
-        AnchorPane rulesValueContainer = new AnchorPane();
+        rulesLabel.setLayoutX(20);
+        rulesLabel.setLayoutY(405);
+        rulesLabel.setPrefHeight(35);
+        rulesLabel.setPrefWidth(100);
+        newGameLayout.getChildren().add(rulesLabel);
+
         ChoiceBox<String> rulesChooser = new ChoiceBox<>();
+        rulesChooser.setLayoutX(140);
+        rulesChooser.setLayoutY(405);
+        rulesChooser.setPrefHeight(35);
+        rulesChooser.setPrefWidth(250);
         for (RulesSet rule : rules) rulesChooser.getItems().add(rule.getName());
+        rulesChooser.getSelectionModel().selectFirst();
         rulesChooser.setOnAction(e -> {
             for (RulesSet rulesSet : rules) {
                 if (rulesChooser.getValue().equals(rulesSet.getName())) {
-                    rulesRow1Col2Label.setText(rulesSet.getName());
-                    rulesRow2Col2Label.setText(rulesSet.getDescription());
-                    rulesRow3Col2Label.setText(rulesSet.isVictoryConditionsReversed() ? "reversed" : "standard");
-                    rulesRow4Col2Label.setText(rulesSet.isCaptureAny() ? "any" : "longest");
-                    rulesRow5Col2Label.setText(rulesSet.isPawnMoveBackward() ? "yes" : "no");
-                    rulesRow6Col2Label.setText(rulesSet.isPawnCaptureBackward() ? "yes" : "no");
-                    rulesRow7Col2Label.setText(rulesSet.isQueenRangeOne() ? "one field" : "any");
-                    rulesRow8Col2Label.setText(rulesSet.isQueenRangeOneAfterCapture() ? "next field" : "any");
+                    rulesNameValue.setText("\"" + rulesSet.getName() + "\" rules");
+                    rulesDescriptionValue.setText(rulesSet.getDescription());
+                    rulesVictoryValue.setText(rulesSet.isVictoryConditionsReversed() ? "reversed" : "standard");
+                    rulesCaptureValue.setText(rulesSet.isCaptureAny() ? "any" : "longest");
+                    rulesMenMoveBackwardValue.setText(rulesSet.isPawnMoveBackward() ? "yes" : "no");
+                    rulesMenCaptureBackwardValue.setText(rulesSet.isPawnCaptureBackward() ? "yes" : "no");
+                    rulesKingRangeValue.setText(rulesSet.isQueenRangeOne() ? "one field" : "any");
+                    rulesKingMoveAfterCaptureValue.setText(rulesSet.isQueenRangeOneAfterCapture() ? "next field" : "any");
                     break;
                 }
             }
         });
-        AnchorPane.setBottomAnchor(rulesChooser, 0.0);
-        AnchorPane.setTopAnchor(rulesChooser, 0.0);
-        AnchorPane.setLeftAnchor(rulesChooser, 0.0);
-        AnchorPane.setRightAnchor(rulesChooser, 0.0);
-        rulesValueContainer.getChildren().add(rulesChooser);
-        rulesSection.getChildren().addAll(rulesLabelContainer, rulesValueContainer);
+        newGameLayout.getChildren().add(rulesChooser);
 
-        HBox whitePlayerSection = new HBox();
-        AnchorPane whitePlayerLabelContainer = new AnchorPane();
-        whitePlayerLabelContainer.setPadding(new Insets(0, 20, 0, 0));
         Label whitePlayerLabel = new Label("White player:");
+        whitePlayerLabel.setStyle("-fx-font-weight: bold;");
         whitePlayerLabel.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(whitePlayerLabel, 0.0);
-        AnchorPane.setTopAnchor(whitePlayerLabel, 0.0);
-        AnchorPane.setLeftAnchor(whitePlayerLabel, 0.0);
-        AnchorPane.setRightAnchor(whitePlayerLabel, 0.0);
-        whitePlayerLabelContainer.getChildren().add(whitePlayerLabel);
-        AnchorPane whitePlayerValueContainer = new AnchorPane();
-        ChoiceBox<String> whitePlayerChooser = new ChoiceBox<>();
-        whitePlayerChooser.getItems().addAll("Human", "Computer");
-        AnchorPane.setBottomAnchor(whitePlayerChooser, 0.0);
-        AnchorPane.setTopAnchor(whitePlayerChooser, 0.0);
-        AnchorPane.setLeftAnchor(whitePlayerChooser, 0.0);
-        AnchorPane.setRightAnchor(whitePlayerChooser, 0.0);
-        whitePlayerValueContainer.getChildren().add(whitePlayerChooser);
-        whitePlayerSection.getChildren().addAll(whitePlayerLabelContainer, whitePlayerValueContainer);
+        whitePlayerLabel.setLayoutX(20);
+        whitePlayerLabel.setLayoutY(465);
+        whitePlayerLabel.setPrefHeight(35);
+        whitePlayerLabel.setPrefWidth(100);
+        newGameLayout.getChildren().add(whitePlayerLabel);
 
-        HBox blackPlayerSection = new HBox();
-        AnchorPane blackPlayerLabelContainer = new AnchorPane();
-        blackPlayerLabelContainer.setPadding(new Insets(0, 20, 0, 0));
+        RadioButton whiteHumanButton = new RadioButton("Human");
+        whiteHumanButton.setStyle("-fx-font-weight: bold;");
+        whiteHumanButton.setAlignment(Pos.CENTER_LEFT);
+        whiteHumanButton.setLayoutX(180);
+        whiteHumanButton.setLayoutY(465);
+        whiteHumanButton.setPrefHeight(35);
+        newGameLayout.getChildren().add(whiteHumanButton);
+
+        RadioButton whiteComputerButton = new RadioButton("Computer");
+        whiteComputerButton.setStyle("-fx-font-weight: bold;");
+        whiteComputerButton.setAlignment(Pos.CENTER_LEFT);
+        whiteComputerButton.setLayoutX(280);
+        whiteComputerButton.setLayoutY(465);
+        whiteComputerButton.setPrefHeight(35);
+        newGameLayout.getChildren().add(whiteComputerButton);
+
+        ToggleGroup whiteRadioGroup = new ToggleGroup();
+        whiteHumanButton.setToggleGroup(whiteRadioGroup);
+        whiteHumanButton.setSelected(true);
+        whiteComputerButton.setToggleGroup(whiteRadioGroup);
+
         Label blackPlayerLabel = new Label("Black player:");
+        blackPlayerLabel.setStyle("-fx-font-weight: bold;");
         blackPlayerLabel.setAlignment(Pos.CENTER_RIGHT);
-        AnchorPane.setBottomAnchor(blackPlayerLabel, 0.0);
-        AnchorPane.setTopAnchor(blackPlayerLabel, 0.0);
-        AnchorPane.setLeftAnchor(blackPlayerLabel, 0.0);
-        AnchorPane.setRightAnchor(blackPlayerLabel, 0.0);
-        blackPlayerLabelContainer.getChildren().add(blackPlayerLabel);
-        AnchorPane blackPlayerValueContainer = new AnchorPane();
-        ChoiceBox<String> blackPlayerChooser = new ChoiceBox<>();
-        blackPlayerChooser.getItems().addAll("Human", "Computer");
-        AnchorPane.setBottomAnchor(blackPlayerChooser, 0.0);
-        AnchorPane.setTopAnchor(blackPlayerChooser, 0.0);
-        AnchorPane.setLeftAnchor(blackPlayerChooser, 0.0);
-        AnchorPane.setRightAnchor(blackPlayerChooser, 0.0);
-        blackPlayerValueContainer.getChildren().add(blackPlayerChooser);
-        blackPlayerSection.getChildren().addAll(blackPlayerLabelContainer, blackPlayerValueContainer);
+        blackPlayerLabel.setLayoutX(20);
+        blackPlayerLabel.setLayoutY(525);
+        blackPlayerLabel.setPrefHeight(35);
+        blackPlayerLabel.setPrefWidth(100);
+        newGameLayout.getChildren().add(blackPlayerLabel);
 
-        HBox buttonsSection = new HBox();
-        AnchorPane backButtonContainer = new AnchorPane();
-        Button backButton = new Button("BACK TO MAIN MENU");
-        backButton.setOnAction(e -> start());
-        AnchorPane.setBottomAnchor(backButton, 0.0);
-        AnchorPane.setTopAnchor(backButton, 0.0);
-        AnchorPane.setLeftAnchor(backButton, 0.0);
-        AnchorPane.setRightAnchor(backButton, 0.0);
-        backButtonContainer.getChildren().add(backButton);
-        AnchorPane createGameButtonContainer = new AnchorPane();
+        RadioButton blackHumanButton = new RadioButton("Human");
+        blackHumanButton.setStyle("-fx-font-weight: bold;");
+        blackHumanButton.setAlignment(Pos.CENTER_LEFT);
+        blackHumanButton.setLayoutX(180);
+        blackHumanButton.setLayoutY(525);
+        blackHumanButton.setPrefHeight(35);
+        newGameLayout.getChildren().add(blackHumanButton);
+
+        RadioButton blackComputerButton = new RadioButton("Computer");
+        blackComputerButton.setStyle("-fx-font-weight: bold;");
+        blackComputerButton.setAlignment(Pos.CENTER_LEFT);
+        blackComputerButton.setLayoutX(280);
+        blackComputerButton.setLayoutY(525);
+        blackComputerButton.setPrefHeight(35);
+        newGameLayout.getChildren().add(blackComputerButton);
+
+        ToggleGroup blackRadioGroup = new ToggleGroup();
+        blackHumanButton.setToggleGroup(blackRadioGroup);
+        blackHumanButton.setSelected(true);
+        blackComputerButton.setToggleGroup(blackRadioGroup);
+
         Button createGameButton = new Button("CREATE NEW GAME");
+        createGameButton.setLayoutX(140);
+        createGameButton.setLayoutY(585);
+        createGameButton.setPrefHeight(35);
+        createGameButton.setPrefWidth(250);
+        newGameLayout.getChildren().add(createGameButton);
+
         createGameButton.setOnAction(e -> {
             String gameName = gameNameInput.getText();
-            boolean isWhiteAIPlayer = whitePlayerChooser.getValue().equals("Computer");
-            boolean isBlackAIPlayer = blackPlayerChooser.getValue().equals("Computer");
+            boolean isWhiteAIPlayer = whiteComputerButton.isSelected();
+            boolean isBlackAIPlayer = blackComputerButton.isSelected();
             RulesSet chosenRulesSet = rules.get(0);
             for (RulesSet rulesSet : rules) {
                 if (rulesChooser.getValue().equals(rulesSet.getName())) {
@@ -649,27 +776,16 @@ public class Menu {
             } catch (IncorrectMoveException | IncorrectMoveFormat ignored) {
             }
         });
-        AnchorPane.setBottomAnchor(createGameButton, 0.0);
-        AnchorPane.setTopAnchor(createGameButton, 0.0);
-        AnchorPane.setLeftAnchor(createGameButton, 0.0);
-        AnchorPane.setRightAnchor(createGameButton, 0.0);
-        createGameButtonContainer.getChildren().add(createGameButton);
-        buttonsSection.getChildren().addAll(backButtonContainer, createGameButtonContainer);
 
-        newGameSettingsContainer.getChildren().addAll(
-                gameNameSection,
-                rulesSection,
-                whitePlayerSection,
-                blackPlayerSection,
-                buttonsSection
-        );
-        newGameSettingsSection.getChildren().add(newGameSettingsContainer);
+        Button backButton = new Button("BACK TO MAIN MENU");
+        backButton.setOnAction(e -> start());
+        backButton.setLayoutX(230);
+        backButton.setLayoutY(660);
+        backButton.setPrefHeight(60);
+        backButton.setPrefWidth(200);
+        newGameLayout.getChildren().add(backButton);
 
-        chosenRulesSection.getChildren().add(selectedRulesDetailsSection);
-        createNewGamePanel.getChildren().addAll(newGameSettingsSection, chosenRulesSection);
-        newGameLayout.getChildren().addAll(createNewGameLabelContainer, createNewGamePanel);
-
-        Scene newGame = new Scene(newGameLayout, 900, 600);
+        Scene newGame = new Scene(newGameLayout, 660, 740);
         Window.getWindow().setTitle("Checkers - create new game");
         Window.getWindow().setScene(newGame);
     }

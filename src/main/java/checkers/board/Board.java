@@ -151,7 +151,7 @@ public class Board implements Serializable {
             e.printStackTrace();
         }
 
-        Scene gameScene = new Scene(boardLayout, 1200, 800);
+        Scene gameScene = new Scene(boardLayout, 900, 740);
         Window.getWindow().setTitle("Checkers");
         Window.getWindow().setScene(gameScene);
         figuresOnBoard = new HashMap<>();
@@ -243,31 +243,37 @@ public class Board implements Serializable {
         Label victoryConditions = new Label("Victory conditions:");
         victoryConditions.setLayoutX(670);
         victoryConditions.setLayoutY(65);
+        victoryConditions.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(victoryConditions);
 
         Label capture = new Label("Capture:");
         capture.setLayoutX(670);
         capture.setLayoutY(100);
+        capture.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(capture);
 
         Label menMoveBackward = new Label("Men move backward:");
         menMoveBackward.setLayoutX(670);
         menMoveBackward.setLayoutY(135);
+        menMoveBackward.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(menMoveBackward);
 
         Label menCaptureBackward = new Label("Men capture backward:");
         menCaptureBackward.setLayoutX(670);
         menCaptureBackward.setLayoutY(170);
+        menCaptureBackward.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(menCaptureBackward);
 
         Label kingRange = new Label("King range:");
         kingRange.setLayoutX(670);
         kingRange.setLayoutY(205);
+        kingRange.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(kingRange);
 
         Label kingMoveAfterCapture = new Label("King move after capture:");
         kingMoveAfterCapture.setLayoutX(670);
         kingMoveAfterCapture.setLayoutY(240);
+        kingMoveAfterCapture.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(kingMoveAfterCapture);
     }
 
@@ -354,11 +360,13 @@ public class Board implements Serializable {
         Label menLabel = new Label("MEN");
         menLabel.setLayoutX(685);
         menLabel.setLayoutY(285);
+        menLabel.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(menLabel);
 
         Label kingLabel = new Label("KING");
         kingLabel.setLayoutX(755);
         kingLabel.setLayoutY(285);
+        kingLabel.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(kingLabel);
         try {
             ImageView image = new ImageView();
@@ -407,6 +415,7 @@ public class Board implements Serializable {
         Label victoryConditions = new Label("MOVES HISTORY:");
         victoryConditions.setLayoutX(670);
         victoryConditions.setLayoutY(462);
+        victoryConditions.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(victoryConditions);
     }
 

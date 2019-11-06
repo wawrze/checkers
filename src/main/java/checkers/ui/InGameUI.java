@@ -23,12 +23,12 @@ public class InGameUI implements Serializable {
 
     public void printMovesAndActivePlayer(List<String> moves, boolean player) {
         if (player) {
-            blackPlayerLabel.setStyle("-fx-background-color: #000000;");
+            blackPlayerLabel.setStyle("-fx-background-color: #000000;-fx-font-weight: bold;");
             blackPlayerLabel.setTextFill(Color.web("#ffffff"));
-            whitePlayerLabel.setStyle("");
+            whitePlayerLabel.setStyle("-fx-font-weight: bold;");
         } else {
-            whitePlayerLabel.setStyle("-fx-background-color: #ffffff;");
-            blackPlayerLabel.setStyle("");
+            whitePlayerLabel.setStyle("-fx-background-color: #ffffff; -fx-font-weight: bold;");
+            blackPlayerLabel.setStyle("-fx-font-weight: bold;");
             blackPlayerLabel.setTextFill(Color.web("#000000"));
         }
 
@@ -42,32 +42,46 @@ public class InGameUI implements Serializable {
     public void showInGameInfos(RulesSet rules) {
         AnchorPane boardContainer = (AnchorPane) Window.getGameLayout().getChildren().get(0);
         Label rulesName = new Label("\"" + rules.getName() + "\" rules");
-        rulesName.setLayoutX(670);
+        rulesName.setLayoutX(675);
         rulesName.setLayoutY(30);
+        rulesName.setTextFill(Color.web("#595959"));
+        rulesName.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(rulesName);
         Label victoryConditions = new Label(rules.isVictoryConditionsReversed() ? "reversed" : "standard");
-        victoryConditions.setLayoutX(810);
+        victoryConditions.setLayoutX(815);
         victoryConditions.setLayoutY(65);
+        victoryConditions.setTextFill(Color.web("#595959"));
+        victoryConditions.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(victoryConditions);
         Label capture = new Label(rules.isCaptureAny() ? "any" : "longest");
-        capture.setLayoutX(810);
+        capture.setLayoutX(815);
         capture.setLayoutY(100);
+        capture.setTextFill(Color.web("#595959"));
+        capture.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(capture);
         Label menMoveBackward = new Label(rules.isPawnMoveBackward() ? "yes" : "no");
-        menMoveBackward.setLayoutX(810);
+        menMoveBackward.setLayoutX(815);
         menMoveBackward.setLayoutY(135);
+        menMoveBackward.setTextFill(Color.web("#595959"));
+        menMoveBackward.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(menMoveBackward);
         Label menCaptureBackward = new Label(rules.isPawnCaptureBackward() ? "yes" : "no");
-        menCaptureBackward.setLayoutX(810);
+        menCaptureBackward.setLayoutX(815);
         menCaptureBackward.setLayoutY(170);
+        menCaptureBackward.setTextFill(Color.web("#595959"));
+        menCaptureBackward.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(menCaptureBackward);
         Label kingRange = new Label(rules.isQueenRangeOne() ? "one field" : "any");
-        kingRange.setLayoutX(810);
+        kingRange.setLayoutX(815);
         kingRange.setLayoutY(205);
+        kingRange.setTextFill(Color.web("#595959"));
+        kingRange.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(kingRange);
         Label kingMoveAfterCapture = new Label(rules.isQueenRangeOneAfterCapture() ? "next field" : "any");
-        kingMoveAfterCapture.setLayoutX(810);
+        kingMoveAfterCapture.setLayoutX(815);
         kingMoveAfterCapture.setLayoutY(240);
+        kingMoveAfterCapture.setTextFill(Color.web("#595959"));
+        kingMoveAfterCapture.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(kingMoveAfterCapture);
 
         ScrollPane movesContainer = new ScrollPane();
