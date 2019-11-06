@@ -38,7 +38,6 @@ public class Board implements Serializable {
         rows.put('H', new BoardRow(false));
     }
 
-    @SuppressWarnings("CopyConstructorMissesField")
     public Board(Board board) {
         rows = new HashMap<>();
         rows.put('A', new BoardRow(true));
@@ -73,6 +72,15 @@ public class Board implements Serializable {
 
     public void setFigure(char row, int col, Figure figure) {
         this.rows.get(row).setFigure(col, figure);
+    }
+
+    public void clearFiguresOnBoard() {
+        AnchorPane board = (AnchorPane) Window.getGameLayout().getChildren().get(0);
+        for (Map.Entry<Character, ImageView[]> iv : figuresOnBoard.entrySet()) {
+            for (int i = 0; i < 8; i++) {
+                if (iv.getValue()[i] != null) board.getChildren().remove(iv.getValue()[i]);
+            }
+        }
     }
 
     public void setAndPrintFigure(char row, int col, Figure figure) {

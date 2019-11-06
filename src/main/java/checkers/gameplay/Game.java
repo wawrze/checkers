@@ -160,6 +160,13 @@ public class Game implements Serializable {
     }
 
     private void waitForMove() throws IncorrectMoveFormat, IncorrectMoveException {
+        if (isFinished) {
+            VictoryValidator.validateEndOfGame(board, whiteQueenMoves, blackQueenMoves, activePlayer, rulesSet);
+            isDraw = VictoryValidator.isDraw();
+            winner = VictoryValidator.getWinner();
+            inGameUI.endOfGame(moves, board, isDraw, winner);
+            return;
+        }
         String captures = "";
         boolean isItAITurn = false;
         if (isBlackAIPlayer && activePlayer)
@@ -249,7 +256,7 @@ public class Game implements Serializable {
         if (isFinished) {
             isDraw = VictoryValidator.isDraw();
             winner = VictoryValidator.getWinner();
-            inGameUI.endOfGame(moves);
+            inGameUI.endOfGame(moves, board, isDraw, winner);
         } else {
             waitForMove();
         }

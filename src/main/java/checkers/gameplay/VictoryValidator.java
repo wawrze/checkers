@@ -9,16 +9,16 @@ import exceptions.CaptureException;
 import exceptions.IncorrectMoveException;
 import exceptions.IncorrectMoveFormat;
 
-public class VictoryValidator {
+class VictoryValidator {
 
     private static boolean winner;
     private static boolean draw;
 
-    public static boolean getWinner() {
+    static boolean getWinner() {
         return winner;
     }
 
-    public static boolean isDraw() {
+    static boolean isDraw() {
         return draw;
     }
 

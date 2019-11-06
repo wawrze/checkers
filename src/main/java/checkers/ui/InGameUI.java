@@ -1,5 +1,8 @@
 package checkers.ui;
 
+import checkers.board.Board;
+import checkers.figures.Figure;
+import checkers.figures.None;
 import checkers.gameplay.RulesSet;
 import exceptions.IncorrectMoveFormat;
 import javafx.geometry.Insets;
@@ -8,15 +11,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
 public class InGameUI implements Serializable {
 
-    private transient ListView movesListView = new ListView();
+    private transient ListView<Label> movesListView = new ListView<>();
     private transient Label blackPlayerLabel = new Label("BLACK");
     private transient Label whitePlayerLabel = new Label("WHITE");
     private transient Label messageLabel = new Label();
@@ -34,7 +41,6 @@ public class InGameUI implements Serializable {
 
         movesListView.getItems().clear();
         for (String s : moves) {
-            //noinspection unchecked
             movesListView.getItems().add(0, new Label(s));
         }
     }
@@ -117,10 +123,9 @@ public class InGameUI implements Serializable {
         boardContainer.getChildren().add(messageLabel);
     }
 
-    public void printMakingMove(char x1, int y1, char x2, int y2, boolean isItAITurn, boolean wasCapture) {//TODO as separate window???
+    public void printMakingMove(char x1, int y1, char x2, int y2, boolean isItAITurn, boolean wasCapture) {
         if (!isItAITurn)
             return;
-//        setCursor(x2 - 64, y2, x1 - 64, y1);
         String message = "Computer made " + (wasCapture ? "capture" : "move") + ": " + x1 + y1 + "-" + x2 + y2;
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -130,8 +135,6 @@ public class InGameUI implements Serializable {
         alert.setHeaderText(message);
 
         alert.showAndWait();
-//        messageLabel.setTextFill(Color.web("#000000"));
-//        messageLabel.setText("Computer made " + (wasCapture ? "capture" : "move") + ": " + x1 + y1 + "-" + x2 + y2);
     }
 
     public void printMoveDone(boolean isItAITurn) {
@@ -202,112 +205,80 @@ public class InGameUI implements Serializable {
                 throw new IncorrectMoveFormat();
     }
 
-    public void endOfGame(List<String> moves) {//TODO
-//        STerminal.getInstance().clear();
-//        STerminal.getInstance().putStringAtPosition("╔═════════════════════", 6, 4);
-//        STerminal.getInstance().putStringAtPosition("║███████       ▓▓▓▓▓░░", 6, 5);
-//        STerminal.getInstance().putStringAtPosition("║███████       ▓▓░░░░░", 6, 6);
-//        STerminal.getInstance().putStringAtPosition("║███████       ░░░░░░░", 6, 7);
-//        STerminal.getInstance().putStringAtPosition("║       ▓▓▓▓▓░░", 6, 8);
-//        STerminal.getInstance().putStringAtPosition("║       ▓▓░░░   ██  █ █ ███  ██  █  █ ███ ███    ███", 6, 9);
-//        STerminal.getInstance().putStringAtPosition("║       ░░     █  █ █ █ █   █  █ █ █  █   █  █  █   █", 6, 10);
-//        STerminal.getInstance().putStringAtPosition("║▓▓▓▓▓░░       █    ███ ██  █    ██   ██  ███    ██", 6, 11);
-//        STerminal.getInstance().putStringAtPosition("║▓▓░░░░░       █  █ █ █ █   █  █ █ █  █   █ █  █   █", 6, 12);
-//        STerminal.getInstance().putStringAtPosition("║░░░░░░░        ██  █ █ ███  ██  █  █ ███ █  █  ███", 6, 13);
-//
-//        if (VictoryValidator.isDraw()) {
-//            STerminal.getInstance().putStringAtPosition("╔═══════════════════════════════════════════════════════════════════════════════════════════════╗", 6, 15);
-//            STerminal.getInstance().putStringAtPosition("║ ███    █   █     █ ████                                                                       ║", 6, 16);
-//            STerminal.getInstance().putStringAtPosition("║█   █  █ █  ██   ██ █                                                                          ║", 6, 17);
-//            STerminal.getInstance().putStringAtPosition("║█     █   █ █ █ █ █ █                                                                          ║", 6, 18);
-//            STerminal.getInstance().putStringAtPosition("║█     █   █ █  █  █ ███                                        ███   ████    █   █     █       ║", 6, 19);
-//            STerminal.getInstance().putStringAtPosition("║█  ██ █   █ █     █ █                                          █  █  █   █  █ █  █     █       ║", 6, 20);
-//            STerminal.getInstance().putStringAtPosition("║█   █ █████ █     █ █       ███  █     █ ████ ████   ██        █   █ █   █ █   █ █     █       ║", 6, 21);
-//            STerminal.getInstance().putStringAtPosition("║ ███  █   █ █     █ ████   █   █  █   █  █    █   █  ██        █   █ ████  █   █ █  █  █       ║", 6, 22);
-//            STerminal.getInstance().putStringAtPosition("║                           █   █  █   █  █    █   █  ██        █  █  █  █  █████ █ █ █ █       ║", 6, 23);
-//            STerminal.getInstance().putStringAtPosition("║                           █   █   █ █   ███  ████   ██        ███   █   █ █   █ ██   ██       ║", 6, 24);
-//            STerminal.getInstance().putStringAtPosition("║                           █   █   █ █   █    █  █                                             ║", 6, 25);
-//            STerminal.getInstance().putStringAtPosition("║                            ███     █    ████ █   █  ██                                        ║", 6, 26);
-//            STerminal.getInstance().putStringAtPosition("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝", 6, 27);
-//        } else if (VictoryValidator.getWinner()) {
-//            STerminal.getInstance().putStringAtPosition("╔═══════════════════════════════════════════════════════════════════════════════════════════════╗", 6, 15);
-//            STerminal.getInstance().putStringAtPosition("║ ███    █   █     █ ████                                       ██  █    ██   ██ █  █           ║", 6, 16);
-//            STerminal.getInstance().putStringAtPosition("║█   █  █ █  ██   ██ █                                          █ █ █   █  █ █   █ █            ║", 6, 17);
-//            STerminal.getInstance().putStringAtPosition("║█     █   █ █ █ █ █ █                                          ██  █   █  █ █   ██             ║", 6, 18);
-//            STerminal.getInstance().putStringAtPosition("║█     █   █ █  █  █ ███                                        █ █ █   ████ █   █ █            ║", 6, 19);
-//            STerminal.getInstance().putStringAtPosition("║█  ██ █   █ █     █ █                                          ██   ██ █  █  ██ █  █           ║", 6, 20);
-//            STerminal.getInstance().putStringAtPosition("║█   █ █████ █     █ █           ███  █     █ ████ ████   ██                                    ║", 6, 21);
-//            STerminal.getInstance().putStringAtPosition("║ ███  █   █ █     █ ████       █   █  █   █  █    █   █  ██            █   █ █ █   █  ███      ║", 6, 22);
-//            STerminal.getInstance().putStringAtPosition("║                               █   █  █   █  █    █   █  ██            █   █ █ ██  █ █         ║", 6, 23);
-//            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   ███  ████   ██            █ █ █ █ █ █ █  ██       ║", 6, 24);
-//            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   █    █  █                 ██ ██ █ █  ██    █      ║", 6, 25);
-//            STerminal.getInstance().putStringAtPosition("║                                ███     █    ████ █   █  ██            █   █ █ █   █ ███       ║", 6, 26);
-//            STerminal.getInstance().putStringAtPosition("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝", 6, 27);
-//        } else {
-//            STerminal.getInstance().putStringAtPosition("╔═══════════════════════════════════════════════════════════════════════════════════════════════╗", 6, 15);
-//            STerminal.getInstance().putStringAtPosition("║ ███    █   █     █ ████                                       █   █ █ █ █ ███ ███             ║", 6, 16);
-//            STerminal.getInstance().putStringAtPosition("║█   █  █ █  ██   ██ █                                          █   █ █ █ █  █  █               ║", 6, 17);
-//            STerminal.getInstance().putStringAtPosition("║█     █   █ █ █ █ █ █                                          █   █ ███ █  █  ██              ║", 6, 18);
-//            STerminal.getInstance().putStringAtPosition("║█     █   █ █  █  █ ███                                        █ █ █ █ █ █  █  █               ║", 6, 19);
-//            STerminal.getInstance().putStringAtPosition("║█  ██ █   █ █     █ █                                          ██ ██ █ █ █  █  ███             ║", 6, 20);
-//            STerminal.getInstance().putStringAtPosition("║█   █ █████ █     █ █           ███  █     █ ████ ████   ██                                    ║", 6, 21);
-//            STerminal.getInstance().putStringAtPosition("║ ███  █   █ █     █ ████       █   █  █   █  █    █   █  ██            █   █ █ █   █  ███      ║", 6, 22);
-//            STerminal.getInstance().putStringAtPosition("║                               █   █  █   █  █    █   █  ██            █   █ █ ██  █ █         ║", 6, 23);
-//            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   ███  ████   ██            █ █ █ █ █ █ █  ██       ║", 6, 24);
-//            STerminal.getInstance().putStringAtPosition("║                               █   █   █ █   █    █  █                 ██ ██ █ █  ██    █      ║", 6, 25);
-//            STerminal.getInstance().putStringAtPosition("║                                ███     █    ████ █   █  ██            █   █ █ █   █ ███       ║", 6, 26);
-//            STerminal.getInstance().putStringAtPosition("╚═══════════════════════════════════════════════════════════════════════════════════════════════╝", 6, 27);
-//        }
-//
-//        STerminal.getInstance().putCharAtPosition('╔', 88, 1);
-//        STerminal.getInstance().putCharAtPosition('╗', 113, 1);
-//        STerminal.getInstance().putCharAtPosition('╚', 88, 13);
-//        STerminal.getInstance().putCharAtPosition('╝', 113, 13);
-//        for (int i = 2; i < 13; i++) {
-//            STerminal.getInstance().putCharAtPosition('║', 88, i);
-//            STerminal.getInstance().putCharAtPosition('║', 113, i);
-//        }
-//        STerminal.getInstance().setCursorPosition(89, 1);
-//        STerminal.getInstance().putCharMultiplied('═', 24);
-//        STerminal.getInstance().setCursorPosition(89, 13);
-//        STerminal.getInstance().putCharMultiplied('═', 24);
-//        STerminal.getInstance().putStringAtPosition("MOVES HISTORY", 94, 2);
-//
-//        STerminal.getInstance().putStringAtPosition("╔═════════════════════════════════════════════════╗", 6, 31);
-//        STerminal.getInstance().putStringAtPosition("║ x - exit without saving, s - save game and exit ║", 6, 32);
-//        STerminal.getInstance().putStringAtPosition("╚═════════════════════════════════════════════════╝", 6, 33);
+    public void endOfGame(List<String> moves, Board board, boolean isDraw, boolean winner) {
+        board.clearFiguresOnBoard();
+        AnchorPane boardLayout = (AnchorPane) Window.getGameLayout().getChildren().get(0);
+        boardLayout.getChildren().remove(0);
+        try {
+            ImageView gameOverBoardImage = new ImageView();
+            FileInputStream input = new FileInputStream("images/game_over_board.png");
+            Image img = new Image(input);
+            gameOverBoardImage.setImage(img);
+            gameOverBoardImage.setX(20);
+            gameOverBoardImage.setY(20);
+            boardLayout.getChildren().add(gameOverBoardImage);
 
-        int movesToPrintTo = moves.size() - 1;
-        int actualPosition = 0;
-        do {
-            for (int i = 0; i < 10; i++) {
-                int moveToPrintIndex = movesToPrintTo - i;
-                if (moveToPrintIndex == moves.size() || moveToPrintIndex < 0) break;
-                String move = moves.get(moveToPrintIndex);
-//                STerminal.getInstance().putStringAtPosition(move, 95, i + 3);
+            ImageView gameOverTextImage = new ImageView();
+            Image gameOverImg = new Image(new FileInputStream("images/game_over.png"));
+            gameOverTextImage.setImage(gameOverImg);
+            gameOverTextImage.setX(65);
+            gameOverTextImage.setY(190);
+            boardLayout.getChildren().add(gameOverTextImage);
+
+            ImageView gameScore = new ImageView();
+            Image imgScore;
+            messageLabel.setTextFill(Color.web("#000000"));
+            if (isDraw) {
+                imgScore = new Image(new FileInputStream("images/draw.png"));
+                gameScore.setImage(imgScore);
+                gameScore.setX(50);
+                gameScore.setY(390);
+                messageLabel.setText("Each player moved king 15 times in the row.");
+            } else if (winner) {
+                imgScore = new Image(new FileInputStream("images/black_wins.png")); // FIXME: not showing image !!!
+                gameScore.setImage(imgScore);
+                gameScore.setX(15);
+                gameScore.setY(390);
+                boolean whitePlayerLostAllFigures = true;
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 1; j < 9; j++) {
+                        Figure figure = board.getFigure((char) (i + 65), j);
+                        if (!figure.getColor() && !(figure instanceof None)) whitePlayerLostAllFigures = false;
+                    }
+                }
+                if (whitePlayerLostAllFigures) {
+                    messageLabel.setText("White player lost all figures.");
+                } else {
+                    messageLabel.setText("White player has no moves.");
+                }
+            } else {
+                imgScore = new Image(new FileInputStream("images/white_wins.png"));
+                gameScore.setImage(imgScore);
+                gameScore.setX(5);
+                gameScore.setY(390);
+                boolean blackPlayerLostAllFigures = true;
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 1; j < 9; j++) {
+                        Figure figure = board.getFigure((char) (i + 65), j);
+                        if (figure.getColor() && !(figure instanceof None)) {
+                            blackPlayerLostAllFigures = false;
+                        }
+                    }
+                }
+                if (blackPlayerLostAllFigures) {
+                    messageLabel.setText("Black player lost all figures.");
+                } else {
+                    messageLabel.setText("Black player has no moves.");
+                }
+                boardLayout.getChildren().add(gameScore);
             }
-//            KeyStroke key = new KeyStroke(KeyType.Escape);
-//            do {
-//                key = STerminal.getInstance().readInput();
-//            } while (key == null);
-//            if (key.getKeyType() == KeyType.ArrowDown) {
-            if (actualPosition == 9 && movesToPrintTo > 9) {
-                movesToPrintTo--;
-            } else if (actualPosition < 9) {
-                actualPosition++;
-            }
-//            } else if (key.getKeyType() == KeyType.ArrowUp) {
-            if (actualPosition == 0 && movesToPrintTo < moves.size() - 1) {
-                movesToPrintTo++;
-            } else if (actualPosition > 0) {
-                actualPosition--;
-            }
-//            } else if (key.getKeyType() == KeyType.Character && key.getCharacter() == 's') {
-            // TODO: menu.games.put, menu.start
-//            } else if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'x') {
-            // TODO: menu.start
-//            }
-        } while (true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        movesListView.getItems().clear();
+        for (String s : moves) {
+            movesListView.getItems().add(0, new Label(s));
+        }
     }
 
 }
