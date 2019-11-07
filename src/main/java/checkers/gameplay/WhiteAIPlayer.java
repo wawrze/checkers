@@ -14,7 +14,7 @@ import exceptions.IncorrectMoveFormat;
 
 import java.util.*;
 
-class AIPlayer1 {
+class WhiteAIPlayer {
 
     @SuppressWarnings("FieldCanBeLocal")
     private final int MAX_DEPTH = 3;
@@ -28,11 +28,11 @@ class AIPlayer1 {
     private int whiteQueenMoves;
     private int blackQueenMoves;
 
-    AIPlayer1(Board board, boolean player, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves)
+    WhiteAIPlayer(Board board, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves)
             throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
-        this.AIPlayer = player;
-        this.activePlayer = player;
+        this.AIPlayer = false;
+        this.activePlayer = false;
         this.rulesSet = rulesSet;
         this.whiteQueenMoves = whiteQueenMoves;
         this.blackQueenMoves = blackQueenMoves;
@@ -42,11 +42,11 @@ class AIPlayer1 {
         evaluateMoves();
     }
 
-    AIPlayer1(Board board, boolean player, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves, char row,
-              int col) throws IncorrectMoveFormat, IncorrectMoveException {
+    WhiteAIPlayer(Board board, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves, char row,
+                  int col) throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
-        this.AIPlayer = player;
-        this.activePlayer = player;
+        this.AIPlayer = false;
+        this.activePlayer = false;
         this.rulesSet = rulesSet;
         this.whiteQueenMoves = whiteQueenMoves;
         this.blackQueenMoves = blackQueenMoves;
@@ -56,8 +56,8 @@ class AIPlayer1 {
         evaluateMoves();
     }
 
-    private AIPlayer1(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
-                      int blackQueenMoves, int depth) throws IncorrectMoveFormat, IncorrectMoveException {
+    private WhiteAIPlayer(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
+                          int blackQueenMoves, int depth) throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
         this.AIPlayer = AIPlayer;
         this.activePlayer = activePlayer;
@@ -70,8 +70,8 @@ class AIPlayer1 {
         evaluateMoves();
     }
 
-    private AIPlayer1(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
-                      int blackQueenMoves, int depth, char row, int col)
+    private WhiteAIPlayer(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
+                          int blackQueenMoves, int depth, char row, int col)
             throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
         this.AIPlayer = AIPlayer;
@@ -128,11 +128,11 @@ class AIPlayer1 {
             value += getFigureSetEvaluation(tmpBoard);
             if (depth < MAX_DEPTH) {
                 if (capture) {
-                    AIPlayer1 next_move = new AIPlayer1(tmpBoard, AIPlayer, activePlayer, rulesSet, whiteQueenMoves,
+                    WhiteAIPlayer next_move = new WhiteAIPlayer(tmpBoard, AIPlayer, activePlayer, rulesSet, whiteQueenMoves,
                             blackQueenMoves, depth, entry.getKey().getRow2(), entry.getKey().getCol2());
                     value += next_move.getMovesMapValue();
                 } else {
-                    AIPlayer1 next_move = new AIPlayer1(tmpBoard, AIPlayer, !activePlayer, rulesSet, whiteQueenMoves,
+                    WhiteAIPlayer next_move = new WhiteAIPlayer(tmpBoard, AIPlayer, !activePlayer, rulesSet, whiteQueenMoves,
                             blackQueenMoves, depth);
                     value += next_move.getMovesMapValue();
                 }
@@ -143,7 +143,7 @@ class AIPlayer1 {
 
     private int getMovesMapValue() {
         return possibleMoves.values().stream()
-                .mapToInt(integer -> integer)
+                .mapToInt(i -> i)
                 .sum();
     }
 
@@ -323,7 +323,7 @@ class AIPlayer1 {
         return false;
     }
 
-    String[] getAIMove() {  // FIXME: ?????
+    String[] getAIMove() {
         int max = -100000;
         int min = 100000;
         for (Map.Entry e : possibleMoves.entrySet()) {

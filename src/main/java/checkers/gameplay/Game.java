@@ -36,17 +36,17 @@ public class Game implements Serializable {
     private final boolean isBlackAIPlayer;
     private final boolean isWhiteAIPlayer;
     private final String name;
+    private final boolean save;
+    private final transient Menu menu;
     private boolean activePlayer;
     private int whiteQueenMoves;
     private int blackQueenMoves;
     private boolean isFinished;
     private boolean isDraw;
     private boolean winner;
-    private boolean save;
     private LocalDate date;
     private LocalTime time;
     private InGameUI inGameUI;
-    private transient Menu menu;
     private char clickedFigureRow = 0;
     private int clickedFigureCol = 0;
     private char targetRow = 0;
@@ -182,14 +182,14 @@ public class Game implements Serializable {
         }
         String[] s;
         if (isBlackAIPlayer && activePlayer) {
-            s = (new AIPlayer1(board, true, rulesSet, whiteQueenMoves, blackQueenMoves)).getAIMove();
+            s = (new BlackAIPlayer(board, rulesSet, whiteQueenMoves, blackQueenMoves)).getAIMove();
             try {
                 this.makeMove(s);
             } catch (IncorrectMoveFormat e) {
                 inGameUI.printIncorrectMoveFormat(isItAITurn);
             }
         } else if (isWhiteAIPlayer && !activePlayer) {
-            s = (new AIPlayer2(board, false, rulesSet, whiteQueenMoves, blackQueenMoves)).getAIMove();
+            s = (new WhiteAIPlayer(board, rulesSet, whiteQueenMoves, blackQueenMoves)).getAIMove();
             try {
                 this.makeMove(s);
             } catch (IncorrectMoveFormat e) {
@@ -277,7 +277,7 @@ public class Game implements Serializable {
             inGameUI.printMultiCapture(e.getMessage(), isItAITurn);
             String[] s;
             if (isBlackAIPlayer && activePlayer) {
-                s = (new AIPlayer1(board, true, rulesSet, whiteQueenMoves, blackQueenMoves,
+                s = (new BlackAIPlayer(board, rulesSet, whiteQueenMoves, blackQueenMoves,
                         move.getRow2(), move.getCol2())).getAIMove();
                 if (s != null) {
                     char x1 = s[0].charAt(0);
@@ -294,7 +294,7 @@ public class Game implements Serializable {
                     }
                 }
             } else if (isWhiteAIPlayer && !activePlayer) {
-                s = (new AIPlayer2(board, false, rulesSet, whiteQueenMoves, blackQueenMoves,
+                s = (new WhiteAIPlayer(board, rulesSet, whiteQueenMoves, blackQueenMoves,
                         move.getRow2(), move.getCol2())).getAIMove();
                 if (s != null) {
                     char x1 = s[0].charAt(0);

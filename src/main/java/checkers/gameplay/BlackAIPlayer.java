@@ -14,7 +14,7 @@ import exceptions.IncorrectMoveFormat;
 
 import java.util.*;
 
-class AIPlayer2 {
+class BlackAIPlayer {
 
     @SuppressWarnings("FieldCanBeLocal")
     private final int MAX_DEPTH = 3;
@@ -28,11 +28,11 @@ class AIPlayer2 {
     private int whiteQueenMoves;
     private int blackQueenMoves;
 
-    AIPlayer2(Board board, boolean player, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves)
+    BlackAIPlayer(Board board, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves)
             throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
-        this.AIPlayer = player;
-        this.activePlayer = player;
+        this.AIPlayer = true;
+        this.activePlayer = true;
         this.rulesSet = rulesSet;
         this.whiteQueenMoves = whiteQueenMoves;
         this.blackQueenMoves = blackQueenMoves;
@@ -42,11 +42,11 @@ class AIPlayer2 {
         evaluateMoves();
     }
 
-    AIPlayer2(Board board, boolean player, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves, char row,
-              int col) throws IncorrectMoveFormat, IncorrectMoveException {
+    BlackAIPlayer(Board board, RulesSet rulesSet, int whiteQueenMoves, int blackQueenMoves, char row,
+                  int col) throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
-        this.AIPlayer = player;
-        this.activePlayer = player;
+        this.AIPlayer = true;
+        this.activePlayer = true;
         this.rulesSet = rulesSet;
         this.whiteQueenMoves = whiteQueenMoves;
         this.blackQueenMoves = blackQueenMoves;
@@ -56,8 +56,8 @@ class AIPlayer2 {
         evaluateMoves();
     }
 
-    private AIPlayer2(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
-                      int blackQueenMoves, int depth) throws IncorrectMoveFormat, IncorrectMoveException {
+    private BlackAIPlayer(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
+                          int blackQueenMoves, int depth) throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
         this.AIPlayer = AIPlayer;
         this.activePlayer = activePlayer;
@@ -70,8 +70,8 @@ class AIPlayer2 {
         evaluateMoves();
     }
 
-    private AIPlayer2(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
-                      int blackQueenMoves, int depth, char row, int col)
+    private BlackAIPlayer(Board board, boolean AIPlayer, boolean activePlayer, RulesSet rulesSet, int whiteQueenMoves,
+                          int blackQueenMoves, int depth, char row, int col)
             throws IncorrectMoveFormat, IncorrectMoveException {
         this.board = board;
         this.AIPlayer = AIPlayer;
@@ -128,11 +128,11 @@ class AIPlayer2 {
             value += getFigureSetEvaluation(tmpBoard);
             if (depth < MAX_DEPTH) {
                 if (capture) {
-                    AIPlayer2 next_move = new AIPlayer2(tmpBoard, AIPlayer, activePlayer, rulesSet, whiteQueenMoves,
+                    BlackAIPlayer next_move = new BlackAIPlayer(tmpBoard, AIPlayer, activePlayer, rulesSet, whiteQueenMoves,
                             blackQueenMoves, depth, entry.getKey().getRow2(), entry.getKey().getCol2());
                     value += next_move.getMovesMapValue();
                 } else {
-                    AIPlayer2 next_move = new AIPlayer2(tmpBoard, AIPlayer, !activePlayer, rulesSet, whiteQueenMoves,
+                    BlackAIPlayer next_move = new BlackAIPlayer(tmpBoard, AIPlayer, !activePlayer, rulesSet, whiteQueenMoves,
                             blackQueenMoves, depth);
                     value += next_move.getMovesMapValue();
                 }
@@ -143,7 +143,7 @@ class AIPlayer2 {
 
     private int getMovesMapValue() {
         return possibleMoves.values().stream()
-                .mapToInt(i -> i)
+                .mapToInt(integer -> integer)
                 .sum();
     }
 

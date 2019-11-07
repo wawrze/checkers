@@ -23,10 +23,10 @@ import java.util.List;
 
 public class InGameUI implements Serializable {
 
-    private transient ListView<Label> movesListView = new ListView<>();
-    private transient Label blackPlayerLabel = new Label("BLACK");
-    private transient Label whitePlayerLabel = new Label("WHITE");
-    private transient Label messageLabel = new Label();
+    private final transient ListView<Label> movesListView = new ListView<>();
+    private final transient Label blackPlayerLabel = new Label("BLACK");
+    private final transient Label whitePlayerLabel = new Label("WHITE");
+    private final transient Label messageLabel = new Label();
 
     public void printMovesAndActivePlayer(List<String> moves, boolean player) {
         if (player) {
