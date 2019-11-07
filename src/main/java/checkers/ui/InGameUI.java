@@ -233,12 +233,14 @@ public class InGameUI implements Serializable {
                 gameScore.setImage(imgScore);
                 gameScore.setX(50);
                 gameScore.setY(390);
+                boardLayout.getChildren().add(gameScore);
                 messageLabel.setText("Each player moved king 15 times in the row.");
             } else if (winner) {
-                imgScore = new Image(new FileInputStream("images/black_wins.png")); // FIXME: not showing image !!!
+                imgScore = new Image(new FileInputStream("images/black_wins.png"));
                 gameScore.setImage(imgScore);
                 gameScore.setX(15);
                 gameScore.setY(390);
+                boardLayout.getChildren().add(gameScore);
                 boolean whitePlayerLostAllFigures = true;
                 for (int i = 0; i < 8; i++) {
                     for (int j = 1; j < 9; j++) {
@@ -247,15 +249,16 @@ public class InGameUI implements Serializable {
                     }
                 }
                 if (whitePlayerLostAllFigures) {
-                    messageLabel.setText("White player lost all figures.");
+                    messageLabel.setText("White player has lost all his figures.");
                 } else {
-                    messageLabel.setText("White player has no moves.");
+                    messageLabel.setText("White player had no moves.");
                 }
             } else {
                 imgScore = new Image(new FileInputStream("images/white_wins.png"));
                 gameScore.setImage(imgScore);
                 gameScore.setX(5);
                 gameScore.setY(390);
+                boardLayout.getChildren().add(gameScore);
                 boolean blackPlayerLostAllFigures = true;
                 for (int i = 0; i < 8; i++) {
                     for (int j = 1; j < 9; j++) {
@@ -266,11 +269,10 @@ public class InGameUI implements Serializable {
                     }
                 }
                 if (blackPlayerLostAllFigures) {
-                    messageLabel.setText("Black player lost all figures.");
+                    messageLabel.setText("Black has player lost all his figures.");
                 } else {
-                    messageLabel.setText("Black player has no moves.");
+                    messageLabel.setText("Black player had no moves.");
                 }
-                boardLayout.getChildren().add(gameScore);
             }
         } catch (IOException e) {
             e.printStackTrace();
