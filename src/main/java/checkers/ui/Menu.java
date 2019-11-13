@@ -102,17 +102,14 @@ public class Menu {
         Pane ruleSetsMenu = new Pane();
         ruleSetsMenu.setStyle("-fx-background-color: #829eae;");
 
-        try {
-            ImageView image = new ImageView();
-            FileInputStream input = new FileInputStream("images/menu_image.png");
-            Image img = new Image(input);
-            image.setImage(img);
-            image.setX(20);
-            image.setY(20);
-            ruleSetsMenu.getChildren().add(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ImageView image = new ImageView();
+        InputStream input = getClass().getClassLoader().getResourceAsStream("menu_image.png");
+        assert input != null;
+        Image img = new Image(input);
+        image.setImage(img);
+        image.setX(20);
+        image.setY(20);
+        ruleSetsMenu.getChildren().add(image);
 
         Label rulesLabel = new Label("RULES SETS");
         rulesLabel.setAlignment(Pos.CENTER);
@@ -315,17 +312,14 @@ public class Menu {
         Pane mainMenuLayout = new Pane();
         mainMenuLayout.setStyle("-fx-background-color: #829eae;");
 
-        try {
-            ImageView image = new ImageView();
-            FileInputStream input = new FileInputStream("images/menu_image.png");
-            Image img = new Image(input);
-            image.setImage(img);
-            image.setX(20);
-            image.setY(20);
-            mainMenuLayout.getChildren().add(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ImageView image = new ImageView();
+        InputStream input = getClass().getClassLoader().getResourceAsStream("menu_image.png");
+        assert input != null;
+        Image img = new Image(input);
+        image.setImage(img);
+        image.setX(20);
+        image.setY(20);
+        mainMenuLayout.getChildren().add(image);
 
         Button startGameButton = new Button("Start new game");
         startGameButton.setLayoutX(230);
@@ -381,17 +375,14 @@ public class Menu {
         Pane loadGameMenu = new Pane();
         loadGameMenu.setStyle("-fx-background-color: #829eae;");
 
-        try {
-            ImageView image = new ImageView();
-            FileInputStream input = new FileInputStream("images/menu_image.png");
-            Image img = new Image(input);
-            image.setImage(img);
-            image.setX(20);
-            image.setY(20);
-            loadGameMenu.getChildren().add(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ImageView image = new ImageView();
+        InputStream input = getClass().getClassLoader().getResourceAsStream("menu_image.png");
+        assert input != null;
+        Image img = new Image(input);
+        image.setImage(img);
+        image.setX(20);
+        image.setY(20);
+        loadGameMenu.getChildren().add(image);
 
         Label savedGamesLabel = new Label("SAVED GAMES");
         savedGamesLabel.setAlignment(Pos.CENTER);
@@ -452,17 +443,14 @@ public class Menu {
         Pane newGameLayout = new Pane();
         newGameLayout.setStyle("-fx-background-color: #829eae;");
 
-        try {
-            ImageView image = new ImageView();
-            FileInputStream input = new FileInputStream("images/menu_image.png");
-            Image img = new Image(input);
-            image.setImage(img);
-            image.setX(20);
-            image.setY(20);
-            newGameLayout.getChildren().add(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ImageView image = new ImageView();
+        InputStream input = getClass().getClassLoader().getResourceAsStream("menu_image.png");
+        assert input != null;
+        Image img = new Image(input);
+        image.setImage(img);
+        image.setX(20);
+        image.setY(20);
+        newGameLayout.getChildren().add(image);
 
         Label savedGamesLabel = new Label("CREATE NEW GAME");
         savedGamesLabel.setAlignment(Pos.CENTER);

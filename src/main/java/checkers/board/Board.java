@@ -14,8 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,51 +84,51 @@ public class Board implements Serializable {
 
     public void setAndPrintFigure(char row, int col, Figure figure) {
         this.rows.get(row).setFigure(col, figure);
-        try {
-            int xPos = ((col - 1) * 75) + 42;
-            int yPos = (((int) row - 65) * 75) + 42;
-            AnchorPane board = (AnchorPane) Window.getGameLayout().getChildren().get(0);
+        int xPos = ((col - 1) * 75) + 42;
+        int yPos = (((int) row - 65) * 75) + 42;
+        AnchorPane board = (AnchorPane) Window.getGameLayout().getChildren().get(0);
 
-            ImageView figureRepresentation = figuresOnBoard.get(row)[col - 1];
-            if (figureRepresentation != null) board.getChildren().remove(figureRepresentation);
+        ImageView figureRepresentation = figuresOnBoard.get(row)[col - 1];
+        if (figureRepresentation != null) board.getChildren().remove(figureRepresentation);
 
-            if (figure instanceof Pawn && figure.getColor()) {
-                figureRepresentation = new ImageView();
-                FileInputStream input = new FileInputStream("images/black_pawn.png");
-                Image img = new Image(input);
-                figureRepresentation.setImage(img);
-                figureRepresentation.setX(xPos);
-                figureRepresentation.setY(yPos);
-            } else if (figure instanceof Pawn && !figure.getColor()) {
-                figureRepresentation = new ImageView();
-                FileInputStream input = new FileInputStream("images/white_pawn.png");
-                Image img = new Image(input);
-                figureRepresentation.setImage(img);
-                figureRepresentation.setX(xPos);
-                figureRepresentation.setY(yPos);
-            } else if (figure instanceof Queen && figure.getColor()) {
-                figureRepresentation = new ImageView();
-                FileInputStream input = new FileInputStream("images/black_queen.png");
-                Image img = new Image(input);
-                figureRepresentation.setImage(img);
-                figureRepresentation.setX(xPos);
-                figureRepresentation.setY(yPos);
-            } else if (figure instanceof Queen && !figure.getColor()) {
-                figureRepresentation = new ImageView();
-                FileInputStream input = new FileInputStream("images/white_queen.png");
-                Image img = new Image(input);
-                figureRepresentation.setImage(img);
-                figureRepresentation.setX(xPos);
-                figureRepresentation.setY(yPos);
-            } else {
-                figureRepresentation = null;
-            }
-
-            figuresOnBoard.get(row)[col - 1] = figureRepresentation;
-            if (figureRepresentation != null) board.getChildren().add(figureRepresentation);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (figure instanceof Pawn && figure.getColor()) {
+            figureRepresentation = new ImageView();
+            InputStream input = getClass().getClassLoader().getResourceAsStream("black_pawn.png");
+            assert input != null;
+            Image img = new Image(input);
+            figureRepresentation.setImage(img);
+            figureRepresentation.setX(xPos);
+            figureRepresentation.setY(yPos);
+        } else if (figure instanceof Pawn && !figure.getColor()) {
+            figureRepresentation = new ImageView();
+            InputStream input = getClass().getClassLoader().getResourceAsStream("white_pawn.png");
+            assert input != null;
+            Image img = new Image(input);
+            figureRepresentation.setImage(img);
+            figureRepresentation.setX(xPos);
+            figureRepresentation.setY(yPos);
+        } else if (figure instanceof Queen && figure.getColor()) {
+            figureRepresentation = new ImageView();
+            InputStream input = getClass().getClassLoader().getResourceAsStream("black_queen.png");
+            assert input != null;
+            Image img = new Image(input);
+            figureRepresentation.setImage(img);
+            figureRepresentation.setX(xPos);
+            figureRepresentation.setY(yPos);
+        } else if (figure instanceof Queen && !figure.getColor()) {
+            figureRepresentation = new ImageView();
+            InputStream input = getClass().getClassLoader().getResourceAsStream("white_queen.png");
+            assert input != null;
+            Image img = new Image(input);
+            figureRepresentation.setImage(img);
+            figureRepresentation.setX(xPos);
+            figureRepresentation.setY(yPos);
+        } else {
+            figureRepresentation = null;
         }
+
+        figuresOnBoard.get(row)[col - 1] = figureRepresentation;
+        if (figureRepresentation != null) board.getChildren().add(figureRepresentation);
     }
 
     public void refreshFigures() {
@@ -147,17 +146,15 @@ public class Board implements Serializable {
 
         AnchorPane boardContainer = new AnchorPane();
         boardLayout.getChildren().add(boardContainer);
-        try {
-            ImageView image = new ImageView();
-            FileInputStream input = new FileInputStream("images/board.png");
-            Image img = new Image(input);
-            image.setImage(img);
-            image.setX(20);
-            image.setY(20);
-            boardContainer.getChildren().add(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        ImageView image = new ImageView();
+        InputStream input = getClass().getClassLoader().getResourceAsStream("board.png");
+        assert input != null;
+        Image img = new Image(input);
+        image.setImage(img);
+        image.setX(20);
+        image.setY(20);
+        boardContainer.getChildren().add(image);
 
         Scene gameScene = new Scene(boardLayout, 900, 740);
         Window.getWindow().setTitle("Checkers");
@@ -376,50 +373,43 @@ public class Board implements Serializable {
         kingLabel.setLayoutY(285);
         kingLabel.setStyle("-fx-font-weight: bold;");
         boardContainer.getChildren().add(kingLabel);
-        try {
-            ImageView image = new ImageView();
-            FileInputStream input = new FileInputStream("images/black_pawn.png");
-            Image img = new Image(input);
-            image.setImage(img);
-            image.setX(664);
-            image.setY(312);
-            boardContainer.getChildren().add(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            ImageView image = new ImageView();
-            FileInputStream input = new FileInputStream("images/white_pawn.png");
-            Image img = new Image(input);
-            image.setImage(img);
-            image.setX(664);
-            image.setY(384);
-            boardContainer.getChildren().add(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            ImageView image = new ImageView();
-            FileInputStream input = new FileInputStream("images/black_queen.png");
-            Image img = new Image(input);
-            image.setImage(img);
-            image.setX(738);
-            image.setY(312);
-            boardContainer.getChildren().add(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            ImageView image = new ImageView();
-            FileInputStream input = new FileInputStream("images/white_queen.png");
-            Image img = new Image(input);
-            image.setImage(img);
-            image.setX(738);
-            image.setY(384);
-            boardContainer.getChildren().add(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        ImageView image = new ImageView();
+        InputStream input = getClass().getClassLoader().getResourceAsStream("black_pawn.png");
+        assert input != null;
+        Image img = new Image(input);
+        image.setImage(img);
+        image.setX(664);
+        image.setY(312);
+        boardContainer.getChildren().add(image);
+
+        image = new ImageView();
+        input = getClass().getClassLoader().getResourceAsStream("white_pawn.png");
+        assert input != null;
+        img = new Image(input);
+        image.setImage(img);
+        image.setX(664);
+        image.setY(384);
+        boardContainer.getChildren().add(image);
+
+        image = new ImageView();
+        input = getClass().getClassLoader().getResourceAsStream("black_queen.png");
+        assert input != null;
+        img = new Image(input);
+        image.setImage(img);
+        image.setX(738);
+        image.setY(312);
+        boardContainer.getChildren().add(image);
+
+        image = new ImageView();
+        input = getClass().getClassLoader().getResourceAsStream("white_queen.png");
+        assert input != null;
+        img = new Image(input);
+        image.setImage(img);
+        image.setX(738);
+        image.setY(384);
+        boardContainer.getChildren().add(image);
+
         Label victoryConditions = new Label("MOVES HISTORY:");
         victoryConditions.setLayoutX(670);
         victoryConditions.setLayoutY(462);

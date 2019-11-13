@@ -16,8 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -209,73 +208,75 @@ public class InGameUI implements Serializable {
         board.clearFiguresOnBoard();
         AnchorPane boardLayout = (AnchorPane) Window.getGameLayout().getChildren().get(0);
         boardLayout.getChildren().remove(0);
-        try {
-            ImageView gameOverBoardImage = new ImageView();
-            FileInputStream input = new FileInputStream("images/game_over_board.png");
-            Image img = new Image(input);
-            gameOverBoardImage.setImage(img);
-            gameOverBoardImage.setX(20);
-            gameOverBoardImage.setY(20);
-            boardLayout.getChildren().add(gameOverBoardImage);
 
-            ImageView gameOverTextImage = new ImageView();
-            Image gameOverImg = new Image(new FileInputStream("images/game_over.png"));
-            gameOverTextImage.setImage(gameOverImg);
-            gameOverTextImage.setX(65);
-            gameOverTextImage.setY(190);
-            boardLayout.getChildren().add(gameOverTextImage);
+        ImageView gameOverBoardImage = new ImageView();
+        InputStream input = getClass().getClassLoader().getResourceAsStream("game_over_board.png");
+        assert input != null;
+        Image img = new Image(input);
+        gameOverBoardImage.setImage(img);
+        gameOverBoardImage.setX(20);
+        gameOverBoardImage.setY(20);
+        boardLayout.getChildren().add(gameOverBoardImage);
 
-            ImageView gameScore = new ImageView();
-            Image imgScore;
-            messageLabel.setTextFill(Color.web("#000000"));
-            if (isDraw) {
-                imgScore = new Image(new FileInputStream("images/draw.png"));
-                gameScore.setImage(imgScore);
-                gameScore.setX(50);
-                gameScore.setY(390);
-                boardLayout.getChildren().add(gameScore);
-                messageLabel.setText("Each player moved king 15 times in the row.");
-            } else if (winner) {
-                imgScore = new Image(new FileInputStream("images/black_wins.png"));
-                gameScore.setImage(imgScore);
-                gameScore.setX(15);
-                gameScore.setY(390);
-                boardLayout.getChildren().add(gameScore);
-                boolean whitePlayerLostAllFigures = true;
-                for (int i = 0; i < 8; i++) {
-                    for (int j = 1; j < 9; j++) {
-                        Figure figure = board.getFigure((char) (i + 65), j);
-                        if (!figure.getColor() && !(figure instanceof None)) whitePlayerLostAllFigures = false;
-                    }
-                }
-                if (whitePlayerLostAllFigures) {
-                    messageLabel.setText("White player has lost all his figures.");
-                } else {
-                    messageLabel.setText("White player had no moves.");
-                }
-            } else {
-                imgScore = new Image(new FileInputStream("images/white_wins.png"));
-                gameScore.setImage(imgScore);
-                gameScore.setX(5);
-                gameScore.setY(390);
-                boardLayout.getChildren().add(gameScore);
-                boolean blackPlayerLostAllFigures = true;
-                for (int i = 0; i < 8; i++) {
-                    for (int j = 1; j < 9; j++) {
-                        Figure figure = board.getFigure((char) (i + 65), j);
-                        if (figure.getColor() && !(figure instanceof None)) {
-                            blackPlayerLostAllFigures = false;
-                        }
-                    }
-                }
-                if (blackPlayerLostAllFigures) {
-                    messageLabel.setText("Black has player lost all his figures.");
-                } else {
-                    messageLabel.setText("Black player had no moves.");
+        ImageView gameOverTextImage = new ImageView();
+        InputStream gameOverIS = getClass().getClassLoader().getResourceAsStream("game_over.png");
+        assert gameOverIS != null;
+        Image gameOverImg = new Image(gameOverIS);
+        gameOverTextImage.setImage(gameOverImg);
+        gameOverTextImage.setX(65);
+        gameOverTextImage.setY(190);
+        boardLayout.getChildren().add(gameOverTextImage);
+
+        ImageView gameScore = new ImageView();
+        messageLabel.setTextFill(Color.web("#000000"));
+        if (isDraw) {
+            InputStream imgScore = getClass().getClassLoader().getResourceAsStream("draw.png");
+            assert imgScore != null;
+            gameScore.setImage(new Image(imgScore));
+            gameScore.setX(50);
+            gameScore.setY(390);
+            boardLayout.getChildren().add(gameScore);
+            messageLabel.setText("Each player moved king 15 times in the row.");
+        } else if (winner) {
+            InputStream imgScore = getClass().getClassLoader().getResourceAsStream("black_wins.png");
+            assert imgScore != null;
+            gameScore.setImage(new Image(imgScore));
+            gameScore.setX(15);
+            gameScore.setY(390);
+            boardLayout.getChildren().add(gameScore);
+            boolean whitePlayerLostAllFigures = true;
+            for (int i = 0; i < 8; i++) {
+                for (int j = 1; j < 9; j++) {
+                    Figure figure = board.getFigure((char) (i + 65), j);
+                    if (!figure.getColor() && !(figure instanceof None)) whitePlayerLostAllFigures = false;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (whitePlayerLostAllFigures) {
+                messageLabel.setText("White player has lost all his figures.");
+            } else {
+                messageLabel.setText("White player had no moves.");
+            }
+        } else {
+            InputStream imgScore = getClass().getClassLoader().getResourceAsStream("white_wins.png");
+            assert imgScore != null;
+            gameScore.setImage(new Image(imgScore));
+            gameScore.setX(5);
+            gameScore.setY(390);
+            boardLayout.getChildren().add(gameScore);
+            boolean blackPlayerLostAllFigures = true;
+            for (int i = 0; i < 8; i++) {
+                for (int j = 1; j < 9; j++) {
+                    Figure figure = board.getFigure((char) (i + 65), j);
+                    if (figure.getColor() && !(figure instanceof None)) {
+                        blackPlayerLostAllFigures = false;
+                    }
+                }
+            }
+            if (blackPlayerLostAllFigures) {
+                messageLabel.setText("Black has player lost all his figures.");
+            } else {
+                messageLabel.setText("Black player had no moves.");
+            }
         }
         movesListView.getItems().clear();
         for (String s : moves) {

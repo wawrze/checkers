@@ -19,8 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -390,21 +389,18 @@ public class Game implements Serializable {
                         Figure fig = board.getFigure(clickedFigureRow, clickedFigureCol);
                         String imagePath = "";
                         if (fig instanceof Pawn && fig.getColor()) {
-                            imagePath = "images/black_pawn.png";
+                            imagePath = "black_pawn.png";
                         } else if (fig instanceof Pawn && !fig.getColor()) {
-                            imagePath = "images/white_pawn.png";
+                            imagePath = "white_pawn.png";
                         } else if (fig instanceof Queen && fig.getColor()) {
-                            imagePath = "images/black_queen.png";
+                            imagePath = "black_queen.png";
                         } else if (fig instanceof Queen && !fig.getColor()) {
-                            imagePath = "images/white_queen.png";
+                            imagePath = "white_queen.png";
                         }
-                        try {
-                            FileInputStream input = new FileInputStream(imagePath);
-                            Image img = new Image(input);
-                            markedFigure.setImage(img);
-                        } catch (IOException exception) {
-                            exception.printStackTrace();
-                        }
+                        InputStream input = getClass().getClassLoader().getResourceAsStream(imagePath);
+                        assert input != null;
+                        Image img = new Image(input);
+                        markedFigure.setImage(img);
                     }
                     clickedFigureRow = 0;
                     clickedFigureCol = 0;
@@ -478,9 +474,9 @@ public class Game implements Serializable {
                             return;
                         }
                         if (clickedFigureRow == 0 && clickedFigureCol == 0) {
-                            imagePath = "images/black_pawn.png";
+                            imagePath = "black_pawn.png";
                         } else {
-                            imagePath = "images/black_pawn_clicked.png";
+                            imagePath = "black_pawn_clicked.png";
                         }
                     } else if (fig instanceof Pawn && !fig.getColor()) {
                         if (activePlayer) {
@@ -489,9 +485,9 @@ public class Game implements Serializable {
                             return;
                         }
                         if (clickedFigureRow == 0 && clickedFigureCol == 0) {
-                            imagePath = "images/white_pawn.png";
+                            imagePath = "white_pawn.png";
                         } else {
-                            imagePath = "images/white_pawn_clicked.png";
+                            imagePath = "white_pawn_clicked.png";
                         }
                     } else if (fig instanceof Queen && fig.getColor()) {
                         if (!activePlayer) {
@@ -500,9 +496,9 @@ public class Game implements Serializable {
                             return;
                         }
                         if (clickedFigureRow == 0 && clickedFigureCol == 0) {
-                            imagePath = "images/black_queen.png";
+                            imagePath = "black_queen.png";
                         } else {
-                            imagePath = "images/black_queen_clicked.png";
+                            imagePath = "black_queen_clicked.png";
                         }
                     } else if (fig instanceof Queen && !fig.getColor()) {
                         if (activePlayer) {
@@ -511,20 +507,17 @@ public class Game implements Serializable {
                             return;
                         }
                         if (clickedFigureRow == 0 && clickedFigureCol == 0) {
-                            imagePath = "images/white_queen.png";
+                            imagePath = "white_queen.png";
                         } else {
-                            imagePath = "images/white_queen_clicked.png";
+                            imagePath = "white_queen_clicked.png";
                         }
                     } else {
                         return;
                     }
-                    try {
-                        FileInputStream input = new FileInputStream(imagePath);
-                        Image img = new Image(input);
-                        figure.setImage(img);
-                    } catch (IOException exception) {
-                        exception.printStackTrace();
-                    }
+                    InputStream input = getClass().getClassLoader().getResourceAsStream(imagePath);
+                    assert input != null;
+                    Image img = new Image(input);
+                    figure.setImage(img);
                 });
             }
         }
